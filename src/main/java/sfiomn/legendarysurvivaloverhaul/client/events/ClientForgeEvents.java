@@ -16,7 +16,6 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
@@ -39,8 +38,6 @@ import sfiomn.legendarysurvivaloverhaul.registry.KeyMappingRegistry;
 import sfiomn.legendarysurvivaloverhaul.registry.MobEffectRegistry;
 import sfiomn.legendarysurvivaloverhaul.util.AttachmentUtil;
 
-import java.util.ListIterator;
-
 import static sfiomn.legendarysurvivaloverhaul.common.events.CommonNeoForgeEvents.playerDrinkEffect;
 import static sfiomn.legendarysurvivaloverhaul.common.integration.sereneseasons.SereneSeasonsUtil.plantCanGrow;
 import static sfiomn.legendarysurvivaloverhaul.common.integration.sereneseasons.SereneSeasonsUtil.seasonTooltip;
@@ -49,7 +46,6 @@ import static sfiomn.legendarysurvivaloverhaul.util.WorldUtil.timeInGame;
 
 @EventBusSubscriber(
         modid = LegendarySurvivalOverhaul.MOD_ID,
-        bus = EventBusSubscriber.Bus.GAME,
         value = Dist.CLIENT
 )
 public class ClientForgeEvents
@@ -70,22 +66,22 @@ public class ClientForgeEvents
                 BuiltInRegistries.ITEM.getKey(event.getItemStack().getItem())
                         .equals(Identifier.fromNamespaceAndPath("sereneseasons", "calendar")))
         {
-            player.displayClientMessage(seasonTooltip(player.blockPosition(), player.level()), true);
+            player.sendOverlayMessage(seasonTooltip(player.blockPosition(), player.level()));
         } else if (event.getItemStack().getItem() == Items.CLOCK)
         {
-            player.displayClientMessage(Component.literal(timeInGame(Minecraft.getInstance())), true);
+            player.sendOverlayMessage(Component.literal(timeInGame(Minecraft.getInstance())));
         } else if (event.getItemStack().getItem() == Items.COMPASS)
         {
             String compassLocation = compassLocation(player);
             if (!compassLocation.isEmpty())
-                player.displayClientMessage(Component.literal(compassLocation), true);
+                player.sendOverlayMessage(Component.literal(compassLocation));
         } else if (Config.Baked.showCoordinateOnMap && event.getItemStack().getItem() == Items.FILLED_MAP)
         {
             MapItemSavedData mapData = MapItem.getSavedData(event.getItemStack(), event.getLevel());
             if (mapData != null)
-                player.displayClientMessage(
+                player.sendOverlayMessage(
                         Component.translatable("message.legendarysurvivaloverhaul.filled_map.destination",
-                                mapData.centerX, mapData.centerZ), true);
+                                mapData.centerX, mapData.centerZ));
         }
     }
 
@@ -101,7 +97,7 @@ public class ClientForgeEvents
 
         if (LegendarySurvivalOverhaul.sereneSeasonsLoaded && !plantCanGrow(event.getLevel(), event.getPos(), event.getLevel().getBlockState(event.getPos())))
         {
-            player.displayClientMessage(Component.translatable("message." + LegendarySurvivalOverhaul.MOD_ID + ".bonemeal.not_correct_season"), true);
+            player.sendOverlayMessage(Component.translatable("message." + LegendarySurvivalOverhaul.MOD_ID + ".bonemeal.not_correct_season"));
         }
     }
 
@@ -142,37 +138,11 @@ public class ClientForgeEvents
         }
     }
 
-    @SubscribeEvent
-    public static void onRenderOverlayEventHideDebugInfo(CustomizeGuiOverlayEvent.DebugText event)
-    {
-        Player player = Minecraft.getInstance().player;
-        if (player == null || player.isCreative() || player.isSpectator() || !Config.Baked.hideInfoFromDebug)
-            return;
-
-        for (ListIterator<String> it = event.getRight().listIterator(); it.hasNext(); )
-        {
-            String line = it.next();
-            if (line.contains("Targeted"))
-            {
-                line = line.split(":")[0] + ":";
-                it.remove();
-                it.add(line);
-            }
-        }
-
-        for (ListIterator<String> it = event.getLeft().listIterator(); it.hasNext(); )
-        {
-            String line = it.next();
-            if (line.contains("XYZ:"))
-            {
-                line = Component.translatable("message." + LegendarySurvivalOverhaul.MOD_ID + ".warning_use_compass").getString();
-                it.remove();
-                it.add(line);
-            }
-            if (line.startsWith("Chunk:") || line.startsWith("Block:") || line.startsWith("Facing:"))
-                it.remove();
-        }
-    }
+    //  26.3: CustomizeGuiOverlayEvent.DebugText was removed together with the old debug-screen renderer.
+    //  Hiding the coordinates from the debug overlay has no per-line hook any more; the debug overlay is
+    //  now built from DebugScreenEntries. Disabled for now (no gameplay impact).
+    //@SubscribeEvent
+    //public static void onRenderOverlayEventHideDebugInfo(CustomizeGuiOverlayEvent.DebugText event) { ... }
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event)
@@ -213,10 +183,10 @@ public class ClientForgeEvents
     }
 
     @SubscribeEvent
-    public static void onRenderLevelStage(RenderLevelStageEvent event)
+    public static void onRenderLevelStage(RenderLevelStageEvent.AfterWeather event)
     {
         Player player = Minecraft.getInstance().player;
-        if (player != null && event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER
+        if (player != null
                 && Config.Baked.lowHydrationEffect && shouldApplyThirst(player))
         {
             RenderBlurOverlay.render(player);
@@ -226,7 +196,7 @@ public class ClientForgeEvents
     @SubscribeEvent
     public static void onPlayerJoinWorld(EntityJoinLevelEvent event)
     {
-        if (event.getLevel().isClientSide && event.getEntity() instanceof Player)
+        if (event.getLevel().isClientSide() && event.getEntity() instanceof Player)
         {
         }
     }

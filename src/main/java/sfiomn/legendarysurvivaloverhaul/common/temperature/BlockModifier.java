@@ -105,7 +105,7 @@ public class BlockModifier extends ModifierBase
 				{
 					if (!spreadPoint.isValidSpreadDirection(direction))
 						continue;
-					Vec3i newPosVector = direction.getNormal();
+					Vec3i newPosVector = direction.getUnitVec3i();
 					SpreadPoint spreadPoint1 = this.processDirectionTo(spreadPointsToProcess, visitedBlockPos, visitedSpreadPoints, spreadPoint, spreadPoint.position().offset(newPosVector), direction, 1.0f);
 
 					if (spreadPoint1 != null)

@@ -132,7 +132,7 @@ public class BodyPart
         // Only override maxHealth if it's saved in NBT (backward compatibility with existing saves)
         if (compound.contains(this.bodyPartEnum.name() + "_maxHealth"))
         {
-            float savedMaxHealth = compound.getFloat(this.bodyPartEnum.name() + "_maxHealth");
+            float savedMaxHealth = compound.getFloatOr(this.bodyPartEnum.name() + "_maxHealth", 0.0f);
             // Only set maxHealth if it's valid (> 0)
             // If it's 0, keep current value (will be set properly on next tick in DYNAMIC mode)
             if (savedMaxHealth > 0.0f)
@@ -142,15 +142,15 @@ public class BodyPart
         }
         if (compound.contains(this.bodyPartEnum.name() + "_damage"))
         {
-            this.setDamage(compound.getFloat(this.bodyPartEnum.name() + "_damage"));
+            this.setDamage(compound.getFloatOr(this.bodyPartEnum.name() + "_damage", 0.0f));
         }
         if (compound.contains(this.bodyPartEnum.name() + "_remainingHealingTicks"))
         {
-            this.remainingHealingTicks = compound.getInt(this.bodyPartEnum.name() + "_remainingHealingTicks");
+            this.remainingHealingTicks = compound.getIntOr(this.bodyPartEnum.name() + "_remainingHealingTicks", 0);
         }
         if (compound.contains(this.bodyPartEnum.name() + "_healingPerTicks"))
         {
-            this.healingPerTicks = compound.getFloat(this.bodyPartEnum.name() + "_healingPerTicks");
+            this.healingPerTicks = compound.getFloatOr(this.bodyPartEnum.name() + "_healingPerTicks", 0.0f);
         }
 
     }

@@ -1,6 +1,6 @@
 package sfiomn.legendarysurvivaloverhaul.common.attachments.temperature;
 
-import net.minecraft.core.HolderLookup;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -8,7 +8,9 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.api.temperature.ITemperatureAttachment;
 import sfiomn.legendarysurvivaloverhaul.api.temperature.TemperatureEnum;
@@ -27,7 +29,7 @@ import java.util.Set;
 // Code adapted from 
 // https://github.com/Charles445/SimpleDifficulty/blob/v0.3.4/src/main/java/com/charles445/simpledifficulty/capability/TemperatureAttachment.java
 
-public class TemperatureAttachment implements ITemperatureAttachment, INBTSerializable<CompoundTag>
+public class TemperatureAttachment implements ITemperatureAttachment, ValueIOSerializable
 {
     private float temperature;
     private Set<Integer> temperatureImmunities;
@@ -336,7 +338,11 @@ public class TemperatureAttachment implements ITemperatureAttachment, INBTSerial
         compound.putFloat("targettemperature", this.getTargetTemperatureLevel());
         compound.putInt("ticktimer", this.getTemperatureTickTimer());
         compound.putInt("freezeticktimer", this.getFreezeTickTimer());
-        compound.putIntArray("immunities", this.getTemperatureImmunities());
+        List<Integer> immunities = this.getTemperatureImmunities();
+        int[] immunityArray = new int[immunities.size()];
+        for (int i = 0; i < immunities.size(); i++)
+            immunityArray[i] = immunities.get(i);
+        compound.putIntArray("immunities", immunityArray);
 
         return compound;
     }
@@ -345,27 +351,28 @@ public class TemperatureAttachment implements ITemperatureAttachment, INBTSerial
     {
         this.init();
         if (compound.contains("temperature"))
-            this.setTemperatureLevel(compound.getFloat("temperature"));
+            this.setTemperatureLevel(compound.getFloatOr("temperature", 0.0f));
         if (compound.contains("targettemperature"))
-            this.setTargetTemperatureLevel(compound.getFloat("targettemperature"));
+            this.setTargetTemperatureLevel(compound.getFloatOr("targettemperature", 0.0f));
         if (compound.contains("tickTimer"))
-            this.setTemperatureTickTimer(compound.getInt("tickTimer"));
+            this.setTemperatureTickTimer(compound.getIntOr("tickTimer", 0));
         if (compound.contains("freezeticktimer"))
-            this.setFreezeTickTimer(compound.getInt("freezeticktimer"));
-        if (compound.contains("immunities"))
-            for (int immunityId : compound.getIntArray("immunities"))
+            this.setFreezeTickTimer(compound.getIntOr("freezeticktimer", 0));
+        compound.getIntArray("immunities").ifPresent(immunityArray -> {
+            for (int immunityId : immunityArray)
                 this.addTemperatureImmunityId(immunityId);
+        });
     }
 
     @Override
-    public CompoundTag serializeNBT(HolderLookup.Provider provider)
+    public void serialize(ValueOutput output)
     {
-        return writeNBT();
+        output.store(writeNBT());
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt)
+    public void deserialize(ValueInput input)
     {
-        readNBT(nbt);
+        input.read(MapCodec.assumeMapUnsafe(CompoundTag.CODEC)).ifPresent(this::readNBT);
     }
 }

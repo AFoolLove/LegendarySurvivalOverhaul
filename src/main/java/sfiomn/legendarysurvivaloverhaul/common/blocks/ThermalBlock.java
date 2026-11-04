@@ -1,6 +1,5 @@
 package sfiomn.legendarysurvivaloverhaul.common.blocks;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -11,8 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BaseEntityBlock;import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -20,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -32,7 +30,7 @@ import sfiomn.legendarysurvivaloverhaul.common.blockentities.HeaterBlockEntity;
 
 public class ThermalBlock extends BaseEntityBlock implements EntityBlock
 {
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     private static final VoxelShape[] SHAPES = new VoxelShape[]
             {
@@ -85,7 +83,7 @@ public class ThermalBlock extends BaseEntityBlock implements EntityBlock
                                                      Player player,
                                                      BlockHitResult hit)
     {
-        if (level.isClientSide)
+        if (level.isClientSide())
         {
             // client acknowledges the interaction (plays hand swing, etc.)
             return InteractionResult.SUCCESS;
@@ -111,21 +109,16 @@ public class ThermalBlock extends BaseEntityBlock implements EntityBlock
     }
 
     @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving)
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean isMoving)
     {
-        if (!state.is(newState.getBlock()))
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof AbstractThermalBlockEntity)
         {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof AbstractThermalBlockEntity)
-            {
-                if (level instanceof ServerLevel)
-                    Containers.dropContents(level, pos, ((AbstractThermalBlockEntity) blockEntity));
-
-                level.updateNeighbourForOutputSignal(pos, this);
-            }
-
-            super.onRemove(state, level, pos, newState, isMoving);
+            Containers.dropContents(level, pos, ((AbstractThermalBlockEntity) blockEntity));
+            level.updateNeighbourForOutputSignal(pos, this);
         }
+
+        super.affectNeighborsAfterRemoval(state, level, pos, isMoving);
     }
 
     @Override
@@ -138,11 +131,5 @@ public class ThermalBlock extends BaseEntityBlock implements EntityBlock
         {
             return new HeaterBlockEntity(blockPos, blockState);
         }
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec()
-    {
-        throw new UnsupportedOperationException("ThermalBlock does not support codec serialization");
     }
 }

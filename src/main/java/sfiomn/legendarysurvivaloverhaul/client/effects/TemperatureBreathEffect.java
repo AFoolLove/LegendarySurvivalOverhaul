@@ -57,7 +57,7 @@ public class TemperatureBreathEffect
                 eyePosition = eyePosition.subtract(0D, 0.25, 0D);
             for (int i = 0; i < 3; i++)
             {
-                Vec3 trajectory = player.getLookAngle().yRot((player.level().random.nextFloat() - 0.5f) * 0.1f).normalize();
+                Vec3 trajectory = player.getLookAngle().yRot((player.level().getRandom().nextFloat() - 0.5f) * 0.1f).normalize();
                 Vec3 origin = eyePosition.add(trajectory.scale(0.5));
                 player.level().addParticle(ParticleTypeRegistry.COLD_BREATH.get(), origin.x, origin.y, origin.z, trajectory.x, trajectory.y, trajectory.z);
 

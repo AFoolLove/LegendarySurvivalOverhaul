@@ -4,19 +4,24 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 
 import javax.annotation.Nullable;
 
 //  Deeply inspired by the tall AloeVera from MinecraftAbnormals
 //  https://github.com/team-abnormals/atmospheric/blob/1.16.x/src/main/java/com/minecraftabnormals/atmospheric/client/particle/AloeBlossomParticle.java
-public class FernBlossomParticle extends TextureSheetParticle
+//
+//  26.3: TextureSheetParticle was replaced by SingleQuadParticle (particle render types are now
+//  data-driven "layers" instead of ParticleRenderType constants). ParticleProvider#createParticle
+//  additionally receives the RandomSource used for the particle.
+public class FernBlossomParticle extends SingleQuadParticle
 {
     protected final SpriteSet animatedSprite;
     private float angle;
 
     protected FernBlossomParticle(SpriteSet animatedSprite, ClientLevel level, double x, double y, double z, double xd, double yd, double zd)
     {
-        super(level, x, y, z, xd, yd, zd);
+        super(level, x, y, z, xd, yd, zd, animatedSprite.first());
 
         this.setSpriteFromAge(animatedSprite);
         this.animatedSprite = animatedSprite;
@@ -68,11 +73,11 @@ public class FernBlossomParticle extends TextureSheetParticle
     }
 
     @Override
-    protected int getLightColor(float partialTick)
+    protected int getLightCoords(float partialTick)
     {
         float f = this.lifetime / (((this.age + (this.lifetime * 0.5F)) + partialTick));
         f = Mth.clamp(f, 0F, 0.5F);
-        int i = super.getLightColor(partialTick);
+        int i = super.getLightCoords(partialTick);
         int j = i & 255;
         int k = i >> 16 & 255;
         j += (int) (f * 15f * 16f);
@@ -84,9 +89,9 @@ public class FernBlossomParticle extends TextureSheetParticle
     }
 
     @Override
-    public ParticleRenderType getRenderType()
+    protected SingleQuadParticle.Layer getLayer()
     {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return SingleQuadParticle.Layer.TRANSLUCENT;
     }
 
     public static class Factory implements ParticleProvider<SimpleParticleType>
@@ -101,7 +106,7 @@ public class FernBlossomParticle extends TextureSheetParticle
 
         @Nullable
         @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd)
+        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd, RandomSource random)
         {
             return new FernBlossomParticle(this.animatedSprite, level, x, y, z, xd, yd, zd);
         }

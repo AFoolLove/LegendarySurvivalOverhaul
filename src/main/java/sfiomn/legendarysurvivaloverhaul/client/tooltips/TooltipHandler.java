@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Either;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.contents.TranslatableContents;
@@ -12,7 +13,6 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
@@ -45,7 +45,6 @@ import java.util.List;
 
 @EventBusSubscriber(
         modid = LegendarySurvivalOverhaul.MOD_ID,
-        bus = EventBusSubscriber.Bus.GAME,
         value = Dist.CLIENT
 )
 public class TooltipHandler
@@ -83,7 +82,8 @@ public class TooltipHandler
             if (Config.Baked.temperatureEnabled)
             {
 
-                if (stack.getItem() instanceof ArmorItem)
+                // 26.3 removed ArmorItem; armor is now identified by the data-driven EQUIPPABLE component
+                if (stack.has(DataComponents.EQUIPPABLE))
                 {
                     addCoatTemperatureOnArmorText(stack, tooltips);
                 }
@@ -107,8 +107,8 @@ public class TooltipHandler
             return;
 
         Minecraft mc = Minecraft.getInstance();
-        Screen gui = mc.screen;
-        if (gui == null)
+        Screen screen = mc.gui.screen();
+        if (screen == null)
             return;
 
         if (Config.Baked.thirstEnabled && Config.Baked.showHydrationTooltip)
@@ -303,7 +303,7 @@ public class TooltipHandler
     {
         MobEffect effect = null;
         if (effectName != null && !effectName.isEmpty() && effectChance > 0)
-            effect = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(effectName));
+            effect = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(effectName)).map(net.minecraft.core.Holder::value).orElse(null);
 
         if (effect == null)
             return null;

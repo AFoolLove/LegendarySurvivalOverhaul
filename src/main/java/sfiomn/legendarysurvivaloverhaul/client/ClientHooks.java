@@ -9,7 +9,7 @@ public class ClientHooks
 {
     public static void openBodyHealthScreen(Player player, InteractionHand hand, boolean alreadyConsumed, int healingCharges, float healingValue, int healingTime)
     {
-        Minecraft.getInstance().setScreen(new BodyHealthScreen(player, hand, alreadyConsumed, healingCharges, healingValue, healingTime));
+        Minecraft.getInstance().gui.setScreen(new BodyHealthScreen(player, hand, alreadyConsumed, healingCharges, healingValue, healingTime));
     }
 
     public static void openBodyHealthScreen(Player player)

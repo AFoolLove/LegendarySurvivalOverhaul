@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "legendarysurvivaloverhaul:snow"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "legendarysurvivaloverhaul:snow"
+      }
+    ]
+  }
+}

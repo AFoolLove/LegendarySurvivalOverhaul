@@ -1,11 +1,10 @@
 package sfiomn.legendarysurvivaloverhaul.common.blocks;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -27,8 +26,6 @@ import sfiomn.legendarysurvivaloverhaul.registry.BlockRegistry;
 public class HeaterTopBlock extends HorizontalDirectionalBlock
 {
 
-    // Required codec for 1.20.3+ blocks
-    public static final MapCodec<HeaterTopBlock> CODEC = simpleCodec(HeaterTopBlock::new);
     private static final VoxelShape BASE = Block.box(0.0d, 0.0d, 0.0d, 16.0d, 2.0d, 16.0d);
     private static final VoxelShape TUBE = Block.box(4.0d, 2.0d, 4.0d, 12.0d, 14.0d, 12.0d);
     private static final VoxelShape TOP = Block.box(3.0d, 14.0d, 3.0d, 13.0d, 16.0d, 13.0d);
@@ -49,12 +46,6 @@ public class HeaterTopBlock extends HorizontalDirectionalBlock
                 .sound(SoundType.METAL)
                 .strength(3f, 10f)
                 .noOcclusion();
-    }
-
-    @Override
-    public MapCodec<HeaterTopBlock> codec()
-    {
-        return CODEC;
     }
 
     @Override
@@ -86,7 +77,7 @@ public class HeaterTopBlock extends HorizontalDirectionalBlock
         return InteractionResult.PASS;
     }
 
-    public @NotNull ItemInteractionResult useItemOn(ItemStack stack,
+    public @NotNull InteractionResult useItemOn(ItemStack stack,
                                                     BlockState state,
                                                     Level level,
                                                     BlockPos pos,
@@ -101,14 +92,14 @@ public class HeaterTopBlock extends HorizontalDirectionalBlock
             return heater.onTopUseItem(stack, bottomState, level, pos.below(), player, hand, hit);
         }
         // Tell Minecraft to continue with default item/block behavior
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving)
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean isMoving)
     {
-        super.onRemove(state, level, pos, newState, isMoving);
-        if (!state.is(newState.getBlock()) && level.getBlockState(pos.below()).getBlock() instanceof HeaterBaseBlock)
+        super.affectNeighborsAfterRemoval(state, level, pos, isMoving);
+        if (level.getBlockState(pos.below()).getBlock() instanceof HeaterBaseBlock)
         {
             level.removeBlock(pos.below(), false);
         }

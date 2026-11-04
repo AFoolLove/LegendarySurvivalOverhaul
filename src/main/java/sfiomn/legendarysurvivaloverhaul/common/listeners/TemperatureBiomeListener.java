@@ -1,14 +1,14 @@
 package sfiomn.legendarysurvivaloverhaul.common.listeners;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -22,15 +22,14 @@ import sfiomn.legendarysurvivaloverhaul.network.payloads.SyncTemperatureBiomesPa
 import java.util.HashMap;
 import java.util.Map;
 
-public class TemperatureBiomeListener extends SimpleJsonResourceReloadListener implements ITemperatureBiomeManager
+public class TemperatureBiomeListener extends SimpleJsonResourceReloadListener<JsonElement> implements ITemperatureBiomeManager
 {
 
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private static final Map<Identifier, JsonTemperatureBiomeOverride> TEMPERATURE_BIOMES = new HashMap<>();
 
     public TemperatureBiomeListener()
     {
-        super(GSON, LegendarySurvivalOverhaul.MOD_ID + "/temperature/biomes");
+        super(ExtraCodecs.JSON, FileToIdConverter.json(LegendarySurvivalOverhaul.MOD_ID + "/temperature/biomes"));
     }
 
     public static void sendDataToClient(@Nullable ServerPlayer player)

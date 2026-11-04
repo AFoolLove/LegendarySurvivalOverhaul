@@ -1,6 +1,5 @@
 package sfiomn.legendarysurvivaloverhaul.common.blocks;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
@@ -19,9 +18,6 @@ import sfiomn.legendarysurvivaloverhaul.registry.ParticleTypeRegistry;
 public class SunFernGoldBlock extends BushBlock
 {
 
-    // Required for 1.20.3+
-    public static final MapCodec<SunFernGoldBlock> CODEC = simpleCodec(SunFernGoldBlock::new);
-
     // Constructor used by codec & registry
     public SunFernGoldBlock(Properties properties)
     {
@@ -35,16 +31,10 @@ public class SunFernGoldBlock extends BushBlock
                 .mapColor(MapColor.PLANT)
                 .randomTicks()
                 .noOcclusion()
-                .noCollission()
+                .noCollision()
                 .instabreak()
                 .sound(SoundType.CROP)
-                .pushReaction(PushReaction.DESTROY);
-    }
-
-    @Override
-    public MapCodec<SunFernGoldBlock> codec()
-    {
-        return CODEC;
+                .pushReaction(PushReaction.POPPED);
     }
 
     @Override

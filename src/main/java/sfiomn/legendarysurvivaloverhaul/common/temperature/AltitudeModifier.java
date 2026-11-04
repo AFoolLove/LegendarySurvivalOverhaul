@@ -22,7 +22,7 @@ public class AltitudeModifier extends ModifierBase
     @Override
     public float getWorldInfluence(@Nullable Player player, Level level, BlockPos pos)
     {
-        JsonTemperatureDimension dimensionTemperature = TemperatureDataManager.getDimension(level.dimension().location());
+        JsonTemperatureDimension dimensionTemperature = TemperatureDataManager.getDimension(level.dimension().identifier());
         if (dimensionTemperature == null || !dimensionTemperature.hasAltitude || TerraFirmaCraftUtil.shouldUseTerraFirmaCraftTemp())
         {
             return 0.0f;

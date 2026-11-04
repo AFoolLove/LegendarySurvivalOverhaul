@@ -1,17 +1,19 @@
 package sfiomn.legendarysurvivaloverhaul.common.attachments.temperature;
 
-import net.minecraft.core.HolderLookup;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import sfiomn.legendarysurvivaloverhaul.api.temperature.ITemperatureItemAttachment;
 import sfiomn.legendarysurvivaloverhaul.registry.DataComponentRegistry;
 import sfiomn.legendarysurvivaloverhaul.registry.DataComponentRegistry.TemperatureData;
 import sfiomn.legendarysurvivaloverhaul.util.WorldUtil;
 
-public class TemperatureItemAttachment implements ITemperatureItemAttachment, INBTSerializable<CompoundTag>
+public class TemperatureItemAttachment implements ITemperatureItemAttachment, ValueIOSerializable
 {
     private final ItemStack itemStack;
 
@@ -82,20 +84,20 @@ public class TemperatureItemAttachment implements ITemperatureItemAttachment, IN
     {
         if (tag.contains("temperature"))
         {
-            setWorldTemperatureLevel(tag.getFloat("temperature"));
+            setWorldTemperatureLevel(tag.getFloatOr("temperature", 0.0f));
         }
     }
 
-    // INBTSerializable
+    // ValueIOSerializable
     @Override
-    public CompoundTag serializeNBT(HolderLookup.Provider provider)
+    public void serialize(ValueOutput output)
     {
-        return writeNBT();
+        output.store(writeNBT());
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt)
+    public void deserialize(ValueInput input)
     {
-        readNBT(nbt);
+        input.read(MapCodec.assumeMapUnsafe(CompoundTag.CODEC)).ifPresent(this::readNBT);
     }
 }

@@ -92,12 +92,12 @@ public class Config
 
         ModContainer container = ModLoadingContext.get().getActiveContainer();
         container.registerConfig(ModConfig.Type.CLIENT, CLIENT_SPEC, CONFIG_FOLDER + "client.toml");
-        container.registerConfig(ModConfig.Type.COMMON, COMMON_SPEC, CONFIG_FOLDER + "common.toml");
-        container.registerConfig(ModConfig.Type.COMMON, TEMPERATURE_SPEC, CONFIG_FOLDER + "temperature.toml");
-        container.registerConfig(ModConfig.Type.COMMON, SEASONS_SPEC, CONFIG_FOLDER + "seasons.toml");
-        container.registerConfig(ModConfig.Type.COMMON, THIRST_SPEC, CONFIG_FOLDER + "thirst.toml");
-        container.registerConfig(ModConfig.Type.COMMON, HEALTH_SPEC, CONFIG_FOLDER + "health.toml");
-        container.registerConfig(ModConfig.Type.COMMON, BODY_DAMAGE_SPEC, CONFIG_FOLDER + "body_damage.toml");
+        container.registerConfig(ModConfig.Type.LOCAL, COMMON_SPEC, CONFIG_FOLDER + "common.toml");
+        container.registerConfig(ModConfig.Type.LOCAL, TEMPERATURE_SPEC, CONFIG_FOLDER + "temperature.toml");
+        container.registerConfig(ModConfig.Type.LOCAL, SEASONS_SPEC, CONFIG_FOLDER + "seasons.toml");
+        container.registerConfig(ModConfig.Type.LOCAL, THIRST_SPEC, CONFIG_FOLDER + "thirst.toml");
+        container.registerConfig(ModConfig.Type.LOCAL, HEALTH_SPEC, CONFIG_FOLDER + "health.toml");
+        container.registerConfig(ModConfig.Type.LOCAL, BODY_DAMAGE_SPEC, CONFIG_FOLDER + "body_damage.toml");
 
         JsonConfigRegistration.init(LegendarySurvivalOverhaul.modConfigJsons.toFile());
     }

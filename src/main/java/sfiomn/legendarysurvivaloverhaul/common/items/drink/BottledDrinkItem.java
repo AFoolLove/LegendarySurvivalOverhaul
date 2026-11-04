@@ -1,5 +1,6 @@
 package sfiomn.legendarysurvivaloverhaul.common.items.drink;
 
+import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +26,7 @@ public abstract class BottledDrinkItem extends DrinkItem
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, Level level, @NotNull LivingEntity entity)
     {
-        if (level.isClientSide || !(entity instanceof Player player))
+        if (level.isClientSide() || !(entity instanceof Player player))
             return stack;
 
         stack = super.finishUsingItem(stack, level, player);
@@ -39,21 +40,15 @@ public abstract class BottledDrinkItem extends DrinkItem
                 return glassBottle;
             } else
             {
-                int slot = player.getInventory().findSlotMatchingUnusedItem(glassBottle);
+                int slot = player.getInventory().getSlotWithRemainingSpace(glassBottle);
                 if (slot == -1)
                     slot = player.getInventory().getFreeSlot();
                 if (slot > -1)
                     player.getInventory().add(slot, glassBottle);
                 else
-                    player.drop(glassBottle, false);
+                    player.drop(glassBottle, false, Prediction.PREDICTED);
             }
         }
         return stack;
-    }
-
-    @Override
-    public boolean isEnchantable(ItemStack stack)
-    {
-        return false;
     }
 }

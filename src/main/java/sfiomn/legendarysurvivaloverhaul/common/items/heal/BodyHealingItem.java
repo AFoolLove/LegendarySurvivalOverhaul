@@ -3,13 +3,13 @@ package sfiomn.legendarysurvivaloverhaul.common.items.heal;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 import sfiomn.legendarysurvivaloverhaul.api.bodydamage.BodyDamageUtil;
 import sfiomn.legendarysurvivaloverhaul.api.bodydamage.BodyPartEnum;
@@ -29,9 +29,9 @@ public class BodyHealingItem extends Item
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack)
+    public ItemUseAnimation getUseAnimation(ItemStack stack)
     {
-        return UseAnim.BOW;
+        return ItemUseAnimation.BOW;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class BodyHealingItem extends Item
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand)
+    public InteractionResult use(Level world, Player player, InteractionHand hand)
     {
         ItemStack stack = player.getItemInHand(hand);
 
@@ -49,7 +49,7 @@ public class BodyHealingItem extends Item
         {
             // Don't restrict use item if localized Body Damage is disabled
             player.startUsingItem(hand);
-            return InteractionResultHolder.success(stack);
+            return InteractionResult.SUCCESS;
         }
 
         Identifier registryName = BuiltInRegistries.ITEM.getKey(this);
@@ -66,17 +66,17 @@ public class BodyHealingItem extends Item
                     if (capability.getBodyPartDamage(bodyPart) > 0 || player.getHealth() < player.getMaxHealth())
                     {
                         player.startUsingItem(hand);
-                        return InteractionResultHolder.success(stack);
+                        return InteractionResult.SUCCESS;
                     }
                 }
             } else if (jsonConsumableHeal.healingCharges > 0)
             {
                 player.startUsingItem(hand);
-                return InteractionResultHolder.success(stack);
+                return InteractionResult.SUCCESS;
             }
         }
 
-        return InteractionResultHolder.fail(stack);
+        return InteractionResult.FAIL;
     }
 
     @Override
@@ -105,11 +105,5 @@ public class BodyHealingItem extends Item
         BodyDamageUtil.applyConsumableHealing(player, stack, false);
 
         return stack;
-    }
-
-    @Override
-    public boolean isEnchantable(ItemStack stack)
-    {
-        return false;
     }
 }

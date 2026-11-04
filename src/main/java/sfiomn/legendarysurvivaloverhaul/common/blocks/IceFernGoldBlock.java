@@ -1,6 +1,5 @@
 package sfiomn.legendarysurvivaloverhaul.common.blocks;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
@@ -18,9 +17,6 @@ import sfiomn.legendarysurvivaloverhaul.registry.ParticleTypeRegistry;
 public class IceFernGoldBlock extends BushBlock
 {
 
-    // 1) Required for 1.20.3+ block serialization
-    public static final MapCodec<IceFernGoldBlock> CODEC = simpleCodec(IceFernGoldBlock::new);
-
     public IceFernGoldBlock(Properties properties)
     {
         super(properties);
@@ -34,16 +30,10 @@ public class IceFernGoldBlock extends BushBlock
                 .mapColor(MapColor.PLANT)
                 .randomTicks()
                 .noOcclusion()
-                .noCollission()
+                .noCollision()
                 .instabreak()
                 .sound(SoundType.CROP)
-                .pushReaction(PushReaction.DESTROY);
-    }
-
-    @Override
-    public MapCodec<IceFernGoldBlock> codec()
-    {
-        return CODEC;
+                .pushReaction(PushReaction.POPPED);
     }
 
     @Override

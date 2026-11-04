@@ -669,7 +669,7 @@ public class JsonConfigRegistration
                         td.saturation(jbft.saturation);
                         for (JsonEffectParameter jep : jbft.effects)
                         {
-                            MobEffect me = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(jep.name));
+                            MobEffect me = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(jep.name)).map(net.minecraft.core.Holder::value).orElse(null);
                             if (me != null)
                                 td.addEffect(me, jep.duration, jep.chance, jep.amplifier);
                         }
@@ -724,7 +724,7 @@ public class JsonConfigRegistration
                         td.saturation(jct.saturation);
                         for (JsonEffectParameter jep : jct.effects)
                         {
-                            MobEffect me = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(jep.name));
+                            MobEffect me = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(jep.name)).map(net.minecraft.core.Holder::value).orElse(null);
                             if (me != null)
                                 td.addEffect(me, jep.duration, jep.chance, jep.amplifier);
                         }

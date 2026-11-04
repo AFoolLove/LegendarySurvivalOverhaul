@@ -1,73 +1,42 @@
 package sfiomn.legendarysurvivaloverhaul.client.shaders;
 
-import com.mojang.blaze3d.shaders.Uniform;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
+/**
+ * Screen "focus"/blur effect driver.
+ *
+ * <p><b>26.3 status: temporarily disabled (no-op).</b> The legacy
+ * {@code GameRenderer#loadEffect/currentEffect/shutdownEffect} post-chain API (and {@code PostChain}
+ * uniforms) no longer exists. 26.3 post effects are fully data driven: a
+ * {@code assets/&lt;namespace&gt;/post_effect/&lt;name&gt;.json} resource is loaded by the
+ * {@code ShaderManager} and requested through {@code LocalPlayer#setActivePostEffects(List<Identifier>)}
+ * (or the {@code /posteffect} command).</p>
+ *
+ * <p>To re-enable the low-hydration blur the port needs a post-effect JSON + pipeline (see the WS-C
+ * report sent to the Lead) and a call to {@code LocalPlayer#setActivePostEffects} from
+ * {@link sfiomn.legendarysurvivaloverhaul.client.render.RenderBlurOverlay}. Until that resource exists
+ * this class intentionally keeps the public API but does nothing, so the game never crashes on a
+ * missing shader.</p>
+ */
+@OnlyIn(Dist.CLIENT)
 public class FocusShader {
     public static final Identifier BLOBS2_SHADER = Identifier.withDefaultNamespace("shaders/post/blobs2.json");
     public static final Identifier BLUR_SHADER = Identifier.withDefaultNamespace("shaders/post/blur.json");
 
-    private static boolean shaderLoadAttempted = false;
-    private static boolean shaderAvailable = false;
-    private static String loadedShaderName = null;
-
     public FocusShader() {}
 
     public void render(float intensity) {
-        if (intensity <= 0) return;
-
-        var mc = Minecraft.getInstance();
-        PostChain effect = mc.gameRenderer.currentEffect();
-
-        // Load once: try blobs2.json first, then blur.json; remember result to prevent repeated attempts/log spam
-        if (!shaderLoadAttempted) {
-            shaderLoadAttempted = true;
-            try {
-                mc.gameRenderer.loadEffect(BLOBS2_SHADER);
-                effect = mc.gameRenderer.currentEffect();
-                shaderAvailable = (effect != null);
-                loadedShaderName = shaderAvailable ? effect.getName() : null;
-            } catch (Throwable t) {
-                // Fallback to blur.json on 1.21.x where blobs2.json was removed
-                try {
-                    mc.gameRenderer.loadEffect(BLUR_SHADER);
-                    effect = mc.gameRenderer.currentEffect();
-                    shaderAvailable = (effect != null);
-                    loadedShaderName = shaderAvailable ? effect.getName() : null;
-                } catch (Throwable ignored) {
-                    shaderAvailable = false;
-                }
-            }
-        }
-
-        if (!shaderAvailable) return;
-
-        // Ensure the effect is still active; if some other mod shut it down, don't spam reloads
-        if (effect == null || (loadedShaderName != null && !effect.getName().equals(loadedShaderName))) {
-            return;
-        }
-
-        updateIntensity(intensity);
+        // No-op: 26.3 has no client-side "current effect" post chain API (see class javadoc).
     }
 
     public void stopRender() {
-        var mc = Minecraft.getInstance();
-        PostChain effect = mc.gameRenderer.currentEffect();
-        if (effect != null) {
-            mc.gameRenderer.shutdownEffect();
-        }
+        // No-op: see class javadoc.
     }
 
     @OnlyIn(Dist.CLIENT)
     public void updateIntensity(float intensity) {
-        var effect = Minecraft.getInstance().gameRenderer.currentEffect();
-        if (effect != null) {
-            // Use the public API instead of reflection into passes
-            effect.setUniform("Radius", intensity);
-        }
+        // No-op: see class javadoc.
     }
 }

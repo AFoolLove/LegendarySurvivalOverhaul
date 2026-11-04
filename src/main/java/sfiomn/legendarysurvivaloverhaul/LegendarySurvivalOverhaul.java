@@ -1,8 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul;
 
-import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -18,7 +17,7 @@ import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sfiomn.legendarysurvivaloverhaul.api.bodydamage.BodyDamageUtil;
@@ -29,10 +28,6 @@ import sfiomn.legendarysurvivaloverhaul.api.health.HealthUtil;
 import sfiomn.legendarysurvivaloverhaul.api.temperature.TemperatureUtil;
 import sfiomn.legendarysurvivaloverhaul.api.thirst.ThirstUtil;
 import sfiomn.legendarysurvivaloverhaul.api.wetness.WetnessUtil;
-import sfiomn.legendarysurvivaloverhaul.client.itemproperties.CanteenProperty;
-import sfiomn.legendarysurvivaloverhaul.client.itemproperties.SeasonalCalendarSeasonTypeProperty;
-import sfiomn.legendarysurvivaloverhaul.client.itemproperties.SeasonalCalendarTimeProperty;
-import sfiomn.legendarysurvivaloverhaul.client.itemproperties.ThermometerProperty;
 import sfiomn.legendarysurvivaloverhaul.client.screens.SewingTableScreen;
 import sfiomn.legendarysurvivaloverhaul.client.screens.ThermalScreen;
 import sfiomn.legendarysurvivaloverhaul.common.attachments.ModAttachments;
@@ -262,40 +257,31 @@ public class LegendarySurvivalOverhaul
             Config.Baked.bakeClient();
     }
 
-    private void addReloadListenerEvent(final AddReloadListenerEvent event)
+    private void addReloadListenerEvent(final AddServerReloadListenersEvent event)
     {
-        event.addListener((PreparableReloadListener) TemperatureDataManager.internalConsumable);
-        event.addListener((PreparableReloadListener) TemperatureDataManager.internalConsumableBlock);
-        event.addListener((PreparableReloadListener) TemperatureDataManager.internalBlock);
-        event.addListener((PreparableReloadListener) TemperatureDataManager.internalItem);
-        event.addListener((PreparableReloadListener) TemperatureDataManager.internalBiome);
-        event.addListener((PreparableReloadListener) TemperatureDataManager.internalFuelItem);
-        event.addListener((PreparableReloadListener) TemperatureDataManager.internalDimension);
-        event.addListener((PreparableReloadListener) TemperatureDataManager.internalMount);
-        event.addListener((PreparableReloadListener) TemperatureDataManager.internalOrigin);
-        event.addListener((PreparableReloadListener) ThirstDataManager.internalConsumable);
-        event.addListener((PreparableReloadListener) ThirstDataManager.internalBlock);
-        event.addListener((PreparableReloadListener) BodyDamageDataManager.internalBodyPartsDamageSource);
-        event.addListener((PreparableReloadListener) BodyDamageDataManager.internalHealingConsumable);
-        event.addListener((PreparableReloadListener) BodyDamageDataManager.internalBodyResistanceItem);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "temperature_internalconsumable"), (PreparableReloadListener) TemperatureDataManager.internalConsumable);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "temperature_internalconsumableblock"), (PreparableReloadListener) TemperatureDataManager.internalConsumableBlock);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "temperature_internalblock"), (PreparableReloadListener) TemperatureDataManager.internalBlock);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "temperature_internalitem"), (PreparableReloadListener) TemperatureDataManager.internalItem);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "temperature_internalbiome"), (PreparableReloadListener) TemperatureDataManager.internalBiome);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "temperature_internalfuelitem"), (PreparableReloadListener) TemperatureDataManager.internalFuelItem);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "temperature_internaldimension"), (PreparableReloadListener) TemperatureDataManager.internalDimension);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "temperature_internalmount"), (PreparableReloadListener) TemperatureDataManager.internalMount);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "temperature_internalorigin"), (PreparableReloadListener) TemperatureDataManager.internalOrigin);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "thirst_internalconsumable"), (PreparableReloadListener) ThirstDataManager.internalConsumable);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "thirst_internalblock"), (PreparableReloadListener) ThirstDataManager.internalBlock);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "bodydamage_internalbodypartsdamagesource"), (PreparableReloadListener) BodyDamageDataManager.internalBodyPartsDamageSource);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "bodydamage_internalhealingconsumable"), (PreparableReloadListener) BodyDamageDataManager.internalHealingConsumable);
+        event.addListener(Identifier.fromNamespaceAndPath(MOD_ID, "bodydamage_internalbodyresistanceitem"), (PreparableReloadListener) BodyDamageDataManager.internalBodyResistanceItem);
     }
 
-    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
     public static class ClientModEvents
     {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             Config.Baked.bakeClient();
-
-            ItemProperties.register(ItemRegistry.THERMOMETER.get(), Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "temperature"), new ThermometerProperty());
-            ItemProperties.register(ItemRegistry.CANTEEN.get(), Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "thirstenum"), new CanteenProperty());
-            ItemProperties.register(ItemRegistry.LARGE_CANTEEN.get(), Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "thirstenum"), new CanteenProperty());
-            if (LegendarySurvivalOverhaul.sereneSeasonsLoaded || LegendarySurvivalOverhaul.eclipticSeasonsLoaded)
-            {
-                ItemProperties.register(ItemRegistry.SEASONAL_CALENDAR.get(), Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "time"), new SeasonalCalendarTimeProperty());
-                ItemProperties.register(ItemRegistry.SEASONAL_CALENDAR.get(), Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "seasontype"), new SeasonalCalendarSeasonTypeProperty());
-            }
         }
 
         @SubscribeEvent

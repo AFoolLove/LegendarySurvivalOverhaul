@@ -8,7 +8,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.api.data.builder.IThirstData;
 import sfiomn.legendarysurvivaloverhaul.api.data.builder.IThirstDataHolder;
@@ -30,25 +29,23 @@ public abstract class ThirstDataProvider implements DataProvider
     private final PackOutput.PathProvider blocksPathProvider;
     private final Map<String, IThirstDataHolder> consumablesBuilders = new HashMap<>();
     private final Map<String, IThirstDataHolder> blocksBuilders = new HashMap<>();
-    private final ExistingFileHelper fileHelper;
 
-    public ThirstDataProvider(String modId, PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper fileHelper)
+    public ThirstDataProvider(String modId, PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider)
     {
         this.modId = modId;
-        this.fileHelper = fileHelper;
         this.consumablesPathProvider = output.createPathProvider(PackOutput.Target.DATA_PACK, LegendarySurvivalOverhaul.MOD_ID + "/thirst/consumables");
         this.blocksPathProvider = output.createPathProvider(PackOutput.Target.DATA_PACK, LegendarySurvivalOverhaul.MOD_ID + "/thirst/blocks");
         this.lookupProvider = lookupProvider;
     }
 
-    public abstract void generate(HolderLookup.Provider provider, ExistingFileHelper existingFileHelper);
+    public abstract void generate(HolderLookup.Provider provider);
 
     @Nonnull
     public CompletableFuture<?> run(@Nonnull CachedOutput pOutput)
     {
         return this.lookupProvider.thenCompose((p_255484_) -> {
             List<CompletableFuture<?>> list = new ArrayList<>();
-            this.generate(p_255484_, this.fileHelper);
+            this.generate(p_255484_);
             this.consumablesBuilders.forEach((consumable, builder) -> {
                 Identifier jsonKey = consumable.split(":").length == 1 ?
                         Identifier.fromNamespaceAndPath(this.modId, consumable.toLowerCase()) : Identifier.parse(consumable);

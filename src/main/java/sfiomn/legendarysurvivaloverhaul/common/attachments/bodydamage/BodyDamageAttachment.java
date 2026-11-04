@@ -1,7 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul.common.attachments.bodydamage;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
@@ -9,7 +9,9 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import org.apache.commons.lang3.tuple.Pair;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.api.bodydamage.BodyDamageUtil;
@@ -34,7 +36,7 @@ import java.util.function.BiConsumer;
 /**
  * Attachment that handles body damage for a player.
  */
-public class BodyDamageAttachment implements IBodyDamageAttachment, INBTSerializable<CompoundTag>
+public class BodyDamageAttachment implements IBodyDamageAttachment, ValueIOSerializable
 {
     // Saved data
     private Map<BodyPartEnum, BodyPart> bodyParts;
@@ -670,22 +672,22 @@ public class BodyDamageAttachment implements IBodyDamageAttachment, INBTSerializ
             bodyPart.readNBT(compound);
         }
 
-        this.headacheTimer = compound.getInt("headacheTimer");
-        this.expectedBrokenHearts = compound.getInt("expectedBrokenHearts");
-        this.healingTickTimer = compound.getFloat("healingTickTimer");
-        this.proportionalRegenTimer = compound.contains("proportionalRegenTimer") ? compound.getFloat("proportionalRegenTimer") : 0;
-        this.customHealthRegenTimer = compound.contains("customHealthRegenTimer") ? compound.getFloat("customHealthRegenTimer") : 0;
+        this.headacheTimer = compound.getIntOr("headacheTimer", 0);
+        this.expectedBrokenHearts = compound.getIntOr("expectedBrokenHearts", 0);
+        this.healingTickTimer = compound.getFloatOr("healingTickTimer", 0.0f);
+        this.proportionalRegenTimer = compound.getFloatOr("proportionalRegenTimer", 0.0f);
+        this.customHealthRegenTimer = compound.getFloatOr("customHealthRegenTimer", 0.0f);
     }
 
     @Override
-    public CompoundTag serializeNBT(HolderLookup.Provider provider)
+    public void serialize(ValueOutput output)
     {
-        return writeNBT();
+        output.store(writeNBT());
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt)
+    public void deserialize(ValueInput input)
     {
-        readNBT(nbt);
+        input.read(MapCodec.assumeMapUnsafe(CompoundTag.CODEC)).ifPresent(this::readNBT);
     }
 }

@@ -1,16 +1,17 @@
 package sfiomn.legendarysurvivaloverhaul.client.render;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.entity.player.Player;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.common.attachments.wetness.WetnessAttachment;
 import sfiomn.legendarysurvivaloverhaul.common.integration.curios.CuriosUtil;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
 import sfiomn.legendarysurvivaloverhaul.util.AttachmentUtil;
+import sfiomn.legendarysurvivaloverhaul.util.RenderUtil;
 
 import java.util.Random;
 
@@ -27,27 +28,23 @@ public class RenderWetnessGui
     private static WetnessIcon lastWetnessIcon;
     private static int flashCounter = -1;
 
-    public static void render(Gui gui, GuiGraphics guiGraphics, float partialTicks, int width, int height)
+    public static void render(Gui gui, GuiGraphicsExtractor guiGraphics, float partialTicks, int width, int height)
     {
-        if (Config.Baked.wetnessEnabled && !Minecraft.getInstance().options.hideGui)
+        if (Config.Baked.wetnessEnabled && !Minecraft.getInstance().gui.hud.isHidden())
         {
             Player player = Minecraft.getInstance().player;
             if (player != null && !player.isCreative() && !player.isSpectator())
             {
                 rand.setSeed(player.tickCount * 445L);
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
 
-                Minecraft.getInstance().getProfiler().push("wetness_gui");
+                Profiler.get().push("wetness_gui");
                 drawWetness(guiGraphics, player, width, height);
-                Minecraft.getInstance().getProfiler().pop();
-
-                RenderSystem.disableBlend();
+                Profiler.get().pop();
             }
         }
     }
 
-    public static void drawWetness(GuiGraphics gui, Player player, int width, int height)
+    public static void drawWetness(GuiGraphicsExtractor gui, Player player, int width, int height)
     {
         if (WETNESS_CAP == null || player.tickCount % 20 == 0)
             WETNESS_CAP = AttachmentUtil.getWetnessAttachment(player);
@@ -70,7 +67,7 @@ public class RenderWetnessGui
             lastWetnessIcon = wetnessIcon;
         }
 
-        gui.blit(ICONS, x, y, wetnessIcon.getXTextureOffset(), wetnessIcon.getYTextureOffset(flashCounter >= 0), WETNESS_TEXTURE_WIDTH, WETNESS_TEXTURE_HEIGHT);
+        RenderUtil.blit(gui, ICONS, x, y, wetnessIcon.getXTextureOffset(), wetnessIcon.getYTextureOffset(flashCounter >= 0), WETNESS_TEXTURE_WIDTH, WETNESS_TEXTURE_HEIGHT);
     }
 
     public static void updateTimer()

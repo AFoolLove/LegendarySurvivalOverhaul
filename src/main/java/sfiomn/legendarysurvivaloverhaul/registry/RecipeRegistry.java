@@ -18,10 +18,10 @@ public class RecipeRegistry
 
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, LegendarySurvivalOverhaul.MOD_ID);
 
-    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<SewingRecipe>> SEWING_SERIALIZER = RECIPE_SERIALIZERS.register("sewing", () -> SewingRecipe.Serializer.INSTANCE);
-    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<PurificationSmeltingRecipe>> PURIFICATION_SMELTING_SERIALIZER = RECIPE_SERIALIZERS.register("purification_smelting", () -> PurificationSmeltingRecipe.Serializer.INSTANCE);
-    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<PurificationBlastingRecipe>> PURIFICATION_BLASTING_SERIALIZER = RECIPE_SERIALIZERS.register("purification_blasting", () -> PurificationBlastingRecipe.Serializer.INSTANCE);
-    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RemoveCoatRecipe>> REMOVE_COAT_SERIALIZER = RECIPE_SERIALIZERS.register("remove_coat", () -> RemoveCoatRecipe.Serializer.INSTANCE);
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<SewingRecipe>> SEWING_SERIALIZER = RECIPE_SERIALIZERS.register("sewing", () -> SewingRecipe.SERIALIZER);
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<PurificationSmeltingRecipe>> PURIFICATION_SMELTING_SERIALIZER = RECIPE_SERIALIZERS.register("purification_smelting", () -> PurificationSmeltingRecipe.SERIALIZER);
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<PurificationBlastingRecipe>> PURIFICATION_BLASTING_SERIALIZER = RECIPE_SERIALIZERS.register("purification_blasting", () -> PurificationBlastingRecipe.SERIALIZER);
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RemoveCoatRecipe>> REMOVE_COAT_SERIALIZER = RECIPE_SERIALIZERS.register("remove_coat", () -> RemoveCoatRecipe.SERIALIZER);
 
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPE = DeferredRegister.create(Registries.RECIPE_TYPE, LegendarySurvivalOverhaul.MOD_ID);
 

@@ -1,19 +1,21 @@
 package sfiomn.legendarysurvivaloverhaul.common.attachments.thirst;
 
-import net.minecraft.core.HolderLookup;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import sfiomn.legendarysurvivaloverhaul.api.ModDamageTypes;
 import sfiomn.legendarysurvivaloverhaul.api.thirst.IThirstAttachment;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
 import sfiomn.legendarysurvivaloverhaul.registry.MobEffectRegistry;
 import sfiomn.legendarysurvivaloverhaul.util.DifficultyUtil;
 
-public class ThirstAttachment implements IThirstAttachment, INBTSerializable<CompoundTag>
+public class ThirstAttachment implements IThirstAttachment, ValueIOSerializable
 {
     public static int MAX_HYDRATION = 20;
     public static float MAX_SATURATION = 20.0f;
@@ -356,30 +358,30 @@ public class ThirstAttachment implements IThirstAttachment, INBTSerializable<Com
     {
         this.init();
         if (nbt.contains("exhaustion"))
-            this.setExhaustion(nbt.getFloat("exhaustion"));
+            this.setExhaustion(nbt.getFloatOr("exhaustion", 0.0f));
         if (nbt.contains("hydrationLevel"))
-            this.setHydrationLevel(nbt.getInt("hydrationLevel"));
+            this.setHydrationLevel(nbt.getIntOr("hydrationLevel", 0));
         if (nbt.contains("saturation"))
-            this.setSaturation(nbt.getFloat("saturation"));
+            this.setSaturation(nbt.getFloatOr("saturation", 0.0f));
         if (nbt.contains("tickTimer"))
-            this.setTickTimer(nbt.getInt("tickTimer"));
+            this.setTickTimer(nbt.getIntOr("tickTimer", 0));
         if (nbt.contains("thirstDamageTickTimer"))
-            this.setThirstDamageTickTimer(nbt.getInt("thirstDamageTickTimer"));
+            this.setThirstDamageTickTimer(nbt.getIntOr("thirstDamageTickTimer", 0));
         if (nbt.contains("thirstDamageCounter"))
-            this.setThirstDamageCounter(nbt.getInt("thirstDamageCounter"));
+            this.setThirstDamageCounter(nbt.getIntOr("thirstDamageCounter", 0));
         if (nbt.contains("hasShownBlurWarning"))
-            this.setShownBlurWarning(nbt.getBoolean("hasShownBlurWarning"));
+            this.setShownBlurWarning(nbt.getBooleanOr("hasShownBlurWarning", false));
     }
 
     @Override
-    public CompoundTag serializeNBT(HolderLookup.Provider provider)
+    public void serialize(ValueOutput output)
     {
-        return writeNBT();
+        output.store(writeNBT());
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt)
+    public void deserialize(ValueInput input)
     {
-        readNBT(nbt);
+        input.read(MapCodec.assumeMapUnsafe(CompoundTag.CODEC)).ifPresent(this::readNBT);
     }
 }

@@ -12,7 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.common.level.gen.ModConfiguredFeatures;
 
@@ -21,7 +21,7 @@ public class FernTestCommand extends CommandBase
     public FernTestCommand()
     {
         super(Commands.literal("lso")
-                .requires((p_198521_0_) -> p_198521_0_.hasPermission(2))
+                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("fernpatch")
                         .then(Commands.argument("type", StringArgumentType.word())
                                 .then(Commands.argument("radius", IntegerArgumentType.integer(1, 256))
@@ -44,8 +44,8 @@ public class FernTestCommand extends CommandBase
                 return Command.SINGLE_SUCCESS;
             }
 
-            var registry = level.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE);
-            Holder<ConfiguredFeature<?, ?>> feature;
+            var registry = level.registryAccess().lookupOrThrow(Registries.FEATURE);
+            Holder<Feature> feature;
 
             if (type.equalsIgnoreCase("ice"))
             {

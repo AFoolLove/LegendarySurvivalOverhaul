@@ -27,7 +27,7 @@ public class TimeModifier extends ModifierBase
             return 0.0f;
         }
 
-        long time = level.getLevelData().getDayTime();
+        long time = level.getOverworldClockTime();
 
         // 2 * PI / 24000 = 0.00026179938
         double timeAngle = time * 0.00026179938;

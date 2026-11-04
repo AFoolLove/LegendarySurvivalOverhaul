@@ -2,7 +2,7 @@ package sfiomn.legendarysurvivaloverhaul.common.items;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -18,7 +18,7 @@ public class WearableCurioItem extends Item
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
+    public InteractionResult use(Level level, Player player, InteractionHand hand)
     {
 
         ItemStack itemstack = player.getItemInHand(hand);
@@ -27,6 +27,6 @@ public class WearableCurioItem extends Item
         if (isWorn)
             level.playSound(null, player.blockPosition(), SoundEvents.ARMOR_EQUIP_GENERIC.value(), player.getSoundSource(), 1.0f, 1.0f);
 
-        return isWorn ? InteractionResultHolder.success(itemstack) : InteractionResultHolder.fail(itemstack);
+        return isWorn ? InteractionResult.SUCCESS : InteractionResult.FAIL;
     }
 }

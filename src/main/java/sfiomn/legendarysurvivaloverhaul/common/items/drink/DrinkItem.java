@@ -1,12 +1,12 @@
 package sfiomn.legendarysurvivaloverhaul.common.items.drink;
 
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sfiomn.legendarysurvivaloverhaul.api.thirst.IThirstAttachment;
@@ -27,9 +27,9 @@ public class DrinkItem extends Item
     }
 
     @Override
-    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack)
+    public @NotNull ItemUseAnimation getUseAnimation(@NotNull ItemStack stack)
     {
-        return UseAnim.DRINK;
+        return ItemUseAnimation.DRINK;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class DrinkItem extends Item
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand)
+    public @NotNull InteractionResult use(@NotNull Level level, Player player, @NotNull InteractionHand hand)
     {
         ItemStack stack = player.getItemInHand(hand);
 
@@ -47,23 +47,23 @@ public class DrinkItem extends Item
         {
             // Don't restrict drinking if thirst is disabled
             player.startUsingItem(hand);
-            return InteractionResultHolder.success(stack);
+            return InteractionResult.SUCCESS;
         }
 
         IThirstAttachment capability = AttachmentUtil.getThirstAttachment(player);
         if (!capability.isHydrationLevelAtMax())
         {
             player.startUsingItem(hand);
-            return InteractionResultHolder.success(stack);
+            return InteractionResult.SUCCESS;
         }
 
-        return InteractionResultHolder.fail(stack);
+        return InteractionResult.FAIL;
     }
 
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, Level level, @NotNull LivingEntity entity)
     {
-        if (level.isClientSide || !(entity instanceof Player player))
+        if (level.isClientSide() || !(entity instanceof Player player))
             return stack;
 
         runSecondaryEffect(player, stack);
@@ -71,11 +71,5 @@ public class DrinkItem extends Item
         stack.shrink(1);
 
         return stack;
-    }
-
-    @Override
-    public boolean isEnchantable(ItemStack stack)
-    {
-        return false;
     }
 }

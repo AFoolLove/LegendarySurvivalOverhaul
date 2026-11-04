@@ -20,11 +20,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.LevelData;
-import net.minecraft.world.level.storage.PrimaryLevelData;
 import net.neoforged.api.distmarker.Dist;
 //import net.neoforged.neoforge.common.ForgeMod;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -35,7 +34,7 @@ import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.*;
-import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Set;
 import net.neoforged.neoforge.event.level.LevelEvent;
@@ -82,8 +81,7 @@ import static sfiomn.legendarysurvivaloverhaul.util.internal.TemperatureUtilInte
 
 
 @EventBusSubscriber(
-        modid = LegendarySurvivalOverhaul.MOD_ID,
-        bus = EventBusSubscriber.Bus.GAME
+        modid = LegendarySurvivalOverhaul.MOD_ID
 )
 public class CommonNeoForgeEvents
 {
@@ -134,12 +132,12 @@ public class CommonNeoForgeEvents
                 usedItemStack = itemStackInBasket;
         }
 
-        if (!entity.level().isClientSide) {
+        if (!entity.level().isClientSide()) {
             Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(usedItemStack.getItem());
             TemperatureUtil.applyConsumableTemperature(player, itemRegistryName);
         }
 
-        if (!entity.level().isClientSide) {
+        if (!entity.level().isClientSide()) {
             ThirstUtil.takeDrink(player, usedItemStack);
         }
 
@@ -168,7 +166,7 @@ public class CommonNeoForgeEvents
 
                     //  If we can drink on a block, cancel its use except if crouching
                     if (jsonBlockThirst != null && (jsonBlockThirst.hydration != 0 || jsonBlockThirst.saturation != 0) && !event.getEntity().isCrouching()) {
-                        if (event.getLevel().isClientSide)
+                        if (event.getLevel().isClientSide())
                             playerDrinkEffect(event.getEntity());
                         else {
                             ThirstUtil.takeDrink(event.getEntity(), jsonBlockThirst.hydration, jsonBlockThirst.saturation, jsonBlockThirst.effects);
@@ -177,7 +175,7 @@ public class CommonNeoForgeEvents
                         event.setCancellationResult(InteractionResult.CONSUME);
                         return;
                     } else if (jsonFluidThirst != null && (jsonFluidThirst.hydration != 0 || jsonFluidThirst.saturation != 0)) {
-                        if (event.getLevel().isClientSide)
+                        if (event.getLevel().isClientSide())
                             playerDrinkEffect(event.getEntity());
                         else {
                             ThirstUtil.takeDrink(event.getEntity(), jsonFluidThirst.hydration, jsonFluidThirst.saturation, jsonFluidThirst.effects);
@@ -207,7 +205,7 @@ public class CommonNeoForgeEvents
         if (!Config.Baked.temperatureEnabled && !Config.Baked.localizedBodyDamageEnabled)
             return;
 
-        if (FMLEnvironment.dist == Dist.CLIENT)
+        if (FMLEnvironment.getDist() == Dist.CLIENT)
             if(Minecraft.getInstance().level == null) return;
 
         if (ItemUtil.canBeEquippedInSlot(event.getItemStack(), ItemUtil.getEquippableSlot(event.getItemStack()))) {
@@ -274,15 +272,15 @@ public class CommonNeoForgeEvents
     @SubscribeEvent
     public static void onJump(LivingEvent.LivingJumpEvent event) {
         LivingEntity entity = event.getEntity();
-        if (entity instanceof Player && shouldApplyThirst((Player) entity) && !entity.level().isClientSide) {
+        if (entity instanceof Player && shouldApplyThirst((Player) entity) && !entity.level().isClientSide()) {
             ThirstUtil.addExhaustion((Player) entity, (float) Config.Baked.onJumpHydrationExhaustion);
         }
     }
 
     @SubscribeEvent
-    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+    public static void onBlockBreak(BreakBlockEvent event) {
         Player player = event.getPlayer();
-        if (shouldApplyThirst(player) && !player.level().isClientSide && event.getState().getDestroySpeed(event.getLevel(), event.getPos()) > 0.0f) {
+        if (shouldApplyThirst(player) && !player.level().isClientSide() && event.getState().getDestroySpeed(event.getLevel(), event.getPos()) > 0.0f) {
             ThirstUtil.addExhaustion(player, (float) Config.Baked.onBlockBreakHydrationExhaustion);
         }
     }
@@ -290,7 +288,7 @@ public class CommonNeoForgeEvents
     @SubscribeEvent
     public static void onAttackEntity(AttackEntityEvent event) {
         Player player = event.getEntity();
-        if (shouldApplyThirst(player) && !player.level().isClientSide) {
+        if (shouldApplyThirst(player) && !player.level().isClientSide()) {
             Entity monster = event.getTarget();
             if(monster.isAttackable()) {
                 ThirstUtil.addExhaustion(player, (float) Config.Baked.onAttackHydrationExhaustion);
@@ -332,7 +330,7 @@ public class CommonNeoForgeEvents
             player = (Player) event.getEntity();
         else return;
 
-        if (player.level().isClientSide)
+        if (player.level().isClientSide())
             return;
 
         // Skip if damage was blocked by shield
@@ -416,7 +414,7 @@ public class CommonNeoForgeEvents
 
     @SubscribeEvent
     public static void onPlayerEffect(MobEffectEvent.Applicable event) {
-        if (event.getEntity() instanceof Player player && !event.getEntity().level().isClientSide) {
+        if (event.getEntity() instanceof Player player && !event.getEntity().level().isClientSide()) {
             if (Config.Baked.healthOverhaulEnabled &&
                     event.getEffectInstance().getEffect() == MobEffects.ABSORPTION &&
                     Config.Baked.absorptionEffectOverride) {
@@ -425,7 +423,7 @@ public class CommonNeoForgeEvents
                 healthAttachment.addShieldHealth(2);
                 event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
             }
-            if (event.getEffectInstance().getEffect() == MobEffectRegistry.THIRST.get() &&
+            if (event.getEffectInstance().getEffect().value() == MobEffectRegistry.THIRST.get() &&
                     CuriosUtil.isCurioItemEquipped(player, ItemRegistry.WATER_PURIFIER.get())) {
                 event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
             }
@@ -488,7 +486,7 @@ public class CommonNeoForgeEvents
 
     @SubscribeEvent
     public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (Config.Baked.temperatureImmunityOnFirstSpawnEnabled && Config.Baked.temperatureEnabled && !event.getEntity().getPersistentData().getBoolean("tempImmuneOnSpawn")) {
+        if (Config.Baked.temperatureImmunityOnFirstSpawnEnabled && Config.Baked.temperatureEnabled && !event.getEntity().getPersistentData().getBooleanOr("tempImmuneOnSpawn", false)) {
             event.getEntity().getPersistentData().putBoolean("tempImmuneOnSpawn", true);
             event.getEntity().addEffect(new MobEffectInstance(MobEffectRegistry.TEMPERATURE_IMMUNITY, Config.Baked.temperatureImmunityOnFirstSpawnTime, 0, false, false, true));
         }
@@ -537,11 +535,8 @@ public class CommonNeoForgeEvents
 
     @SubscribeEvent
     public static void onLevelLoad(LevelEvent.Load event) {
-        if (!event.getLevel().isClientSide()) {
-            LevelData levelData = event.getLevel().getLevelData();
-            if (levelData instanceof PrimaryLevelData primaryLevelData) {
-                primaryLevelData.getGameRules().getRule(GameRules.RULE_NATURAL_REGENERATION).set(Config.Baked.naturalRegenerationEnabled, event.getLevel().getServer());
-            }
+        if (!event.getLevel().isClientSide() && event.getLevel() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
+            serverLevel.getGameRules().set(GameRules.NATURAL_HEALTH_REGENERATION, Config.Baked.naturalRegenerationEnabled, serverLevel.getServer());
         }
     }
 
@@ -569,7 +564,7 @@ public class CommonNeoForgeEvents
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         Player player = event.getEntity();
-        if (player.level().isClientSide || !(player instanceof net.minecraft.server.level.ServerPlayer serverPlayer))
+        if (player.level().isClientSide() || !(player instanceof net.minecraft.server.level.ServerPlayer serverPlayer))
             return;
 
         Level level = player.level();
@@ -658,7 +653,7 @@ public class CommonNeoForgeEvents
     public static void playerDrinkEffect(Player player)
     {
         //Play sound and swing arm
-        player.swing(InteractionHand.MAIN_HAND);
-        player.playSound(SoundEvents.GENERIC_DRINK, 1.0f, 1.0f);
+        player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, true);
+        player.playSound(SoundEvents.GENERIC_DRINK.value(), 1.0f, 1.0f);
     }
 }

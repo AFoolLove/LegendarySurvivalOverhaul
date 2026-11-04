@@ -2,20 +2,21 @@ package sfiomn.legendarysurvivaloverhaul.common.items.heal;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
 
 import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 import static sfiomn.legendarysurvivaloverhaul.registry.MobEffectRegistry.PAINKILLER;
 import static sfiomn.legendarysurvivaloverhaul.registry.MobEffectRegistry.PAINKILLER_ADDICTION;
@@ -29,9 +30,9 @@ public class MorphineItem extends Item
     }
 
     @Override
-    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack)
+    public @NotNull ItemUseAnimation getUseAnimation(@NotNull ItemStack stack)
     {
-        return UseAnim.BOW;
+        return ItemUseAnimation.BOW;
     }
 
     @Override
@@ -41,24 +42,24 @@ public class MorphineItem extends Item
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand)
+    public @NotNull InteractionResult use(@NotNull Level level, Player player, @NotNull InteractionHand hand)
     {
         ItemStack stack = player.getItemInHand(hand);
 
         if (player.hasEffect(PAINKILLER_ADDICTION))
         {
-            player.displayClientMessage(Component.translatable("message.legendarysurvivaloverhaul.morphine_use_under_painkiller_addiction"), true);
-            return InteractionResultHolder.fail(stack);
+            player.sendOverlayMessage(Component.translatable("message.legendarysurvivaloverhaul.morphine_use_under_painkiller_addiction"));
+            return InteractionResult.FAIL;
         }
 
         player.startUsingItem(hand);
-        return InteractionResultHolder.success(stack);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, Level level, @NotNull LivingEntity entity)
     {
-        if (level.isClientSide || !(entity instanceof Player player))
+        if (level.isClientSide() || !(entity instanceof Player player))
             return stack;
 
         player.addEffect(new MobEffectInstance(PAINKILLER, Config.Baked.morphinePainkillerTickDuration, 0, false, false, true));
@@ -71,16 +72,10 @@ public class MorphineItem extends Item
     }
 
     @Override
-    public boolean isEnchantable(@NotNull ItemStack stack)
-    {
-        return false;
-    }
-
-    @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable TooltipContext level, @NotNull List<Component> tooltip, @NotNull TooltipFlag isAdvanced)
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Item.TooltipContext level, @NotNull TooltipDisplay display, @NotNull Consumer<Component> tooltip, @NotNull TooltipFlag isAdvanced)
     {
         if (Config.Baked.localizedBodyDamageEnabled)
-            tooltip.add(Component.translatable("tooltip.legendarysurvivaloverhaul.body_heal_item.morphine"));
-        super.appendHoverText(stack, level, tooltip, isAdvanced);
+            tooltip.accept(Component.translatable("tooltip.legendarysurvivaloverhaul.body_heal_item.morphine"));
+        super.appendHoverText(stack, level, display, tooltip, isAdvanced);
     }
 }

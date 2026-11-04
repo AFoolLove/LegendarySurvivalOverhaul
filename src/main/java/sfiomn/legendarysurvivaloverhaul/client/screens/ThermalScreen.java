@@ -1,18 +1,16 @@
 package sfiomn.legendarysurvivaloverhaul.client.screens;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.api.block.ThermalTypeEnum;
 import sfiomn.legendarysurvivaloverhaul.common.containers.AbstractThermalContainer;
+import sfiomn.legendarysurvivaloverhaul.util.RenderUtil;
 
 @OnlyIn(Dist.CLIENT)
 public class ThermalScreen extends AbstractContainerScreen<AbstractThermalContainer>
@@ -36,41 +34,32 @@ public class ThermalScreen extends AbstractContainerScreen<AbstractThermalContai
     }
 
     @Override
-    public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks)
+    public void extractBackground(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTicks)
     {
-        this.renderBackground(gui, mouseX, mouseY, partialTicks);
-        super.render(gui, mouseX, mouseY, partialTicks);
-        this.renderTooltip(gui, mouseX, mouseY);
-    }
+        super.extractBackground(gui, mouseX, mouseY, partialTicks);
 
-    @Override
-    protected void renderBg(GuiGraphics gui, float partialTicks, int x, int y)
-    {
         if (minecraft == null)
         {
             return;
         }
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1, 1, 1, 1);
 
-        Identifier TEXTURE;
+        Identifier texture;
         if (menu.getThermalType() == ThermalTypeEnum.HEATING)
         {
-            TEXTURE = HEATER_SCREEN;
+            texture = HEATER_SCREEN;
         } else
         {
-            TEXTURE = COOLER_SCREEN;
+            texture = COOLER_SCREEN;
         }
 
-        RenderSystem.setShaderTexture(0, TEXTURE);
-        gui.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        RenderUtil.blit(gui, texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 
         // Fuel level
         int fuelTimeHeight = (int) (menu.getFuelTimeScale() * FUEL_LEVEL_HEIGHT);
-        gui.blit(TEXTURE, this.leftPos + 73, this.topPos + 35 + (FUEL_LEVEL_HEIGHT - fuelTimeHeight), 176, 24 + (FUEL_LEVEL_HEIGHT - fuelTimeHeight), FUEL_LEVEL_WIDTH, fuelTimeHeight);
+        RenderUtil.blit(gui, texture, this.leftPos + 73, this.topPos + 35 + (FUEL_LEVEL_HEIGHT - fuelTimeHeight), 176, 24 + (FUEL_LEVEL_HEIGHT - fuelTimeHeight), FUEL_LEVEL_WIDTH, fuelTimeHeight);
 
         // Powered status
         if (menu.isPowered())
-            gui.blit(TEXTURE, this.leftPos + 137, this.topPos + 37, 176, 0, 12, 24);
+            RenderUtil.blit(gui, texture, this.leftPos + 137, this.topPos + 37, 176, 0, 12, 24);
     }
 }

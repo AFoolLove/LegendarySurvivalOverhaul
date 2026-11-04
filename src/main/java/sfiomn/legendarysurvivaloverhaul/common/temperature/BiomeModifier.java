@@ -39,7 +39,7 @@ public class BiomeModifier extends ModifierBase
         float biomeAverage = 0f;
         float undergroundAverage = 0f;
 
-        long worldTime = level.getLevelData().getDayTime() % 24000;
+        long worldTime = level.getOverworldClockTime() % 24000;
         double drynessTimeMultiplier = 1;
         double drynessAverageMultiplier = 1;
         if (worldTime > 12000 && !level.dimensionType().hasCeiling() && Config.Baked.biomeDrynessMultiplier < 1)

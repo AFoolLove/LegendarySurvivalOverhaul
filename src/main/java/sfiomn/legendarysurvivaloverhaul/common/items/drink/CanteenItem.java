@@ -1,17 +1,18 @@
 package sfiomn.legendarysurvivaloverhaul.common.items.drink;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -139,28 +140,28 @@ public class CanteenItem extends DrinkItem
         if (isFullCanteen && canDrink(canteen)) {
             // Empty into empty cauldron
             if (blockState.is(Blocks.CAULDRON)) {
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     shrinkCapacity(canteen);
                     level.setBlockAndUpdate(clickedPos, Blocks.WATER_CAULDRON.defaultBlockState().setValue(LayeredCauldronBlock.LEVEL, 1));
                     level.playSound(null, clickedPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
                     level.gameEvent(null, GameEvent.FLUID_PLACE, clickedPos);
                 }
-                player.swing(InteractionHand.MAIN_HAND, true);
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, true);
+                return InteractionResult.SUCCESS;
             }
             
             // Empty into partial water cauldron
             if (blockState.is(Blocks.WATER_CAULDRON)) {
                 int currentLevel = blockState.getValue(LayeredCauldronBlock.LEVEL);
                 if (currentLevel < 3) {
-                    if (!level.isClientSide) {
+                    if (!level.isClientSide()) {
                         shrinkCapacity(canteen);
                         level.setBlockAndUpdate(clickedPos, blockState.setValue(LayeredCauldronBlock.LEVEL, currentLevel + 1));
                         level.playSound(null, clickedPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
                         level.gameEvent(null, GameEvent.FLUID_PLACE, clickedPos);
                     }
-                    player.swing(InteractionHand.MAIN_HAND, true);
-                    return InteractionResult.sidedSuccess(level.isClientSide);
+                    player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, true);
+                    return InteractionResult.SUCCESS;
                 }
             }
         }
@@ -169,54 +170,54 @@ public class CanteenItem extends DrinkItem
         if (LegendarySurvivalOverhaul.crayfishFurnitureLoaded) {
             InteractionResult result = CrayfishFurnitureUtil.tryFillCanteenFromSinkOrBasin(level, clickedPos, player, canteen);
             if (result.consumesAction()) {
-                player.swing(InteractionHand.MAIN_HAND, true);
+                player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, true);
                 return result;
             }
         }
 
         // Priority 3: Handle vanilla water cauldron - fill canteen from it
         if (blockState.is(Blocks.WATER_CAULDRON) && canFill(canteen, level)) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 this.fill(canteen, level);
                 LayeredCauldronBlock.lowerFillLevel(blockState, level, clickedPos);
                 level.playSound(null, clickedPos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                 level.gameEvent(null, GameEvent.FLUID_PICKUP, clickedPos);
             }
-            player.swing(InteractionHand.MAIN_HAND, true);
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, true);
+            return InteractionResult.SUCCESS;
         }
 
         // Priority 4: Empty partial canteen into empty cauldron
         if (blockState.is(Blocks.CAULDRON) && canDrink(canteen)) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 shrinkCapacity(canteen);
                 level.setBlockAndUpdate(clickedPos, Blocks.WATER_CAULDRON.defaultBlockState().setValue(LayeredCauldronBlock.LEVEL, 1));
                 level.playSound(null, clickedPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
                 level.gameEvent(null, GameEvent.FLUID_PLACE, clickedPos);
             }
-            player.swing(InteractionHand.MAIN_HAND, true);
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, true);
+            return InteractionResult.SUCCESS;
         }
         
         // Priority 5: Empty partial canteen into partial water cauldron
         if (blockState.is(Blocks.WATER_CAULDRON) && canDrink(canteen)) {
             int currentLevel = blockState.getValue(LayeredCauldronBlock.LEVEL);
             if (currentLevel < 3) {
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     shrinkCapacity(canteen);
                     level.setBlockAndUpdate(clickedPos, blockState.setValue(LayeredCauldronBlock.LEVEL, currentLevel + 1));
                     level.playSound(null, clickedPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
                     level.gameEvent(null, GameEvent.FLUID_PLACE, clickedPos);
                 }
-                player.swing(InteractionHand.MAIN_HAND, true);
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, true);
+                return InteractionResult.SUCCESS;
             }
         }
 
         // Handle other water sources
         boolean isWater = isWater(level, clickedPos);
         if (canFill(canteen, level) && isWater) {
-            player.swing(InteractionHand.MAIN_HAND, true);
+            player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, true);
 
             // Play fill sound
             level.playSound(player, player.blockPosition(), SoundEvents.BOTTLE_FILL, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -228,7 +229,7 @@ public class CanteenItem extends DrinkItem
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand)
+    public @NotNull InteractionResult use(@NotNull Level level, Player player, @NotNull InteractionHand hand)
     {
         HitResult positionLookedAt = player.pick(Math.max(3.0, player.getAttributeValue(Attributes.BLOCK_INTERACTION_RANGE) / 2), 0.0F, true);
 
@@ -244,10 +245,10 @@ public class CanteenItem extends DrinkItem
 
         // If it's a water source block, fill the canteen
         if (canFill(canteen, level) && isWater) {
-            player.swing(InteractionHand.MAIN_HAND);
+            player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, true);
             player.playSound(SoundEvents.BOTTLE_FILL, 1.0f, 1.0f);
             this.fill(canteen, level);
-            return InteractionResultHolder.consume(canteen);
+            return InteractionResult.CONSUME.heldItemTransformedTo(canteen);
         }
 
         // Only pass to useOn() for blocks that it actually handles:
@@ -263,7 +264,7 @@ public class CanteenItem extends DrinkItem
                                         CrayfishFurnitureUtil.isSinkOrBasin(blockState));
             
             if (isHandledByUseOn) {
-                return InteractionResultHolder.pass(canteen);
+                return InteractionResult.PASS;
             }
         }
 
@@ -274,23 +275,23 @@ public class CanteenItem extends DrinkItem
                 player.clearFire();
             if (Config.Baked.selfWateringCanteenWetnessIncrease > 0)
                 WetnessUtil.addWetness(player, Config.Baked.selfWateringCanteenWetnessIncrease);
-            player.swing(InteractionHand.MAIN_HAND);
+            player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, true);
             shrinkCapacity(canteen);
-            return InteractionResultHolder.consume(canteen);
+            return InteractionResult.CONSUME.heldItemTransformedTo(canteen);
         }
 
         if (canDrink(canteen) && !AttachmentUtil.getThirstAttachment(player).isHydrationLevelAtMax())
         {
             player.startUsingItem(hand);
-            return InteractionResultHolder.consume(canteen);
+            return InteractionResult.CONSUME.heldItemTransformedTo(canteen);
         }
-        return InteractionResultHolder.fail(canteen);
+        return InteractionResult.FAIL;
     }
 
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, Level level, @NotNull LivingEntity entity)
     {
-        if (level.isClientSide || !(entity instanceof Player player))
+        if (level.isClientSide() || !(entity instanceof Player player))
             return stack;
 
         runSecondaryEffect(player, stack);
@@ -311,15 +312,15 @@ public class CanteenItem extends DrinkItem
     }
 
     @Override
-    public @NotNull String getDescriptionId(ItemStack stack)
+    public @NotNull Component getName(ItemStack stack)
     {
         if (ThirstUtil.getCapacityTag(stack) == 0)
-            return "item." + LegendarySurvivalOverhaul.MOD_ID + ".canteen_empty";
+            return Component.translatable("item." + LegendarySurvivalOverhaul.MOD_ID + ".canteen_empty");
 
         if (ThirstUtil.getHydrationEnumTag(stack) == HydrationEnum.PURIFIED)
-            return "item." + LegendarySurvivalOverhaul.MOD_ID + ".canteen_purified";
+            return Component.translatable("item." + LegendarySurvivalOverhaul.MOD_ID + ".canteen_purified");
         else
-            return "item." + LegendarySurvivalOverhaul.MOD_ID + ".canteen";
+            return Component.translatable("item." + LegendarySurvivalOverhaul.MOD_ID + ".canteen");
     }
 
     @Override
@@ -346,18 +347,6 @@ public class CanteenItem extends DrinkItem
         // Use base capacity for display since we don't have access to Level here
         float f = Math.max(0.0F, ThirstUtil.getCapacityTag(stack) / (float) this.getMaxCapacity());
         return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
-    }
-    
-    @Override
-    public boolean isEnchantable(@NotNull ItemStack stack)
-    {
-        return true;
-    }
-    
-    @Override
-    public int getEnchantmentValue()
-    {
-        return 10;
     }
     
     /**

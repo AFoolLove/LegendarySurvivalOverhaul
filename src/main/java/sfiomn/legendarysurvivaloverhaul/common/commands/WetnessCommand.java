@@ -16,7 +16,7 @@ public class WetnessCommand extends CommandBase
     public WetnessCommand()
     {
         super(Commands.literal("wetness")
-                .requires((p_198521_0_) -> p_198521_0_.hasPermission(2))
+                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("get").executes(src -> new WetnessCommand().get(src.getSource())))
                 .then(Commands.literal("set")
                         .then(Commands.argument("value", IntegerArgumentType.integer(0, WetnessAttachment.WETNESS_LIMIT))

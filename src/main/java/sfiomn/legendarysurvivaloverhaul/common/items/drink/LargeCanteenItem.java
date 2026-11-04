@@ -1,5 +1,6 @@
 package sfiomn.legendarysurvivaloverhaul.common.items.drink;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -33,14 +34,14 @@ public class LargeCanteenItem extends CanteenItem
     }
 
     @Override
-    public @NotNull String getDescriptionId(ItemStack stack)
+    public @NotNull Component getName(ItemStack stack)
     {
         if (ThirstUtil.getCapacityTag(stack) == 0)
-            return "item." + LegendarySurvivalOverhaul.MOD_ID + "." + "large_canteen_empty";
+            return Component.translatable("item." + LegendarySurvivalOverhaul.MOD_ID + "." + "large_canteen_empty");
 
         if (ThirstUtil.getHydrationEnumTag(stack) == HydrationEnum.PURIFIED)
-            return "item." + LegendarySurvivalOverhaul.MOD_ID + "." + "large_canteen_purified";
+            return Component.translatable("item." + LegendarySurvivalOverhaul.MOD_ID + "." + "large_canteen_purified");
         else
-            return "item." + LegendarySurvivalOverhaul.MOD_ID + "." + "large_canteen";
+            return Component.translatable("item." + LegendarySurvivalOverhaul.MOD_ID + "." + "large_canteen");
     }
 }

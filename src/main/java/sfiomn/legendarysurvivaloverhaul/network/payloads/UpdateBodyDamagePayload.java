@@ -8,6 +8,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -45,7 +46,7 @@ public record UpdateBodyDamagePayload(
 
     public static void sendToServer(CompoundTag compound)
     {
-        PacketDistributor.sendToServer(new UpdateBodyDamagePayload(compound));
+        ClientPacketDistributor.sendToServer(new UpdateBodyDamagePayload(compound));
     }
 
     public static void sendToPlayer(net.minecraft.server.level.ServerPlayer player, CompoundTag compound)

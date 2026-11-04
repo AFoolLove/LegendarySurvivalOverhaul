@@ -43,7 +43,7 @@ public class CoolerBlock extends ThermalBlock
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState p_153213_, BlockEntityType<T> entityType)
     {
-        return level.isClientSide ? null : createTickerHelper(entityType, BlockEntityRegistry.COOLER_BLOCK_ENTITY.get(), AbstractThermalBlockEntity::serverTick);
+        return level.isClientSide() ? null : createTickerHelper(entityType, BlockEntityRegistry.COOLER_BLOCK_ENTITY.get(), AbstractThermalBlockEntity::serverTick);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class CoolerBlock extends ThermalBlock
                 float xr = rand.nextFloat();
                 float zr = rand.nextFloat();
 
-                level.addParticle(ParticleTypes.ITEM_SNOWBALL, false, posX + xr, posY + 1.0d, posZ + zr, 0, 0, 0);
+                level.addParticle(ParticleTypes.ITEM_SNOWBALL, posX + xr, posY + 1.0d, posZ + zr, 0, 0, 0);
             }
         }
         super.animateTick(state, level, pos, rand);

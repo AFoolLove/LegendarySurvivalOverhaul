@@ -1,10 +1,10 @@
 package sfiomn.legendarysurvivaloverhaul.client.render;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
@@ -18,6 +18,7 @@ import sfiomn.legendarysurvivaloverhaul.registry.MobEffectRegistry;
 import sfiomn.legendarysurvivaloverhaul.util.AttachmentUtil;
 import sfiomn.legendarysurvivaloverhaul.util.EnumUtil;
 import sfiomn.legendarysurvivaloverhaul.util.MathUtil;
+import sfiomn.legendarysurvivaloverhaul.util.RenderUtil;
 import sfiomn.legendarysurvivaloverhaul.util.WorldUtil;
 
 import java.util.Objects;
@@ -49,59 +50,50 @@ public class RenderTemperatureGui
     private static boolean shakeSide = false;
     private static int delay = 0;
 
-    public static void renderTemperature(Gui gui, GuiGraphics guiGraphics, float partialTicks, int width, int height)
+    public static void renderTemperature(Gui gui, GuiGraphicsExtractor guiGraphics, float partialTicks, int width, int height)
     {
-        if (Config.Baked.temperatureEnabled && !Minecraft.getInstance().options.hideGui)
+        if (Config.Baked.temperatureEnabled && !Minecraft.getInstance().gui.hud.isHidden())
         {
             Player player = Minecraft.getInstance().player;
             if (player != null && !player.isCreative() && !player.isSpectator())
             {
                 rand.setSeed(player.tickCount * 445L);
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
 
                 if (Objects.requireNonNull(Config.Baked.temperatureDisplayMode) == EnumUtil.temperatureDisplayMode.SYMBOL
                         && !CuriosUtil.isThermometerEquipped)
                 {
-                    Minecraft.getInstance().getProfiler().push("temperature_gui");
+                    Profiler.get().push("temperature_gui");
                     drawTemperatureAsSymbol(guiGraphics, player, width, height);
-                    Minecraft.getInstance().getProfiler().pop();
+                    Profiler.get().pop();
                 }
 
                 if (LegendarySurvivalOverhaul.curiosLoaded && CuriosUtil.isThermometerEquipped)
                 {
-                    Minecraft.getInstance().getProfiler().push("body_temperature_gui");
+                    Profiler.get().push("body_temperature_gui");
                     drawBodyTemperature(guiGraphics, player, width, height);
-                    Minecraft.getInstance().getProfiler().pop();
+                    Profiler.get().pop();
                 }
-
-                RenderSystem.disableBlend();
             }
         }
     }
 
-    public static void renderColdHunger(Gui gui, GuiGraphics guiGraphics, float partialTicks, int width, int height)
+    public static void renderColdHunger(Gui gui, GuiGraphicsExtractor guiGraphics, float partialTicks, int width, int height)
     {
-        if (!Minecraft.getInstance().options.hideGui)
+        if (!Minecraft.getInstance().gui.hud.isHidden())
         {
             Player player = Minecraft.getInstance().player;
             if (player != null && !player.isCreative() && !player.isSpectator() && player.hasEffect(MobEffectRegistry.COLD_HUNGER))
             {
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-
-                Minecraft.getInstance().getProfiler().push("temperature_gui");
-                int rightHeight = gui.rightHeight;
+                Profiler.get().push("temperature_gui");
+                int rightHeight = gui.hud.rightHeight;
                 drawFoodBarColdEffect(guiGraphics, player, width, height, rightHeight);
-                gui.rightHeight += 10;
-                Minecraft.getInstance().getProfiler().pop();
-
-                RenderSystem.disableBlend();
+                gui.hud.rightHeight += 10;
+                Profiler.get().pop();
             }
         }
     }
 
-    public static void drawTemperatureAsSymbol(GuiGraphics gui, Player player, int width, int height)
+    public static void drawTemperatureAsSymbol(GuiGraphicsExtractor gui, Player player, int width, int height)
     {
 
         if (TEMPERATURE_CAP == null || player.tickCount % 20 == 0)
@@ -179,8 +171,8 @@ public class RenderTemperatureGui
             icon = icon.getFlashVariant();
         }
 
-        gui.blit(ICONS, x + xOffset, y + yOffset, TEMPERATURE_TEXTURE_WIDTH * icon.getIconIndex(), TEMPERATURE_TEXTURE_POS_Y, TEMPERATURE_TEXTURE_WIDTH, TEMPERATURE_TEXTURE_HEIGHT);
-        gui.blit(ICONS, x + xOffset, y + yOffset, TEMPERATURE_TEXTURE_WIDTH * icon.getIconHolder(), TEMPERATURE_TEXTURE_POS_Y, TEMPERATURE_TEXTURE_WIDTH, TEMPERATURE_TEXTURE_HEIGHT);
+        RenderUtil.blit(gui, ICONS, x + xOffset, y + yOffset, TEMPERATURE_TEXTURE_WIDTH * icon.getIconIndex(), TEMPERATURE_TEXTURE_POS_Y, TEMPERATURE_TEXTURE_WIDTH, TEMPERATURE_TEXTURE_HEIGHT);
+        RenderUtil.blit(gui, ICONS, x + xOffset, y + yOffset, TEMPERATURE_TEXTURE_WIDTH * icon.getIconHolder(), TEMPERATURE_TEXTURE_POS_Y, TEMPERATURE_TEXTURE_WIDTH, TEMPERATURE_TEXTURE_HEIGHT);
 
         if (delay == 0)
         {
@@ -198,10 +190,10 @@ public class RenderTemperatureGui
         int ovrXOffset = TEMPERATURE_TEXTURE_WIDTH * ((frameCounter / 2) - 1);
         int ovrYOffset = TEMPERATURE_TEXTURE_POS_Y + (TEMPERATURE_TEXTURE_HEIGHT * (risingTemperature ? 1 : 2));
 
-        gui.blit(ICONS, x + xOffset, y + yOffset, ovrXOffset, ovrYOffset, TEMPERATURE_TEXTURE_WIDTH, TEMPERATURE_TEXTURE_HEIGHT);
+        RenderUtil.blit(gui, ICONS, x + xOffset, y + yOffset, ovrXOffset, ovrYOffset, TEMPERATURE_TEXTURE_WIDTH, TEMPERATURE_TEXTURE_HEIGHT);
     }
 
-    public static void drawBodyTemperature(GuiGraphics gui, Player player, int width, int height)
+    public static void drawBodyTemperature(GuiGraphicsExtractor gui, Player player, int width, int height)
     {
 
         if (TEMPERATURE_CAP == null || player.tickCount % 20 == 0)
@@ -217,7 +209,7 @@ public class RenderTemperatureGui
         float tempRatio = (bodyTemperature - TemperatureEnum.getMin()) / (TemperatureEnum.getMax() - TemperatureEnum.getMin());
 
         // Temperature Frame rendering
-        gui.blit(ICONS, x, y,
+        RenderUtil.blit(gui, ICONS, x, y,
                 0,
                 BODY_TEMPERATURE_FRAME_TEXTURE_POS_Y,
                 BODY_TEMPERATURE_FRAME_TEXTURE_WIDTH,
@@ -234,28 +226,28 @@ public class RenderTemperatureGui
         {
             number1 = BodyTemperatureNumber.get(bodyTemperatureString.charAt(0));
         }
-        gui.blit(ICONS, x + 5, y + 4,
+        RenderUtil.blit(gui, ICONS, x + 5, y + 4,
                 number1.iconIndexX,
                 number1.iconIndexY,
                 BODY_TEMPERATURE_NUMBER_TEXTURE_WIDTH,
                 BODY_TEMPERATURE_NUMBER_TEXTURE_HEIGHT);
 
         BodyTemperatureNumber number2 = BodyTemperatureNumber.get(bodyTemperatureString.charAt(bodyTemperatureString.length() - 3));
-        gui.blit(ICONS, x + 9, y + 4,
+        RenderUtil.blit(gui, ICONS, x + 9, y + 4,
                 number2.iconIndexX,
                 number2.iconIndexY,
                 BODY_TEMPERATURE_NUMBER_TEXTURE_WIDTH,
                 BODY_TEMPERATURE_NUMBER_TEXTURE_HEIGHT);
 
         BodyTemperatureNumber number3 = BodyTemperatureNumber.get(bodyTemperatureString.charAt(bodyTemperatureString.length() - 1));
-        gui.blit(ICONS, x + 15, y + 4,
+        RenderUtil.blit(gui, ICONS, x + 15, y + 4,
                 number3.iconIndexX,
                 number3.iconIndexY,
                 BODY_TEMPERATURE_NUMBER_TEXTURE_WIDTH,
                 BODY_TEMPERATURE_NUMBER_TEXTURE_HEIGHT);
 
         // Thermometer rendering
-        gui.blit(ICONS, x + 22, y - 10,
+        RenderUtil.blit(gui, ICONS, x + 22, y - 10,
                 BODY_TEMPERATURE_ICON_TEXTURE_POS_X + BODY_TEMPERATURE_ICON_TEXTURE_WIDTH * BodyTemperatureIcon.EMPTY.iconIndexX,
                 BODY_TEMPERATURE_ICON_TEXTURE_POS_Y,
                 BODY_TEMPERATURE_ICON_TEXTURE_WIDTH,
@@ -263,14 +255,14 @@ public class RenderTemperatureGui
 
         int thermometerActualHeight = (int) (tempRatio * 17);
 
-        gui.blit(ICONS, x + 22, y - 10 + 17 - thermometerActualHeight,
+        RenderUtil.blit(gui, ICONS, x + 22, y - 10 + 17 - thermometerActualHeight,
                 BODY_TEMPERATURE_ICON_TEXTURE_POS_X + BODY_TEMPERATURE_ICON_TEXTURE_WIDTH * BodyTemperatureIcon.get(tempRatio).iconIndexX,
                 BODY_TEMPERATURE_ICON_TEXTURE_POS_Y + 17 - thermometerActualHeight,
                 BODY_TEMPERATURE_ICON_TEXTURE_WIDTH,
                 thermometerActualHeight + 5);
     }
 
-    public static void drawFoodBarColdEffect(GuiGraphics gui, Player player, int width, int height, int rightHeight)
+    public static void drawFoodBarColdEffect(GuiGraphicsExtractor gui, Player player, int width, int height, int rightHeight)
     {
 
         int foodLevel = player.getFoodData().getFoodLevel();
@@ -302,11 +294,11 @@ public class RenderTemperatureGui
             }
 
             if (halfIcon < foodLevel) // Full hunger icon
-                gui.blit(ICONS, x, y + yOffset, xTextureOffset + HUNGER_TEXTURE_WIDTH, yTextureOffset, HUNGER_TEXTURE_WIDTH, HUNGER_TEXTURE_HEIGHT);
+                RenderUtil.blit(gui, ICONS, x, y + yOffset, xTextureOffset + HUNGER_TEXTURE_WIDTH, yTextureOffset, HUNGER_TEXTURE_WIDTH, HUNGER_TEXTURE_HEIGHT);
             else if (halfIcon == foodLevel) // Half hunger icon
-                gui.blit(ICONS, x, y + yOffset, xTextureOffset + (HUNGER_TEXTURE_WIDTH * 2), yTextureOffset, HUNGER_TEXTURE_WIDTH, HUNGER_TEXTURE_HEIGHT);
+                RenderUtil.blit(gui, ICONS, x, y + yOffset, xTextureOffset + (HUNGER_TEXTURE_WIDTH * 2), yTextureOffset, HUNGER_TEXTURE_WIDTH, HUNGER_TEXTURE_HEIGHT);
             else
-                gui.blit(ICONS, x, y + yOffset, xTextureOffset, yTextureOffset, HUNGER_TEXTURE_WIDTH, HUNGER_TEXTURE_HEIGHT);
+                RenderUtil.blit(gui, ICONS, x, y + yOffset, xTextureOffset, yTextureOffset, HUNGER_TEXTURE_WIDTH, HUNGER_TEXTURE_HEIGHT);
 
             // Reassign texture offset for saturation
             xTextureOffset = HUNGER_TEXTURE_WIDTH * 12;
@@ -314,10 +306,10 @@ public class RenderTemperatureGui
             {
                 if (halfIcon < saturationLevelInt)
                 { // Full saturation icon
-                    gui.blit(ICONS, x, y + yOffset, xTextureOffset, yTextureOffset, HUNGER_TEXTURE_WIDTH, HUNGER_TEXTURE_HEIGHT);
+                    RenderUtil.blit(gui, ICONS, x, y + yOffset, xTextureOffset, yTextureOffset, HUNGER_TEXTURE_WIDTH, HUNGER_TEXTURE_HEIGHT);
                 } else if (halfIcon == saturationLevelInt)
                 { // Half saturation icon
-                    gui.blit(ICONS, x, y + yOffset, xTextureOffset + HUNGER_TEXTURE_WIDTH, yTextureOffset, HUNGER_TEXTURE_WIDTH, HUNGER_TEXTURE_HEIGHT);
+                    RenderUtil.blit(gui, ICONS, x, y + yOffset, xTextureOffset + HUNGER_TEXTURE_WIDTH, yTextureOffset, HUNGER_TEXTURE_WIDTH, HUNGER_TEXTURE_HEIGHT);
                 }
             }
         }

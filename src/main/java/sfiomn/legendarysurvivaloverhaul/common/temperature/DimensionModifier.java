@@ -23,7 +23,7 @@ public class DimensionModifier extends ModifierBase
         if (TerraFirmaCraftUtil.shouldUseTerraFirmaCraftTemp())
             return 0.0f;
 
-        JsonTemperatureDimension dimensionTemperature = TemperatureDataManager.getDimension(level.dimension().location());
+        JsonTemperatureDimension dimensionTemperature = TemperatureDataManager.getDimension(level.dimension().identifier());
         if (dimensionTemperature == null)
             return TemperatureEnum.NORMAL.getValue();
 

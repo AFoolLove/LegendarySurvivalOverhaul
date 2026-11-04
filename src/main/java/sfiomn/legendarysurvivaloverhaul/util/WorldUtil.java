@@ -33,7 +33,7 @@ public final class WorldUtil
 
     public static BlockPos getSidedBlockPos(Level world, Entity entity)
     {
-        if (!world.isClientSide)
+        if (!world.isClientSide())
         {
             return entity.blockPosition();
         }
@@ -52,7 +52,7 @@ public final class WorldUtil
 
     public static boolean isChunkLoaded(Level world, BlockPos pos)
     {
-        if (world.isClientSide)
+        if (world.isClientSide())
         {
             return true;
         } else
@@ -85,7 +85,7 @@ public final class WorldUtil
         if (!level.isRaining())
             return Biome.Precipitation.NONE;
 
-        return level.getBiome(pos).value().getPrecipitationAt(pos);
+        return level.getBiome(pos).value().getPrecipitationAt(pos, level.getSeaLevel());
     }
 
     public static boolean isRainingOrSnowingAt(Level level, BlockPos pos)
@@ -212,7 +212,7 @@ public final class WorldUtil
     public static String timeInGame(Minecraft mc)
     {
         int dayCount = 0;
-        int dayTime = mc.level != null ? (int) mc.level.dayTime() : 0;
+        int dayTime = mc.level != null ? (int) mc.level.getOverworldClockTime() : 0;
         while (dayTime > 24000)
         {
             dayTime -= 24000;

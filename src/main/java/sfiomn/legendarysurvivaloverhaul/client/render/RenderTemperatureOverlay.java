@@ -1,8 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul.client.render;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
@@ -29,17 +28,14 @@ public class RenderTemperatureOverlay
     private static float fadeLevel = 0;
     private static boolean triggerTemperatureSoundEffect;
 
-    public static void render(Gui gui, GuiGraphics guiGraphics, float partialTicks, int width, int height)
+    public static void render(Gui gui, GuiGraphicsExtractor guiGraphics, float partialTicks, int width, int height)
     {
         if (Config.Baked.temperatureEnabled && temperatureEffect != null)
         {
             Player player = net.minecraft.client.Minecraft.getInstance().player;
             if (player != null && temperatureEffect != null && !player.isCreative() && !player.isSpectator())
             {
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
                 renderTextureOverlay(guiGraphics, temperatureEffect, width, height, fadeLevel);
-                RenderSystem.disableBlend();
             }
         }
     }

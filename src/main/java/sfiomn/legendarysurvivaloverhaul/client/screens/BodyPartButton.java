@@ -1,11 +1,13 @@
 package sfiomn.legendarysurvivaloverhaul.client.screens;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.api.bodydamage.BodyPartEnum;
+import sfiomn.legendarysurvivaloverhaul.util.RenderUtil;
 
 public class BodyPartButton extends Button
 {
@@ -30,23 +32,19 @@ public class BodyPartButton extends Button
     }
 
     @Override
-    public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial)
+    protected void extractContents(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partial)
     {
         BodyPartIcon bodyPartIcon = BodyPartIcon.getBodyPartIcon(this.bodyPart);
         BodyPartCondition bodyPartCondition = BodyPartCondition.get(this.healthRatio);
         if (bodyPartIcon == null)
             return;
 
-        // Ensure render state is set
-        com.mojang.blaze3d.systems.RenderSystem.setShader(net.minecraft.client.renderer.GameRenderer::getPositionTexShader);
-        com.mojang.blaze3d.systems.RenderSystem.setShaderColor(1, 1, 1, 1);
-
         // Check mouse over body part in screen
         int offsetTexX = 0;
         if (this.isMouseOver(mouseX, mouseY))
             offsetTexX = 128;
 
-        gui.blit(BODY_PARTS_SCREEN, this.getX() + bodyPartIcon.posBodyPartInButtonX,
+        RenderUtil.blit(gui, BODY_PARTS_SCREEN, this.getX() + bodyPartIcon.posBodyPartInButtonX,
                 this.getY() + bodyPartIcon.posBodyPartInButtonY,
                 bodyPartIcon.posTexX + offsetTexX + bodyPartCondition.iconIndexX * bodyPartIcon.width,
                 bodyPartIcon.posTexY + bodyPartCondition.iconIndexY * bodyPartIcon.height,
@@ -54,9 +52,9 @@ public class BodyPartButton extends Button
     }
 
     @Override
-    public void onPress()
+    public void onPress(InputWithModifiers input)
     {
-        super.onPress();
+        super.onPress(input);
         this.isPressed = true;
     }
 

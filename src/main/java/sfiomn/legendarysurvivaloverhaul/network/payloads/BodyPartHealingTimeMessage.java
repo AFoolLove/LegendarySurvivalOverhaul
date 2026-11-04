@@ -12,6 +12,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -66,10 +67,10 @@ public record BodyPartHealingTimeMessage(
 
     public static void applyHealingItemOnServer(ServerPlayer player, CompoundTag nbt)
     {
-        BodyPartEnum bodyPartEnum = BodyPartEnum.valueOf(nbt.getString("bodyPartEnum"));
-        InteractionHand hand = nbt.getBoolean("mainHand") ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
-        boolean shouldConsume = nbt.getBoolean("consumeItem");
-        boolean shouldApplyEffect = nbt.getBoolean("applyEffect");
+        BodyPartEnum bodyPartEnum = BodyPartEnum.valueOf(nbt.getStringOr("bodyPartEnum", "HEAD"));
+        InteractionHand hand = nbt.getBooleanOr("mainHand", false) ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+        boolean shouldConsume = nbt.getBooleanOr("consumeItem", false);
+        boolean shouldApplyEffect = nbt.getBooleanOr("applyEffect", false);
 
         ItemStack usedItemStack = player.getItemInHand(hand);
         if (LegendarySurvivalOverhaul.supplementariesLoaded)
@@ -82,7 +83,7 @@ public record BodyPartHealingTimeMessage(
         Identifier itemStackRegistryName = BuiltInRegistries.ITEM.getKey(usedItemStack.getItem());
         JsonHealingConsumable jhc = BodyDamageDataManager.getHealingItem(itemStackRegistryName);
 
-        player.serverLevel().playSound(null, player, SoundRegistry.HEAL_BODY_PART.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
+        player.level().playSound(null, player, SoundRegistry.HEAL_BODY_PART.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
 
         if (shouldConsume && !player.isCreative())
             usedItemStack.shrink(1);
@@ -97,7 +98,7 @@ public record BodyPartHealingTimeMessage(
 
     public static void sendToServer(BodyPartEnum bodyPart, InteractionHand hand, boolean consumeItem, boolean applyEffect)
     {
-        PacketDistributor.sendToServer(new BodyPartHealingTimeMessage(bodyPart, hand, consumeItem, applyEffect));
+        ClientPacketDistributor.sendToServer(new BodyPartHealingTimeMessage(bodyPart, hand, consumeItem, applyEffect));
     }
 
     @Override

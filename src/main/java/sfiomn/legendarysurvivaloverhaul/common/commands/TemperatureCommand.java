@@ -19,7 +19,7 @@ public class TemperatureCommand extends CommandBase
     public TemperatureCommand()
     {
         super(Commands.literal("temperature")
-                .requires((p_198521_0_) -> p_198521_0_.hasPermission(2))
+                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("set").then(Commands.argument("Temperature", IntegerArgumentType.integer((int) TemperatureEnum.getMin(), (int) TemperatureEnum.getMax())).executes(src -> new TemperatureCommand().set(src.getSource(), IntegerArgumentType.getInteger(src, "Temperature")))))
                 .then(Commands.literal("get").executes(src -> new TemperatureCommand().get(src.getSource())))
         );

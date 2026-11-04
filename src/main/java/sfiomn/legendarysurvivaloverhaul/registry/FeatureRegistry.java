@@ -1,8 +1,8 @@
 package sfiomn.legendarysurvivaloverhaul.registry;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -13,13 +13,18 @@ import sfiomn.legendarysurvivaloverhaul.common.level.feature.GoldFernFeature;
 
 public class FeatureRegistry
 {
-    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, LegendarySurvivalOverhaul.MOD_ID);
+    // 26.3: Registries.FEATURE_TYPE holds the MapCodec of each custom Feature implementation.
+    // Feature instances themselves are registered as worldgen features (see ModConfiguredFeatures).
+    public static final DeferredRegister<MapCodec<? extends Feature>> FEATURE_TYPES =
+            DeferredRegister.create(Registries.FEATURE_TYPE, LegendarySurvivalOverhaul.MOD_ID);
 
-    public static final DeferredHolder<Feature<?>, DoubleBlockFeature> DOUBLE_BLOCK = FEATURES.register("double_block", () -> new DoubleBlockFeature(SimpleBlockConfiguration.CODEC));
-    public static final DeferredHolder<Feature<?>, GoldFernFeature> GOLD_FERN = FEATURES.register("gold_fern", () -> new GoldFernFeature(SimpleBlockConfiguration.CODEC));
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<DoubleBlockFeature>> DOUBLE_BLOCK =
+            FEATURE_TYPES.register("double_block", () -> DoubleBlockFeature.CODEC);
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<GoldFernFeature>> GOLD_FERN =
+            FEATURE_TYPES.register("gold_fern", () -> GoldFernFeature.CODEC);
 
     public static void register(IEventBus eventBus)
     {
-        FEATURES.register(eventBus);
+        FEATURE_TYPES.register(eventBus);
     }
 }

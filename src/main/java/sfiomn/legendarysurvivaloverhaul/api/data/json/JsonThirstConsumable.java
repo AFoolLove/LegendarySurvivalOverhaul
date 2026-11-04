@@ -63,7 +63,7 @@ public class JsonThirstConsumable
             {
                 tag.putString("Potion", potionContents.potion()
                         .flatMap(Holder::unwrapKey)
-                        .map(key -> key.location().toString())
+                        .map(key -> key.identifier().toString())
                         .orElse("minecraft:empty"));
             }
         }
@@ -88,21 +88,21 @@ public class JsonThirstConsumable
             if (!itemStackTag.contains(nbtEntry.getKey()))
                 return false;
 
-            byte tagType = itemStackTag.getTagType(nbtEntry.getKey());
+            byte tagType = itemStackTag.get(nbtEntry.getKey()) != null ? itemStackTag.get(nbtEntry.getKey()).getId() : 0;
             //  String type
             if (tagType == 8)
             {
-                if (!itemStackTag.getString(nbtEntry.getKey()).equals(nbtEntry.getValue()))
+                if (!itemStackTag.getStringOr(nbtEntry.getKey(), "").equals(nbtEntry.getValue()))
                     return false;
 
                 //  Numerical type
             } else if (tagType == 1 || tagType == 2 || tagType == 3 || tagType == 4 || tagType == 5 || tagType == 6)
             {
-                if (itemStackTag.getDouble(nbtEntry.getKey()) != Double.parseDouble(nbtEntry.getValue()))
+                if (Double.compare(itemStackTag.getDoubleOr(nbtEntry.getKey(), 0.0), Double.parseDouble(nbtEntry.getValue())) != 0)
                     return false;
             } else
                 LegendarySurvivalOverhaul.LOGGER.error("Error while matching nbt for {} : Tag type {} not taken into account.\n" +
-                        "It can either be a String (tag type 8) or a numeric (tag type in [1-6])", itemStack.getDescriptionId(), tagType);
+                        "It can either be a String (tag type 8) or a numeric (tag type in [1-6])", itemStack.getItem().getDescriptionId(), tagType);
 
         }
 

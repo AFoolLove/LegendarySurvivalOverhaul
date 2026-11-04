@@ -1,12 +1,12 @@
 package sfiomn.legendarysurvivaloverhaul.client.render;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.decoration.ItemFrame;
@@ -20,6 +20,7 @@ import sfiomn.legendarysurvivaloverhaul.common.integration.sereneseasons.SereneS
 import sfiomn.legendarysurvivaloverhaul.config.Config;
 import sfiomn.legendarysurvivaloverhaul.registry.ItemRegistry;
 import sfiomn.legendarysurvivaloverhaul.util.AttachmentUtil;
+import sfiomn.legendarysurvivaloverhaul.util.RenderUtil;
 import sfiomn.legendarysurvivaloverhaul.util.WorldUtil;
 
 import static sfiomn.legendarysurvivaloverhaul.util.ItemUtil.compassLocation;
@@ -42,7 +43,7 @@ public class RenderTooltipFrame
     private static int lastCheckTick = -1;
 
 
-    public static void render(Gui gui, GuiGraphics guiGraphics, float partialTicks, int width, int height)
+    public static void render(Gui gui, GuiGraphicsExtractor guiGraphics, float partialTicks, int width, int height)
     {
         Player player = Minecraft.getInstance().player;
         if (player != null)
@@ -92,17 +93,14 @@ public class RenderTooltipFrame
 
             if (text != null)
             {
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                Minecraft.getInstance().getProfiler().push("tooltip_frame");
+                Profiler.get().push("tooltip_frame");
                 drawTooltipInFrame(guiGraphics, width, height, text);
-                Minecraft.getInstance().getProfiler().pop();
-                RenderSystem.disableBlend();
+                Profiler.get().pop();
             }
         }
     }
 
-    public static void drawTooltipInFrame(GuiGraphics gui, int width, int height, Component text)
+    public static void drawTooltipInFrame(GuiGraphicsExtractor gui, int width, int height, Component text)
     {
         int textWidth = Minecraft.getInstance().font.width(text);
         int white = 0xFFFFFF;
@@ -112,7 +110,7 @@ public class RenderTooltipFrame
         int x = left;
 
         // Left side frame
-        gui.blit(ICONS, x, top, LEFT_SIDE_FRAME_X_OFFSET, 18, LEFT_SIDE_FRAME_WIDTH, FRAME_HEIGHT);
+        RenderUtil.blit(gui, ICONS, x, top, LEFT_SIDE_FRAME_X_OFFSET, 18, LEFT_SIDE_FRAME_WIDTH, FRAME_HEIGHT);
 
         // Middle side frame
         int remainingTextWidth = textWidth;
@@ -120,7 +118,7 @@ public class RenderTooltipFrame
         while (remainingTextWidth > 0)
         {
             int renderedWidth = Math.min(remainingTextWidth, MIDDLE_SIDE_FRAME_MAX_WIDTH);
-            gui.blit(ICONS, x, top, MIDDLE_SIDE_FRAME_X_OFFSET, 18, renderedWidth, FRAME_HEIGHT);
+            RenderUtil.blit(gui, ICONS, x, top, MIDDLE_SIDE_FRAME_X_OFFSET, 18, renderedWidth, FRAME_HEIGHT);
 
             remainingTextWidth -= renderedWidth;
             x += renderedWidth;
@@ -128,8 +126,8 @@ public class RenderTooltipFrame
 
         x = left + LEFT_SIDE_FRAME_WIDTH + textWidth;
         // Left side frame
-        gui.blit(ICONS, x, top, RIGHT_SIDE_FRAME_X_OFFSET, 18, RIGHT_SIDE_FRAME_WIDTH, FRAME_HEIGHT);
+        RenderUtil.blit(gui, ICONS, x, top, RIGHT_SIDE_FRAME_X_OFFSET, 18, RIGHT_SIDE_FRAME_WIDTH, FRAME_HEIGHT);
 
-        gui.drawCenteredString(Minecraft.getInstance().font, text, width / 2, top + FRAME_HEIGHT / 2 - 4, white);
+                gui.centeredText(Minecraft.getInstance().font, text, width / 2, top + FRAME_HEIGHT / 2 - 4, white);
     }
 }

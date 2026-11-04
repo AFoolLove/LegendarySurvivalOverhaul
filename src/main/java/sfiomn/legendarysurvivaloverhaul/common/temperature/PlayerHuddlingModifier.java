@@ -1,7 +1,6 @@
 package sfiomn.legendarysurvivaloverhaul.common.temperature;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -25,7 +24,7 @@ public class PlayerHuddlingModifier extends ModifierBase
         if (Config.Baked.playerHuddlingRadius == 0 || Config.Baked.playerHuddlingModifier == 0.0d)
             return 0.0f;
 
-        Level world = player.getCommandSenderWorld();
+        Level world = player.level();
         BlockPos pos = player.blockPosition();
 
         int huddleRadius = Config.Baked.playerHuddlingRadius;
@@ -37,7 +36,8 @@ public class PlayerHuddlingModifier extends ModifierBase
         AABB bounds = new AABB(Vec3.atLowerCornerOf(minPos), Vec3.atLowerCornerOf(maxPos));
 
 
-        List<? extends Player> players = world.getNearbyPlayers(TargetingConditions.DEFAULT, player, bounds);
+        List<? extends Player> players = world.getEntitiesOfClass(Player.class, bounds,
+                p -> p != player && !p.isCreative() && !p.isSpectator());
 
         int playerCount = 0;
 

@@ -1,7 +1,8 @@
 package sfiomn.legendarysurvivaloverhaul.client.screens;
 
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
-import net.minecraft.Util;
+import com.mojang.blaze3d.Blaze3D;
+import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.network.chat.Component;
@@ -24,10 +25,10 @@ public class WarningDataPackScreen extends ConfirmScreen
         return (confirmButton) -> {
             if (confirmButton)
             {
-                Util.getPlatform().openFile(LegendarySurvivalOverhaul.modConfigPath.toFile());
+                Blaze3D.openPath(LegendarySurvivalOverhaul.modConfigPath);
             } else
             {
-                Minecraft.getInstance().setScreen(null);
+                Minecraft.getInstance().gui.setScreen(null);
             }
         };
     }

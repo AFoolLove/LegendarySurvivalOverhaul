@@ -18,7 +18,7 @@ public class ThirstCommand extends CommandBase
     public ThirstCommand()
     {
         super(Commands.literal("thirst")
-                .requires((p_198521_0_) -> p_198521_0_.hasPermission(2))
+                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("get").executes(src -> new ThirstCommand().get(src.getSource())))
                 .then(Commands.literal("set")
                         .then(Commands.literal("hydration")

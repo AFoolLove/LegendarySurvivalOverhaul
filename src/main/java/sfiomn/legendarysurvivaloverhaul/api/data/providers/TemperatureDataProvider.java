@@ -8,7 +8,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.api.data.builder.*;
 import sfiomn.legendarysurvivaloverhaul.api.temperature.TemporaryModifierGroupEnum;
@@ -44,12 +43,10 @@ public abstract class TemperatureDataProvider implements DataProvider
     private final Map<String, ITemperatureDimensionData> dimensionBuilders = new HashMap<>();
     private final Map<String, ITemperatureResistanceData> mountBuilders = new HashMap<>();
     private final Map<String, ITemperatureResistanceData> originBuilders = new HashMap<>();
-    private final ExistingFileHelper fileHelper;
 
-    public TemperatureDataProvider(String modId, PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper fileHelper)
+    public TemperatureDataProvider(String modId, PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider)
     {
         this.modId = modId;
-        this.fileHelper = fileHelper;
         this.consumablesPathProvider = output.createPathProvider(PackOutput.Target.DATA_PACK, LegendarySurvivalOverhaul.MOD_ID + "/temperature/consumables");
         this.consumableBlocksPathProvider = output.createPathProvider(PackOutput.Target.DATA_PACK, LegendarySurvivalOverhaul.MOD_ID + "/temperature/consumable_blocks");
         this.blocksPathProvider = output.createPathProvider(PackOutput.Target.DATA_PACK, LegendarySurvivalOverhaul.MOD_ID + "/temperature/blocks");
@@ -62,14 +59,14 @@ public abstract class TemperatureDataProvider implements DataProvider
         this.lookupProvider = lookupProvider;
     }
 
-    public abstract void generate(HolderLookup.Provider provider, ExistingFileHelper existingFileHelper);
+    public abstract void generate(HolderLookup.Provider provider);
 
     @Nonnull
     public CompletableFuture<?> run(@Nonnull CachedOutput pOutput)
     {
         return this.lookupProvider.thenCompose((p_255484_) -> {
             List<CompletableFuture<?>> list = new ArrayList<>();
-            this.generate(p_255484_, this.fileHelper);
+            this.generate(p_255484_);
             this.consumableBuilders.forEach((consumable, builder) -> {
                 Identifier jsonKey = consumable.split(":").length == 1 ?
                         Identifier.fromNamespaceAndPath(this.modId, consumable.toLowerCase()) : Identifier.parse(consumable);

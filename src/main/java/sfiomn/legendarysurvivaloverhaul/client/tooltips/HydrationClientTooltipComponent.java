@@ -1,13 +1,12 @@
 package sfiomn.legendarysurvivaloverhaul.client.tooltips;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.Identifier;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
+import sfiomn.legendarysurvivaloverhaul.util.RenderUtil;
 
 public class HydrationClientTooltipComponent implements ClientTooltipComponent
 {
@@ -37,7 +36,7 @@ public class HydrationClientTooltipComponent implements ClientTooltipComponent
     }
 
     @Override
-    public int getHeight()
+    public int getHeight(Font font)
     {
         int height = 14;
 
@@ -59,14 +58,8 @@ public class HydrationClientTooltipComponent implements ClientTooltipComponent
     }
 
     @Override
-    public void renderImage(Font font, int tooltipX, int tooltipY, GuiGraphics gui)
+    public void extractImage(Font font, int tooltipX, int tooltipY, int w, int h, GuiGraphicsExtractor gui)
     {
-        RenderSystem.disableDepthTest();
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getRendertypeTextShader);
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-
         int leftMax = 0;
         leftMax = Math.max(tooltipX + (this.hydrationIconNumber - 1) * THIRST_TEXTURE_WIDTH,
                 tooltipX + (saturationIconNumber - 1) * THIRST_TEXTURE_WIDTH);
@@ -92,9 +85,9 @@ public class HydrationClientTooltipComponent implements ClientTooltipComponent
             int x = left - i * THIRST_TEXTURE_WIDTH;
             int y = top;
             if (halfIcon < Math.abs(this.hydration)) // Full thirst icon
-                gui.blit(ICONS, x, y, xOffsetTexture, 0, THIRST_TEXTURE_WIDTH, THIRST_TEXTURE_HEIGHT, 256, 256);
+                RenderUtil.blit(gui, ICONS, x, y, xOffsetTexture, 0, THIRST_TEXTURE_WIDTH, THIRST_TEXTURE_HEIGHT);
             else if (halfIcon == Math.abs(this.hydration)) // Half thirst icon
-                gui.blit(ICONS, x, y, xOffsetTexture + THIRST_TEXTURE_WIDTH, 0, THIRST_TEXTURE_WIDTH, THIRST_TEXTURE_HEIGHT, 256, 256);
+                RenderUtil.blit(gui, ICONS, x, y, xOffsetTexture + THIRST_TEXTURE_WIDTH, 0, THIRST_TEXTURE_WIDTH, THIRST_TEXTURE_HEIGHT);
         }
 
         // Saturation bar
@@ -123,14 +116,9 @@ public class HydrationClientTooltipComponent implements ClientTooltipComponent
             int y = top;
 
             if (halfIcon < (int) Math.ceil(Math.abs(saturation))) // Full saturation icon
-                gui.blit(ICONS, x, y, xOffsetTexture, 0, THIRST_TEXTURE_WIDTH, THIRST_TEXTURE_HEIGHT, 256, 256);
+                RenderUtil.blit(gui, ICONS, x, y, xOffsetTexture, 0, THIRST_TEXTURE_WIDTH, THIRST_TEXTURE_HEIGHT);
             else if (halfIcon == (int) Math.ceil(Math.abs(saturation))) // Half saturation icon
-                gui.blit(ICONS, x, y, xOffsetTexture + THIRST_TEXTURE_WIDTH, 0, THIRST_TEXTURE_WIDTH, THIRST_TEXTURE_HEIGHT, 256, 256);
+                RenderUtil.blit(gui, ICONS, x, y, xOffsetTexture + THIRST_TEXTURE_WIDTH, 0, THIRST_TEXTURE_WIDTH, THIRST_TEXTURE_HEIGHT);
         }
-
-        RenderSystem.disableBlend();
-
-        // reset to drawHoveringText state
-        RenderSystem.disableDepthTest();
     }
 }

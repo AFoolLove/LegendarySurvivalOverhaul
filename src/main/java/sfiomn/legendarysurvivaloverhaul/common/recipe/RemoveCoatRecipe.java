@@ -2,8 +2,6 @@ package sfiomn.legendarysurvivaloverhaul.common.recipe;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
@@ -21,14 +19,13 @@ public class RemoveCoatRecipe extends CustomRecipe
 
     public RemoveCoatRecipe(CraftingBookCategory category)
     {
-        super(category);
         this.category = category;
     }
 
     @Override
     public boolean matches(@NotNull CraftingInput input, @NotNull Level level)
     {
-        if (level.isClientSide) return false;
+        if (level.isClientSide()) return false;
 
         ItemStack armorStack = ItemStack.EMPTY;
         ItemStack shearsStack = ItemStack.EMPTY;
@@ -55,7 +52,7 @@ public class RemoveCoatRecipe extends CustomRecipe
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingInput input, @NotNull HolderLookup.Provider provider)
+    public @NotNull ItemStack assemble(@NotNull CraftingInput input)
     {
         ItemStack armorStack = ItemStack.EMPTY;
 
@@ -80,47 +77,25 @@ public class RemoveCoatRecipe extends CustomRecipe
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height)
+    public @NotNull RecipeSerializer<? extends CustomRecipe> getSerializer()
     {
-        return width * height >= 2;
+        return SERIALIZER;
     }
 
     @Override
-    public @NotNull RecipeSerializer<?> getSerializer()
-    {
-        return Serializer.INSTANCE;
-    }
-
     public CraftingBookCategory category()
     {
         return this.category;
     }
 
-    public static class Serializer implements RecipeSerializer<RemoveCoatRecipe>
-    {
-        public static final Serializer INSTANCE = new Serializer();
-        public static final Identifier ID =
-                Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "remove_coat");
+    public static final MapCodec<RemoveCoatRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC).forGetter(RemoveCoatRecipe::category)
+    ).apply(instance, RemoveCoatRecipe::new));
 
-        private static final MapCodec<RemoveCoatRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC).forGetter(RemoveCoatRecipe::category)
-        ).apply(instance, RemoveCoatRecipe::new));
+    public static final StreamCodec<RegistryFriendlyByteBuf, RemoveCoatRecipe> STREAM_CODEC = StreamCodec.composite(
+            CraftingBookCategory.STREAM_CODEC, RemoveCoatRecipe::category,
+            RemoveCoatRecipe::new
+    );
 
-        private static final StreamCodec<RegistryFriendlyByteBuf, RemoveCoatRecipe> STREAM_CODEC = StreamCodec.composite(
-                CraftingBookCategory.STREAM_CODEC, RemoveCoatRecipe::category,
-                RemoveCoatRecipe::new
-        );
-
-        @Override
-        public MapCodec<RemoveCoatRecipe> codec()
-        {
-            return CODEC;
-        }
-
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, RemoveCoatRecipe> streamCodec()
-        {
-            return STREAM_CODEC;
-        }
-    }
+    public static final RecipeSerializer<RemoveCoatRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 }

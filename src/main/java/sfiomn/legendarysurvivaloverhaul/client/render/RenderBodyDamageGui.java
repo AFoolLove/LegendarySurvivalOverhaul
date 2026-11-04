@@ -1,10 +1,10 @@
 package sfiomn.legendarysurvivaloverhaul.client.render;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -12,6 +12,7 @@ import sfiomn.legendarysurvivaloverhaul.api.bodydamage.BodyPartEnum;
 import sfiomn.legendarysurvivaloverhaul.common.attachments.bodydamage.BodyDamageAttachment;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
 import sfiomn.legendarysurvivaloverhaul.util.AttachmentUtil;
+import sfiomn.legendarysurvivaloverhaul.util.RenderUtil;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,35 +27,30 @@ public class RenderBodyDamageGui
     private static final Map<BodyPartEnum, Float> bodyPartHealth = new HashMap<>();
     private static BodyDamageAttachment BODY_DAMAGE_CAP = null;
 
-    public static void render(Gui gui, GuiGraphics guiGraphics, float partialTicks, int width, int height)
+    public static void render(Gui gui, GuiGraphicsExtractor guiGraphics, float partialTicks, int width, int height)
     {
         if (Config.Baked.localizedBodyDamageEnabled
-                && !Minecraft.getInstance().options.hideGui)
+                && !Minecraft.getInstance().gui.hud.isHidden())
         {
 
             Player player = Minecraft.getInstance().player;
 
             if (player != null && !player.isCreative() && !player.isSpectator())
             {
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-
                 if (BODY_DAMAGE_CAP == null || player.tickCount % 20 == 0)
                     BODY_DAMAGE_CAP = AttachmentUtil.getBodyDamageAttachment(player);
 
                 if (BODY_DAMAGE_CAP.isWoundedBelow((float) Config.Baked.bodyDamageIndicatorRenderHealthLimit))
                 {
-                    Minecraft.getInstance().getProfiler().push("body_damage_gui");
+                    Profiler.get().push("body_damage_gui");
                     drawBodyDamage(guiGraphics, player, BODY_DAMAGE_CAP, width, height);
-                    Minecraft.getInstance().getProfiler().pop();
+                    Profiler.get().pop();
                 }
-
-                RenderSystem.disableBlend();
             }
         }
     }
 
-    public static void drawBodyDamage(GuiGraphics gui, Player player, BodyDamageAttachment cap, int width, int height)
+    public static void drawBodyDamage(GuiGraphicsExtractor gui, Player player, BodyDamageAttachment cap, int width, int height)
     {
         int x = width / 2 + 92 + Config.Baked.bodyDamageIndicatorOffsetX;
         int y = height - 33 + Config.Baked.bodyDamageIndicatorOffsetY;
@@ -86,7 +82,7 @@ public class RenderBodyDamageGui
 
             BodyPartCondition offset = BodyPartCondition.get(healthRatio, shouldFlash);
 
-            gui.blit(ICONS, x + icon.x, y + icon.y,
+            RenderUtil.blit(gui, ICONS, x + icon.x, y + icon.y,
                     BODY_MODEL_TEXTURE_WIDTH * offset.iconIndexX + icon.texX,
                     BODY_MODEL_TEXTURE_HEIGHT * offset.iconIndexY + icon.texY, icon.width, icon.height);
         }

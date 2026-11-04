@@ -6,6 +6,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -45,7 +46,7 @@ public record SyncBodyDamageHealingConsumablesPayload(
     // Convenience senders (replace NetworkHandler.INSTANCE.send(...))
     public static void sendToServer(Map<Identifier, JsonHealingConsumable> data)
     {
-        PacketDistributor.sendToServer(new SyncBodyDamageHealingConsumablesPayload(data));
+        ClientPacketDistributor.sendToServer(new SyncBodyDamageHealingConsumablesPayload(data));
     }
 
     // Example: server->one player

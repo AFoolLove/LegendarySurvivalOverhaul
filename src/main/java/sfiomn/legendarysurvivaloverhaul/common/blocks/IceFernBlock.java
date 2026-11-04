@@ -51,10 +51,10 @@ public class IceFernBlock extends CropBlock
                 .mapColor(MapColor.PLANT)
                 .randomTicks()
                 .noOcclusion()
-                .noCollission()
+                .noCollision()
                 .instabreak()
                 .sound(SoundType.CROP)
-                .pushReaction(PushReaction.DESTROY);
+                .pushReaction(PushReaction.POPPED);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class IceFernBlock extends CropBlock
     @Override
     protected int getBonemealAgeIncrease(Level pLevel)
     {
-        return Mth.nextInt(pLevel.random, 0, 1);
+        return Mth.nextInt(pLevel.getRandom(), 0, 1);
     }
 
     @Override

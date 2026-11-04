@@ -1,18 +1,19 @@
 package sfiomn.legendarysurvivaloverhaul.common.items;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sfiomn.legendarysurvivaloverhaul.common.attachments.health.HealthAttachment;
@@ -34,13 +35,13 @@ public class HeartContainerItem extends Item
     }
 
     @Override
-    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack)
+    public @NotNull ItemUseAnimation getUseAnimation(@NotNull ItemStack stack)
     {
-        return UseAnim.BOW;
+        return ItemUseAnimation.BOW;
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand)
+    public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand)
     {
         if (Config.Baked.healthOverhaulEnabled)
         {
@@ -48,14 +49,14 @@ public class HeartContainerItem extends Item
 
             if (cap.getAdditionalHealth() >= Config.Baked.maxAdditionalHealth)
             {
-                if (level.isClientSide)
-                    player.displayClientMessage(Component.translatable("message.legendarysurvivaloverhaul.heart_container.additional_health_full"), true);
-                return InteractionResultHolder.fail(player.getItemInHand(hand));
+                if (level.isClientSide())
+                    player.sendOverlayMessage(Component.translatable("message.legendarysurvivaloverhaul.heart_container.additional_health_full"));
+                return InteractionResult.FAIL;
             }
         }
 
         player.startUsingItem(hand);
-        return InteractionResultHolder.success(player.getItemInHand(hand));
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -65,7 +66,7 @@ public class HeartContainerItem extends Item
         {
             stack = super.finishUsingItem(stack, level, player);
 
-            if (!level.isClientSide)
+            if (!level.isClientSide())
                 player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
 
             if (Config.Baked.healthOverhaulEnabled)
@@ -80,9 +81,11 @@ public class HeartContainerItem extends Item
                     level.addParticle(ParticleTypes.CRIMSON_SPORE, player.position().x, player.position().add(0, 1.5, 0).y, player.position().z, 0.2, 0.2, 0.2);
                 }
 
-                if (level.isClientSide)
+                if (level.isClientSide())
                 {
-                    Minecraft.getInstance().gameRenderer.displayItemActivation(stack);
+                    LocalPlayer localPlayer = Minecraft.getInstance().player;
+                    if (localPlayer != null)
+                        localPlayer.displayItemActivation(stack);
                 }
             }
             if (!player.isCreative())

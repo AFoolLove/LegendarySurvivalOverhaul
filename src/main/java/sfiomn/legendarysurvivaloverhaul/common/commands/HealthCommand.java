@@ -21,7 +21,7 @@ public class HealthCommand extends CommandBase
     public HealthCommand()
     {
         super(Commands.literal("healthoverhaul")
-                .requires((p_198521_0_) -> p_198521_0_.hasPermission(2))
+                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.argument("target", EntityArgument.entities())
                         .then(Commands.literal("get")
                                 .then(Commands.literal("shield")

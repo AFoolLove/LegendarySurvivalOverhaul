@@ -55,7 +55,7 @@ public class ThirstUtilInternal implements IThirstUtil
             final CompoundTag compound = custom.copyTag();
             if (compound.contains(HYDRATION_ENUM_TAG))
             {
-                String hydrationEnumName = compound.getString(HYDRATION_ENUM_TAG);
+                String hydrationEnumName = compound.getStringOr(HYDRATION_ENUM_TAG, "");
                 return HydrationEnum.getByName(hydrationEnumName);
             }
         }
@@ -95,7 +95,7 @@ public class ThirstUtilInternal implements IThirstUtil
             final CompoundTag compound = custom.copyTag();
             if (compound.contains(CAPACITY_TAG))
             {
-                return compound.getInt(CAPACITY_TAG);
+                return compound.getIntOr(CAPACITY_TAG, 0);
             }
         }
         return 0;
@@ -148,10 +148,10 @@ public class ThirstUtilInternal implements IThirstUtil
         // Check for effect chance
         for (JsonMobEffect effect : effects)
         {
-            if (effect.chance >= 0.0f && effect.duration > 0 && !effect.name.isEmpty() && player.level().random.nextFloat() < effect.chance)
+            if (effect.chance >= 0.0f && effect.duration > 0 && !effect.name.isEmpty() && player.level().getRandom().nextFloat() < effect.chance)
             {
                 Identifier effectId = Identifier.parse(effect.name);
-                var effectHolder = BuiltInRegistries.MOB_EFFECT.getHolder(effectId);
+                var effectHolder = BuiltInRegistries.MOB_EFFECT.get(effectId);
                 if (effectHolder.isPresent())
                 {
                     int effectDuration = effect.duration;

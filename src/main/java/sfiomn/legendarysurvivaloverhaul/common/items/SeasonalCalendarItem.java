@@ -2,7 +2,7 @@ package sfiomn.legendarysurvivaloverhaul.common.items;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -20,16 +20,16 @@ public class SeasonalCalendarItem extends Item
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
+    public InteractionResult use(Level level, Player player, InteractionHand hand)
     {
         if (level.isClientSide())
         {
             if (LegendarySurvivalOverhaul.sereneSeasonsLoaded)
-                player.displayClientMessage(SereneSeasonsUtil.seasonTooltip(player.blockPosition(), player.level()), true);
+                player.sendOverlayMessage(SereneSeasonsUtil.seasonTooltip(player.blockPosition(), player.level()));
             else if (LegendarySurvivalOverhaul.eclipticSeasonsLoaded)
-                player.displayClientMessage(EclipticSeasonsUtil.seasonTooltip(player.level()), true);
+                player.sendOverlayMessage(EclipticSeasonsUtil.seasonTooltip(player.level()));
             else
-                player.displayClientMessage(Component.translatable("message.legendarysurvivaloverhaul.no_season_loaded"), true);
+                player.sendOverlayMessage(Component.translatable("message.legendarysurvivaloverhaul.no_season_loaded"));
         }
         return super.use(level, player, hand);
     }

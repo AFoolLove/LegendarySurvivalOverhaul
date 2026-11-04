@@ -34,7 +34,7 @@ public class WeatherModifier extends ModifierBase
         }
 
         float weatherTemperature = 0.0f;
-        long time = level.getLevelData().getDayTime();
+        long time = level.getOverworldClockTime();
 
         // Apply shade effect either if it's raining or block above player or player under parasol
         if (Config.Baked.shadeTimeModifier != 0 && time <= 12000)

@@ -32,7 +32,7 @@ public class RenderBlurOverlay
         {
             focusShader.stopRender();
             focusShader = null;
-        } else if (shaderIntensity > 0 && !(Minecraft.getInstance().screen instanceof DeathScreen))
+        } else if (shaderIntensity > 0 && !(Minecraft.getInstance().gui.screen() instanceof DeathScreen))
         {
             if (focusShader == null)
                 focusShader = new FocusShader();
@@ -57,7 +57,7 @@ public class RenderBlurOverlay
                 // Show first-time blur warning
                 if (!hasShownBlurWarning && targetShaderIntensity > 0)
                 {
-                    player.displayClientMessage(Component.literal("Vision is getting blurry. Drink some water"), true);
+                    player.sendOverlayMessage(Component.literal("Vision is getting blurry. Drink some water"));
                     hasShownBlurWarning = true;
                 }
             }

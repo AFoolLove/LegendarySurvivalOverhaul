@@ -8,6 +8,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -47,7 +48,7 @@ public record UpdateTemperaturesPayload(
     // Convenience senders
     public static void sendToServer(CompoundTag compound)
     {
-        PacketDistributor.sendToServer(new UpdateTemperaturesPayload(compound));
+        ClientPacketDistributor.sendToServer(new UpdateTemperaturesPayload(compound));
     }
 
     public static void sendToPlayer(net.minecraft.server.level.ServerPlayer player, CompoundTag compound)

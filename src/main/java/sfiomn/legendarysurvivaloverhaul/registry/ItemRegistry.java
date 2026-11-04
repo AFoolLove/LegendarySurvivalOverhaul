@@ -4,6 +4,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -13,7 +15,7 @@ import sfiomn.legendarysurvivaloverhaul.common.items.*;
 import sfiomn.legendarysurvivaloverhaul.common.items.drink.*;
 import sfiomn.legendarysurvivaloverhaul.common.items.heal.*;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 import static sfiomn.legendarysurvivaloverhaul.common.items.armor.ArmorMaterialBase.DESERT;
 import static sfiomn.legendarysurvivaloverhaul.common.items.armor.ArmorMaterialBase.SNOW;
@@ -32,11 +34,11 @@ public class ItemRegistry
     {
 
         @Override
-        public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag isAdvanced)
+        public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag isAdvanced)
         {
-            super.appendHoverText(stack, context, tooltipComponents, isAdvanced);
+            super.appendHoverText(stack, context, display, tooltipComponents, isAdvanced);
 
-            tooltipComponents.add(Component.translatable("tooltip." + LegendarySurvivalOverhaul.MOD_ID + ".sponge.description"));
+            tooltipComponents.accept(Component.translatable("tooltip." + LegendarySurvivalOverhaul.MOD_ID + ".sponge.description"));
         }
     });
     public static final DeferredHolder<Item, ? extends Item> HEAT_RESISTANCE_RING = ITEMS.register("heat_resistance_ring", () -> new WearableCurioItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
@@ -46,18 +48,18 @@ public class ItemRegistry
     {
 
         @Override
-        public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag isAdvanced)
+        public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag isAdvanced)
         {
-            super.appendHoverText(stack, context, tooltipComponents, isAdvanced);
+            super.appendHoverText(stack, context, display, tooltipComponents, isAdvanced);
 
-            tooltipComponents.add(Component.translatable("tooltip." + LegendarySurvivalOverhaul.MOD_ID + ".first_aid_supplies.description"));
+            tooltipComponents.accept(Component.translatable("tooltip." + LegendarySurvivalOverhaul.MOD_ID + ".first_aid_supplies.description"));
         }
     });
 
-    public static final DeferredHolder<Item, ? extends Item> SNOW_HELMET = ITEMS.register("snow_helmet", () -> new ArmorItem(SNOW, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(6))));
-    public static final DeferredHolder<Item, ? extends Item> SNOW_CHEST = ITEMS.register("snow_chestplate", () -> new ArmorItem(SNOW, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(6))));
-    public static final DeferredHolder<Item, ? extends Item> SNOW_LEGGINGS = ITEMS.register("snow_leggings", () -> new ArmorItem(SNOW, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(6))));
-    public static final DeferredHolder<Item, ? extends Item> SNOW_BOOTS = ITEMS.register("snow_boots", () -> new ArmorItem(SNOW, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(6)))
+    public static final DeferredHolder<Item, ? extends Item> SNOW_HELMET = ITEMS.register("snow_helmet", () -> new Item(new Item.Properties().humanoidArmor(SNOW, ArmorType.HELMET)));
+    public static final DeferredHolder<Item, ? extends Item> SNOW_CHEST = ITEMS.register("snow_chestplate", () -> new Item(new Item.Properties().humanoidArmor(SNOW, ArmorType.CHESTPLATE)));
+    public static final DeferredHolder<Item, ? extends Item> SNOW_LEGGINGS = ITEMS.register("snow_leggings", () -> new Item(new Item.Properties().humanoidArmor(SNOW, ArmorType.LEGGINGS)));
+    public static final DeferredHolder<Item, ? extends Item> SNOW_BOOTS = ITEMS.register("snow_boots", () -> new Item(new Item.Properties().humanoidArmor(SNOW, ArmorType.BOOTS))
     {
         @Override
         public boolean canWalkOnPowderedSnow(ItemStack stack, LivingEntity wearer)
@@ -66,10 +68,10 @@ public class ItemRegistry
         }
     });
 
-    public static final DeferredHolder<Item, ? extends Item> DESERT_HELMET = ITEMS.register("desert_helmet", () -> new ArmorItem(DESERT, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(6))));
-    public static final DeferredHolder<Item, ? extends Item> DESERT_CHEST = ITEMS.register("desert_chestplate", () -> new ArmorItem(DESERT, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(6))));
-    public static final DeferredHolder<Item, ? extends Item> DESERT_LEGGINGS = ITEMS.register("desert_leggings", () -> new ArmorItem(DESERT, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(6))));
-    public static final DeferredHolder<Item, ? extends Item> DESERT_BOOTS = ITEMS.register("desert_boots", () -> new ArmorItem(DESERT, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(6))));
+    public static final DeferredHolder<Item, ? extends Item> DESERT_HELMET = ITEMS.register("desert_helmet", () -> new Item(new Item.Properties().humanoidArmor(DESERT, ArmorType.HELMET)));
+    public static final DeferredHolder<Item, ? extends Item> DESERT_CHEST = ITEMS.register("desert_chestplate", () -> new Item(new Item.Properties().humanoidArmor(DESERT, ArmorType.CHESTPLATE)));
+    public static final DeferredHolder<Item, ? extends Item> DESERT_LEGGINGS = ITEMS.register("desert_leggings", () -> new Item(new Item.Properties().humanoidArmor(DESERT, ArmorType.LEGGINGS)));
+    public static final DeferredHolder<Item, ? extends Item> DESERT_BOOTS = ITEMS.register("desert_boots", () -> new Item(new Item.Properties().humanoidArmor(DESERT, ArmorType.BOOTS)));
 
     public static final DeferredHolder<Item, ? extends Item> COOLING_COAT_1 = ITEMS.register("cooling_coat_1", () -> new CoatItem(CoatEnum.COOLING_1, new Item.Properties().rarity(Rarity.COMMON)));
     public static final DeferredHolder<Item, ? extends Item> COOLING_COAT_2 = ITEMS.register("cooling_coat_2", () -> new CoatItem(CoatEnum.COOLING_2, new Item.Properties().rarity(Rarity.RARE)));
@@ -84,10 +86,10 @@ public class ItemRegistry
     public static final DeferredHolder<Item, ? extends Item> COLD_STRING = ITEMS.register("cold_string", () -> new Item(new Item.Properties().rarity(Rarity.COMMON)));
     public static final DeferredHolder<Item, ? extends Item> WARM_STRING = ITEMS.register("warm_string", () -> new Item(new Item.Properties().rarity(Rarity.COMMON)));
 
-    public static final DeferredHolder<Item, ? extends Item> SUN_FERN_SEEDS = ITEMS.register("sun_fern_seeds", () -> new ItemNameBlockItem(BlockRegistry.SUN_FERN_CROP.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, ? extends Item> SUN_FERN_SEEDS = ITEMS.register("sun_fern_seeds", () -> new BlockItem(BlockRegistry.SUN_FERN_CROP.get(), new Item.Properties()));
     public static final DeferredHolder<Item, ? extends Item> SUN_FERN = ITEMS.register("sun_fern_leaf", () -> new Item(new Item.Properties()));
     public static final DeferredHolder<Item, ? extends Item> SUN_FERN_GOLD = ITEMS.register("sun_fern_gold_leaf", () -> new Item(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> ICE_FERN_SEEDS = ITEMS.register("ice_fern_seeds", () -> new ItemNameBlockItem(BlockRegistry.ICE_FERN_CROP.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, ? extends Item> ICE_FERN_SEEDS = ITEMS.register("ice_fern_seeds", () -> new BlockItem(BlockRegistry.ICE_FERN_CROP.get(), new Item.Properties()));
     public static final DeferredHolder<Item, ? extends Item> ICE_FERN = ITEMS.register("ice_fern_leaf", () -> new Item(new Item.Properties()));
     public static final DeferredHolder<Item, ? extends Item> ICE_FERN_GOLD = ITEMS.register("ice_fern_gold_leaf", () -> new Item(new Item.Properties()));
 
@@ -96,16 +98,16 @@ public class ItemRegistry
     {
 
         @Override
-        public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag isAdvanced)
+        public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag isAdvanced)
         {
-            super.appendHoverText(stack, context, tooltipComponents, isAdvanced);
+            super.appendHoverText(stack, context, display, tooltipComponents, isAdvanced);
 
-            tooltipComponents.add(Component.translatable("tooltip." + LegendarySurvivalOverhaul.MOD_ID + ".water_purifier.description"));
+            tooltipComponents.accept(Component.translatable("tooltip." + LegendarySurvivalOverhaul.MOD_ID + ".water_purifier.description"));
         }
     });
 
-    public static final DeferredHolder<Item, ? extends Item> CANTEEN = ITEMS.register("canteen", () -> new CanteenItem(new Item.Properties().rarity(Rarity.COMMON)));
-    public static final DeferredHolder<Item, ? extends Item> LARGE_CANTEEN = ITEMS.register("large_canteen", () -> new LargeCanteenItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final DeferredHolder<Item, ? extends Item> CANTEEN = ITEMS.register("canteen", () -> new CanteenItem(new Item.Properties().rarity(Rarity.COMMON).enchantable(10)));
+    public static final DeferredHolder<Item, ? extends Item> LARGE_CANTEEN = ITEMS.register("large_canteen", () -> new LargeCanteenItem(new Item.Properties().rarity(Rarity.UNCOMMON).enchantable(10)));
 
     public static final DeferredHolder<Item, ? extends Item> APPLE_JUICE = ITEMS.register("apple_juice", () -> new JuiceItem(new Item.Properties()));
     public static final DeferredHolder<Item, ? extends Item> BEETROOT_JUICE = ITEMS.register("beetroot_juice", () -> new JuiceItem(new Item.Properties()));
@@ -121,7 +123,7 @@ public class ItemRegistry
     public static final DeferredHolder<Item, ? extends Item> GLOW_BERRIES_JUICE = ITEMS.register("glow_berries_juice", () -> new JuiceItem(new Item.Properties()));
     public static final DeferredHolder<Item, ? extends Item> PURIFIED_WATER_BOTTLE = ITEMS.register("purified_water_bottle", () -> new PurifiedWaterBottleItem(new Item.Properties()));
     public static final DeferredHolder<Item, ? extends Item> WATER_PLANT_BAG = ITEMS.register("water_plant_bag", () -> new DrinkItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> WATER_PLANT_SEEDS = ITEMS.register("water_plant_seeds", () -> new ItemNameBlockItem(BlockRegistry.WATER_PLANT_CROP.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, ? extends Item> WATER_PLANT_SEEDS = ITEMS.register("water_plant_seeds", () -> new BlockItem(BlockRegistry.WATER_PLANT_CROP.get(), new Item.Properties()));
 
     // Health Overhaul
     public static final DeferredHolder<Item, ? extends Item> HEART_CONTAINER = ITEMS.register("heart_container", () -> new HeartContainerItem(new Item.Properties().rarity(Rarity.EPIC)));

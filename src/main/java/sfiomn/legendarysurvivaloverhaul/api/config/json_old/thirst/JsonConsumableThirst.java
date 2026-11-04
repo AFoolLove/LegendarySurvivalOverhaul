@@ -66,18 +66,18 @@ public class JsonConsumableThirst
             if (!itemStackTag.contains(key))
                 return false;
 
-            byte tagType = itemStackTag.getTagType(key);
+            byte tagType = itemStackTag.get(key) != null ? itemStackTag.get(key).getId() : 0;
             if (tagType == 8)
             {
-                if (!itemStackTag.getString(key).equals(expected))
+                if (!itemStackTag.getStringOr(key, "").equals(expected))
                     return false;
             } else if (tagType == 1 || tagType == 2 || tagType == 3 || tagType == 4 || tagType == 5 || tagType == 6)
             {
-                if (Double.compare(itemStackTag.getDouble(key), Double.parseDouble(expected)) != 0)
+                if (Double.compare(itemStackTag.getDoubleOr(key, 0.0), Double.parseDouble(expected)) != 0)
                     return false;
             } else
             {
-                LegendarySurvivalOverhaul.LOGGER.error("Error while matching nbt for {} : Tag type {} not taken into account.\nIt can either be a String (tag type 8) or a numeric (tag type in [1-6])", itemStack.getDescriptionId(), tagType);
+                LegendarySurvivalOverhaul.LOGGER.error("Error while matching nbt for {} : Tag type {} not taken into account.\nIt can either be a String (tag type 8) or a numeric (tag type in [1-6])", itemStack.getItem().getDescriptionId(), tagType);
                 return false;
             }
         }

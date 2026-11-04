@@ -1,11 +1,12 @@
 package sfiomn.legendarysurvivaloverhaul.client.render;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -29,29 +30,20 @@ public class RenderHealthGui
     private static final int HEART_TEXTURE_HEIGHT = 9;
     private static HealthAttachment HEALTH_CAP = null;
 
-    public static void render(Gui gui, GuiGraphics guiGraphics, float partialTicks, int width, int height)
+    public static void render(Gui gui, GuiGraphicsExtractor guiGraphics, float partialTicks, int width, int height)
     {
-        if (Config.Baked.healthOverhaulEnabled && !Minecraft.getInstance().options.hideGui)
+        if (Config.Baked.healthOverhaulEnabled && !Minecraft.getInstance().gui.hud.isHidden())
         {
             Player player = Minecraft.getInstance().player;
             if (player != null && !player.isCreative() && !player.isSpectator())
             {
                 rand.setSeed(player.tickCount * 445L);
 
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                RenderSystem.disableDepthTest();
-                RenderSystem.depthMask(false);
-
-                Minecraft.getInstance().getProfiler().push("health_gui");
-                int leftHeight = gui.leftHeight;
+                Profiler.get().push("health_gui");
+                int leftHeight = gui.hud.leftHeight;
                 int used = drawHealthBar(guiGraphics, player, width, height, leftHeight);
-                if (used > 0) gui.leftHeight += used;
-                Minecraft.getInstance().getProfiler().pop();
-
-                RenderSystem.depthMask(true);
-                RenderSystem.enableDepthTest();
-                RenderSystem.disableBlend();
+                if (used > 0) gui.hud.leftHeight += used;
+                Profiler.get().pop();
             }
         }
     }
@@ -59,7 +51,7 @@ public class RenderHealthGui
     /**
      * Draws the health overlay and returns how many pixels of left HUD height were consumed.
      */
-    public static int drawHealthBar(GuiGraphics gui, Player player, int width, int height, int leftHeight)
+    public static int drawHealthBar(GuiGraphicsExtractor gui, Player player, int width, int height, int leftHeight)
     {
         if (HEALTH_CAP == null || player.tickCount % 20 == 0)
             HEALTH_CAP = AttachmentUtil.getHealthAttachment(player);
@@ -113,7 +105,7 @@ public class RenderHealthGui
         return Math.max(used, 0);
     }
 
-    public static void renderHearts(GuiGraphics gui, int left, int top, int rowHeight, int playerHearts, int brokenHearts, int health, float shieldHealth, int healthBlinkTimer)
+    public static void renderHearts(GuiGraphicsExtractor gui, int left, int top, int rowHeight, int playerHearts, int brokenHearts, int health, float shieldHealth, int healthBlinkTimer)
     {
         int shieldHearts = Mth.ceil((double) shieldHealth / 2.0);
         
@@ -147,15 +139,16 @@ public class RenderHealthGui
         }
     }
 
-    public static void renderHeart(GuiGraphics gui, HeartType heartType, int x, int y, int yTexture, boolean halfIcon)
+    public static void renderHeart(GuiGraphicsExtractor gui, HeartType heartType, int x, int y, int yTexture, boolean halfIcon)
     {
         // Use sprite-based blit for new heart sprites, but keep BROKEN from our mod texture sheet
         if (heartType.isTextureBased())
         {
-            gui.blit(heartType.location, x, y, heartType.getX(halfIcon), yTexture, HEART_TEXTURE_WIDTH, HEART_TEXTURE_HEIGHT);
+            gui.blit(RenderPipelines.GUI_TEXTURED, heartType.location, x, y, (float) heartType.getX(halfIcon), (float) yTexture,
+                    HEART_TEXTURE_WIDTH, HEART_TEXTURE_HEIGHT, HEART_TEXTURE_WIDTH, HEART_TEXTURE_HEIGHT, 256, 256);
         } else
         {
-            gui.blitSprite(heartType.getSprite(halfIcon), x, y, HEART_TEXTURE_WIDTH, HEART_TEXTURE_HEIGHT);
+            gui.blitSprite(RenderPipelines.GUI_TEXTURED, heartType.getSprite(halfIcon), x, y, HEART_TEXTURE_WIDTH, HEART_TEXTURE_HEIGHT);
         }
     }
 

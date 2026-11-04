@@ -22,7 +22,7 @@ public class BodyDamageCommand extends CommandBase
     public BodyDamageCommand()
     {
         super(Commands.literal("bodydamage")
-                .requires((p_198521_0_) -> p_198521_0_.hasPermission(2))
+                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.argument("target", EntityArgument.entities())
                         .then(Commands.literal("set")
                                 .then(Commands.argument("BodyPart", EnumArgument.enumArgument(BodyPartEnum.class))

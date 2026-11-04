@@ -1,35 +1,43 @@
 package sfiomn.legendarysurvivaloverhaul.client.itemproperties;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
+import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperty;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sfiomn.legendarysurvivaloverhaul.api.temperature.TemperatureEnum;
 import sfiomn.legendarysurvivaloverhaul.api.temperature.TemperatureUtil;
 import sfiomn.legendarysurvivaloverhaul.common.attachments.temperature.TemperatureItemAttachment;
 import sfiomn.legendarysurvivaloverhaul.util.AttachmentUtil;
 
-
-public class ThermometerProperty implements ClampedItemPropertyFunction
+/**
+ * 26.3 item-model property: thermometer fill level.
+ *
+ * <p>{@code ItemProperties.register} / {@code ClampedItemPropertyFunction} are gone. Properties are now
+ * JSON driven: this class is registered through {@code RegisterRangeSelectItemModelPropertyEvent} and
+ * referenced from an item model with {@code "type": "minecraft:range_dispatch", "property":
+ * "legendarysurvivaloverhaul:temperature"}.</p>
+ */
+@OnlyIn(Dist.CLIENT)
+public class ThermometerProperty implements RangeSelectItemModelProperty
 {
+    public static final MapCodec<ThermometerProperty> MAP_CODEC = MapCodec.unit(new ThermometerProperty());
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public float unclampedCall(@NotNull ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity entity, int i)
+    public float get(ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable ItemOwner owner, int seed)
     {
         Level level = clientLevel;
-        Entity holder = (entity != null ? entity : itemStack.getFrame());
+        LivingEntity holder = owner != null ? owner.asLivingEntity() : null;
 
-        if (level == null && holder != null)
+        if (level == null && owner != null)
         {
-            level = holder.level();
+            level = owner.level();
         }
 
         if (level == null)
@@ -49,7 +57,12 @@ public class ThermometerProperty implements ClampedItemPropertyFunction
             {
                 return 0.5f;
             }
-
         }
+    }
+
+    @Override
+    public MapCodec<? extends RangeSelectItemModelProperty> type()
+    {
+        return MAP_CODEC;
     }
 }

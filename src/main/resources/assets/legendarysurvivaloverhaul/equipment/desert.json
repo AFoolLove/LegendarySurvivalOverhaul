@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "legendarysurvivaloverhaul:desert"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "legendarysurvivaloverhaul:desert"
+      }
+    ]
+  }
+}

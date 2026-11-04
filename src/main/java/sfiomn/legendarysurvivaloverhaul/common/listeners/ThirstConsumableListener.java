@@ -1,14 +1,14 @@
 package sfiomn.legendarysurvivaloverhaul.common.listeners;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
@@ -24,14 +24,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ThirstConsumableListener extends SimpleJsonResourceReloadListener implements IThirstConsumableManager
+public class ThirstConsumableListener extends SimpleJsonResourceReloadListener<JsonElement> implements IThirstConsumableManager
 {
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private static final Map<Identifier, List<JsonThirstConsumable>> THIRST_CONSUMABLES = new HashMap<>();
 
     public ThirstConsumableListener()
     {
-        super(GSON, LegendarySurvivalOverhaul.MOD_ID + "/thirst/consumables");
+        super(ExtraCodecs.JSON, FileToIdConverter.json(LegendarySurvivalOverhaul.MOD_ID + "/thirst/consumables"));
     }
 
     public static void sendDataToClient(@Nullable ServerPlayer player)

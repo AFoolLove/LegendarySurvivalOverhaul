@@ -1,14 +1,14 @@
 package sfiomn.legendarysurvivaloverhaul.common.listeners;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -22,15 +22,14 @@ import sfiomn.legendarysurvivaloverhaul.network.payloads.SyncTemperatureItemsPay
 import java.util.HashMap;
 import java.util.Map;
 
-public class TemperatureItemListener extends SimpleJsonResourceReloadListener implements ITemperatureItemManager
+public class TemperatureItemListener extends SimpleJsonResourceReloadListener<JsonElement> implements ITemperatureItemManager
 {
 
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private static final Map<Identifier, JsonTemperatureResistance> TEMPERATURE_ITEMS = new HashMap<>();
 
     public TemperatureItemListener()
     {
-        super(GSON, LegendarySurvivalOverhaul.MOD_ID + "/temperature/items");
+        super(ExtraCodecs.JSON, FileToIdConverter.json(LegendarySurvivalOverhaul.MOD_ID + "/temperature/items"));
     }
 
     public static void sendDataToClient(@Nullable ServerPlayer player)

@@ -1,13 +1,15 @@
 package sfiomn.legendarysurvivaloverhaul.common.attachments.health;
 
-import net.minecraft.core.HolderLookup;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import sfiomn.legendarysurvivaloverhaul.api.health.IHealthAttachment;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
 
-public class HealthAttachment implements IHealthAttachment, INBTSerializable<CompoundTag>
+public class HealthAttachment implements IHealthAttachment, ValueIOSerializable
 {
     private float additionalHealth;
     private float shieldHealth;
@@ -103,20 +105,20 @@ public class HealthAttachment implements IHealthAttachment, INBTSerializable<Com
         this.init();
 
         if (compound.contains("additionalHealth"))
-            this.setAdditionalHealth(compound.getFloat("additionalHealth"));
+            this.setAdditionalHealth(compound.getFloatOr("additionalHealth", 0.0f));
         if (compound.contains("shieldHealth"))
-            this.setShieldHealth(compound.getFloat("shieldHealth"));
+            this.setShieldHealth(compound.getFloatOr("shieldHealth", 0.0f));
     }
 
     @Override
-    public CompoundTag serializeNBT(HolderLookup.Provider provider)
+    public void serialize(ValueOutput output)
     {
-        return writeNBT();
+        output.store(writeNBT());
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt)
+    public void deserialize(ValueInput input)
     {
-        readNBT(nbt);
+        input.read(MapCodec.assumeMapUnsafe(CompoundTag.CODEC)).ifPresent(this::readNBT);
     }
 }

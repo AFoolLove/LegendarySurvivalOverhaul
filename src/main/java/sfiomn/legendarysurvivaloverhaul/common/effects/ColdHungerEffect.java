@@ -1,5 +1,6 @@
 package sfiomn.legendarysurvivaloverhaul.common.effects;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,7 +17,7 @@ public class ColdHungerEffect extends IncurableMobEffect
     }
 
     @Override
-    public boolean applyEffectTick(@NotNull LivingEntity entity, int amplifier)
+    public boolean applyEffectTick(ServerLevel serverLevel, LivingEntity entity, int amplifier)
     {
         if (entity instanceof Player)
         {

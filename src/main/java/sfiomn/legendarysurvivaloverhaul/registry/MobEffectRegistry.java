@@ -12,14 +12,13 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.common.effects.*;
 
 
-@EventBusSubscriber(modid = LegendarySurvivalOverhaul.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = LegendarySurvivalOverhaul.MOD_ID)
 public class MobEffectRegistry
 {
 
@@ -66,30 +65,10 @@ public class MobEffectRegistry
     public static final DeferredHolder<MobEffect, ? extends MobEffect> HEADACHE = EFFECTS.register("headache", HeadacheEffect::new);
     public static final DeferredHolder<MobEffect, ? extends MobEffect> RECOVERY = EFFECTS.register("recovery", RecoveryEffect::new);
 
-    @SubscribeEvent
-    public static void registerBrewingRecipes(RegisterBrewingRecipesEvent event)
-    {
-        var builder = event.getBuilder();
-
-        builder.addMix(Potions.AWKWARD, ItemRegistry.SUN_FERN.get(), HEAT_RESISTANCE_POTION);
-        builder.addMix(HEAT_RESISTANCE_POTION, Items.REDSTONE, HEAT_RESISTANCE_POTION_LONG);
-
-        builder.addMix(Potions.AWKWARD, ItemRegistry.ICE_FERN.get(), COLD_RESISTANCE_POTION);
-        builder.addMix(COLD_RESISTANCE_POTION, Items.REDSTONE, COLD_RESISTANCE_POTION_LONG);
-
-        builder.addMix(Potions.AWKWARD, ItemRegistry.SUN_FERN_GOLD.get(), HEAT_IMMUNITY_POTION);
-        builder.addMix(HEAT_IMMUNITY_POTION, Items.REDSTONE, HEAT_IMMUNITY_POTION_LONG);
-
-        builder.addMix(Potions.AWKWARD, ItemRegistry.ICE_FERN_GOLD.get(), COLD_IMMUNITY_POTION);
-        builder.addMix(COLD_IMMUNITY_POTION, Items.REDSTONE, COLD_IMMUNITY_POTION_LONG);
-
-        builder.addMix(HEAT_IMMUNITY_POTION, ItemRegistry.ICE_FERN_GOLD.get(), TEMPERATURE_IMMUNITY_POTION);
-        builder.addMix(HEAT_IMMUNITY_POTION_LONG, ItemRegistry.ICE_FERN_GOLD.get(), TEMPERATURE_IMMUNITY_POTION_LONG);
-
-        builder.addMix(COLD_IMMUNITY_POTION, ItemRegistry.SUN_FERN_GOLD.get(), TEMPERATURE_IMMUNITY_POTION);
-        builder.addMix(COLD_IMMUNITY_POTION_LONG, ItemRegistry.SUN_FERN_GOLD.get(), TEMPERATURE_IMMUNITY_POTION_LONG);
-        builder.addMix(TEMPERATURE_IMMUNITY_POTION, Items.REDSTONE, TEMPERATURE_IMMUNITY_POTION_LONG);
-    }
+    // 26.3: brewing is data-driven (net.minecraft.world.item.crafting.BrewingRecipe /
+    // data/<namespace>/recipe/brewing/*.json). The old RegisterBrewingRecipesEvent no longer exists.
+    // TODO(lead): provide the equivalent brewing recipe JSON resources for the potion mixes that used to be
+    // registered here (heat/cold resistance, immunity and temperature immunity potions + redstone extensions).
 
     public static void register(IEventBus eventBus)
     {

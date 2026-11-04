@@ -2,7 +2,6 @@ package sfiomn.legendarysurvivaloverhaul.common.recipe;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -40,13 +39,13 @@ public class SewingRecipe implements Recipe<RecipeInput>
     @Override
     public boolean matches(@NotNull RecipeInput input, Level level)
     {
-        if (level.isClientSide) return false;
+        if (level.isClientSide()) return false;
         return base.test(input.getItem(0))
                 && addition.test(input.getItem(1));
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull RecipeInput input, @NotNull HolderLookup.Provider provider)
+    public @NotNull ItemStack assemble(@NotNull RecipeInput input)
     {
         ItemStack itemstack = this.result.copy();
         ItemStack base = input.getItem(0);
@@ -59,28 +58,55 @@ public class SewingRecipe implements Recipe<RecipeInput>
     }
 
     @Override
-    public boolean canCraftInDimensions(int i, int i1)
+    public @NotNull RecipeSerializer<? extends SewingRecipe> getSerializer()
+    {
+        return SERIALIZER;
+    }
+
+    @Override
+    public @NotNull RecipeType<? extends SewingRecipe> getType()
+    {
+        return Type.INSTANCE;
+    }
+
+    @Override
+    public @NotNull PlacementInfo placementInfo()
+    {
+        return PlacementInfo.create(java.util.List.of(this.base, this.addition));
+    }
+
+    @Override
+    public boolean showNotification()
     {
         return true;
     }
 
     @Override
-    public @NotNull ItemStack getResultItem(@NotNull HolderLookup.Provider provider)
+    public String group()
     {
-        return result.copy();
+        return "";
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer()
+    public @NotNull RecipeBookCategory recipeBookCategory()
     {
-        return Serializer.INSTANCE;
+        return RecipeBookCategories.CRAFTING_MISC;
     }
 
-    @Override
-    public RecipeType<?> getType()
-    {
-        return Type.INSTANCE;
-    }
+    public static final MapCodec<SewingRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Ingredient.CODEC.fieldOf("base").forGetter(SewingRecipe::getBase),
+            Ingredient.CODEC.fieldOf("addition").forGetter(SewingRecipe::getAddition),
+            ItemStack.CODEC.fieldOf("result").forGetter(r -> r.result)
+    ).apply(instance, SewingRecipe::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, SewingRecipe> STREAM_CODEC = StreamCodec.composite(
+            Ingredient.CONTENTS_STREAM_CODEC, r -> r.base,
+            Ingredient.CONTENTS_STREAM_CODEC, r -> r.addition,
+            ItemStack.STREAM_CODEC, r -> r.result,
+            SewingRecipe::new
+    );
+
+    public static final RecipeSerializer<SewingRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 
     public static class Type implements RecipeType<SewingRecipe>
     {
@@ -88,37 +114,4 @@ public class SewingRecipe implements Recipe<RecipeInput>
         public static final Identifier ID =
                 Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sewing");
     }
-
-    public static class Serializer implements RecipeSerializer<SewingRecipe>
-    {
-        public static final Serializer INSTANCE = new Serializer();
-        public static final Identifier ID =
-                Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sewing");
-
-        private static final MapCodec<SewingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                Ingredient.CODEC.fieldOf("base").forGetter(SewingRecipe::getBase),
-                Ingredient.CODEC.fieldOf("addition").forGetter(SewingRecipe::getAddition),
-                ItemStack.CODEC.fieldOf("result").forGetter(r -> r.result)
-        ).apply(instance, SewingRecipe::new));
-
-        private static final StreamCodec<RegistryFriendlyByteBuf, SewingRecipe> STREAM_CODEC = StreamCodec.composite(
-                Ingredient.CONTENTS_STREAM_CODEC, r -> r.base,
-                Ingredient.CONTENTS_STREAM_CODEC, r -> r.addition,
-                ItemStack.STREAM_CODEC, r -> r.result,
-                SewingRecipe::new
-        );
-
-        @Override
-        public MapCodec<SewingRecipe> codec()
-        {
-            return CODEC;
-        }
-
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, SewingRecipe> streamCodec()
-        {
-            return STREAM_CODEC;
-        }
-    }
-
 }

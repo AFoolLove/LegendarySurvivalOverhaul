@@ -2,10 +2,10 @@ package sfiomn.legendarysurvivaloverhaul.common.blockentities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
+
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.Container;
@@ -13,7 +13,7 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.StackedContentsCompatible;
@@ -23,6 +23,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sfiomn.legendarysurvivaloverhaul.api.block.ThermalTypeEnum;
 import sfiomn.legendarysurvivaloverhaul.api.data.json.JsonTemperatureFuelItem;
@@ -88,7 +90,7 @@ public abstract class AbstractThermalBlockEntity extends BaseContainerBlockEntit
         if (!entity.isPowered())
         {
             // Remove LIT state if unpowered
-            if (state.getValue(ThermalBlock.LIT) && !level.isClientSide)
+            if (state.getValue(ThermalBlock.LIT) && !level.isClientSide())
             {
                 level.setBlockAndUpdate(pos, state.setValue(ThermalBlock.LIT, false));
                 entity.setChanged();
@@ -98,7 +100,7 @@ public abstract class AbstractThermalBlockEntity extends BaseContainerBlockEntit
 
 
         // Put LIT state if powered & fuel already there
-        if (entity.isLit() && !state.getValue(ThermalBlock.LIT) && !level.isClientSide)
+        if (entity.isLit() && !state.getValue(ThermalBlock.LIT) && !level.isClientSide())
         {
             level.setBlockAndUpdate(pos, state.setValue(ThermalBlock.LIT, entity.isLit()));
             entity.setChanged();
@@ -116,7 +118,7 @@ public abstract class AbstractThermalBlockEntity extends BaseContainerBlockEntit
                 entity.consumeFuel();
             }
 
-            if (!entity.isLit() && !level.isClientSide)
+            if (!entity.isLit() && !level.isClientSide())
             {
                 entity.refillFuel();
                 if (entity.isLit())
@@ -126,7 +128,7 @@ public abstract class AbstractThermalBlockEntity extends BaseContainerBlockEntit
                 }
             }
 
-            if (initiallyLit != entity.isLit() && !level.isClientSide)
+            if (initiallyLit != entity.isLit() && !level.isClientSide())
             {
                 level.setBlockAndUpdate(pos, state.setValue(ThermalBlock.LIT, entity.isLit()));
                 needRefresh = true;
@@ -202,7 +204,7 @@ public abstract class AbstractThermalBlockEntity extends BaseContainerBlockEntit
         return false;
     }
 
-    public void fillStackedContents(@NotNull StackedContents p_58342_)
+    public void fillStackedContents(@NotNull StackedItemContents p_58342_)
     {
         for (ItemStack itemstack : this.items)
         {
@@ -297,22 +299,22 @@ public abstract class AbstractThermalBlockEntity extends BaseContainerBlockEntit
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider)
+    protected void loadAdditional(ValueInput input)
     {
-        super.loadAdditional(tag, provider);
+        super.loadAdditional(input);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(tag, this.items, provider);
-        this.fuelTime = tag.getInt("fuelTime");
-        this.fuelDuration = tag.getInt("fuelDuration");
+        ContainerHelper.loadAllItems(input, this.items);
+        this.fuelTime = input.getIntOr("fuelTime", 0);
+        this.fuelDuration = input.getIntOr("fuelDuration", 0);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider)
+    protected void saveAdditional(ValueOutput output)
     {
-        super.saveAdditional(tag, provider);
-        tag.putInt("fuelTime", this.fuelTime);
-        tag.putInt("fuelDuration", this.fuelDuration);
-        ContainerHelper.saveAllItems(tag, this.items, provider);
+        super.saveAdditional(output);
+        output.putInt("fuelTime", this.fuelTime);
+        output.putInt("fuelDuration", this.fuelDuration);
+        ContainerHelper.saveAllItems(output, this.items);
     }
 
     @Override

@@ -4,6 +4,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -13,7 +14,7 @@ import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.common.items.drink.CanteenItem;
 import sfiomn.legendarysurvivaloverhaul.common.integration.crayfish.CrayfishFurnitureUtil;
 
-@EventBusSubscriber(modid = LegendarySurvivalOverhaul.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = LegendarySurvivalOverhaul.MOD_ID)
 public class CanteenInteractionHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -41,7 +42,7 @@ public class CanteenInteractionHandler {
             if (fillResult.consumesAction()) {
                 event.setCanceled(true);
                 event.setCancellationResult(fillResult);
-                player.swing(hand, true);
+                player.swing(hand, SwingAnimation.DEFAULT, true);
                 return;
             }
 
@@ -56,7 +57,7 @@ public class CanteenInteractionHandler {
             if (emptyResult.consumesAction()) {
                 event.setCanceled(true);
                 event.setCancellationResult(emptyResult);
-                player.swing(hand, true);
+                player.swing(hand, SwingAnimation.DEFAULT, true);
                 return;
             }
         }

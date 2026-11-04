@@ -1,11 +1,10 @@
 package sfiomn.legendarysurvivaloverhaul.client.screens;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
@@ -19,6 +18,7 @@ import sfiomn.legendarysurvivaloverhaul.network.payloads.BodyPartHealingTimeMess
 import sfiomn.legendarysurvivaloverhaul.registry.KeyMappingRegistry;
 import sfiomn.legendarysurvivaloverhaul.util.AttachmentUtil;
 import sfiomn.legendarysurvivaloverhaul.util.MathUtil;
+import sfiomn.legendarysurvivaloverhaul.util.RenderUtil;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -234,24 +234,24 @@ public class BodyHealthScreen extends Screen
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers)
+    public boolean keyPressed(KeyEvent event)
     {
         if (this.minecraft != null && this.minecraft.player != null)
         {
-            if (this.minecraft.options.keyInventory.matches(keyCode, scanCode))
+            if (this.minecraft.options.keyInventory.matches(event))
             {
-                this.minecraft.setScreen(new InventoryScreen(this.minecraft.player));
+                this.minecraft.gui.setScreen(new InventoryScreen(this.minecraft.player));
                 return true;
             }
 
-            if (KeyMappingRegistry.showBodyHealth.matches(keyCode, scanCode))
+            if (KeyMappingRegistry.showBodyHealth.matches(event))
             {
                 this.onClose();
                 return true;
             }
         }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(event);
     }
 
     @Override
@@ -267,17 +267,15 @@ public class BodyHealthScreen extends Screen
     }
 
     @Override
-    public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks)
+    public void extractRenderState(@NotNull GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTicks)
     {
         checkAutoCloseWhenHealing();
 
         // Draw vanilla background blur/dim behind our screen contents
-        super.renderBackground(gui, mouseX, mouseY, partialTicks);
+        super.extractBackground(gui, mouseX, mouseY, partialTicks);
 
         // Render the screen texture
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-        gui.blit(BODY_HEALTH_SCREEN, leftPos, topPos, 0, 0, HEALTH_SCREEN_WIDTH, HEALTH_SCREEN_HEIGHT);
+        RenderUtil.blit(gui, BODY_HEALTH_SCREEN, leftPos, topPos, 0, 0, HEALTH_SCREEN_WIDTH, HEALTH_SCREEN_HEIGHT);
 
         renderTutorialToggleButton(gui);
 
@@ -290,7 +288,7 @@ public class BodyHealthScreen extends Screen
         }
 
         // Render buttons and widgets on top
-        super.render(gui, mouseX, mouseY, partialTicks);
+        super.extractRenderState(gui, mouseX, mouseY, partialTicks);
     }
 
     public void checkAutoCloseWhenHealing()
@@ -298,22 +296,19 @@ public class BodyHealthScreen extends Screen
         if (hand != null && healingCharges == 0)
         {
             assert this.minecraft != null;
-            this.minecraft.setScreen(null);
+            this.minecraft.gui.setScreen(null);
         }
     }
 
     @Override
-    public void renderBackground(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTick)
+    public void extractBackground(@NotNull GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick)
     {
-        // Don't render background blur - we handle rendering in render() method
+        // Don't render background blur - we handle rendering in extractRenderState() method
     }
 
-    private void renderTutorialToggleButton(GuiGraphics gui) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-
+    private void renderTutorialToggleButton(GuiGraphicsExtractor gui) {
         int[] texCoord = tutorialOpen ? TOGGLE_BUTTON_ON_TEX_COORD : TOGGLE_BUTTON_OFF_TEX_COORD;
-        gui.blit(TUTORIAL_PAGES,
+        RenderUtil.blit(gui, TUTORIAL_PAGES,
             leftPos + TUTORIAL_TOGGLE_BUTTON_X,
             topPos + TUTORIAL_TOGGLE_BUTTON_Y,
             texCoord[0], texCoord[1],
@@ -321,12 +316,9 @@ public class BodyHealthScreen extends Screen
             TUTORIAL_TEXTURE_WIDTH, TUTORIAL_TEXTURE_HEIGHT);
     }
 
-    private void renderTutorial(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-
+    private void renderTutorial(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTicks) {
         int[] texCoord = TUTORIAL_PAGE_TEX_COORDS[currentTutorialPage];
-        gui.blit(TUTORIAL_PAGES,
+        RenderUtil.blit(gui, TUTORIAL_PAGES,
             leftPos + TUTORIAL_PAGE_X,
             topPos + TUTORIAL_PAGE_Y,
             texCoord[0], texCoord[1],
@@ -337,7 +329,7 @@ public class BodyHealthScreen extends Screen
         tutorialRightButton.visible = currentTutorialPage < TUTORIAL_PAGE_COUNT - 1;
 
         if (tutorialLeftButton.visible && (tutorialLeftButton.isHovered() || leftArrowPressCounter > 0)) {
-            gui.blit(TUTORIAL_PAGES,
+            RenderUtil.blit(gui, TUTORIAL_PAGES,
                 tutorialLeftButton.getX(),
                 tutorialLeftButton.getY(),
                 ARROW_LEFT_TEX_COORD[0], ARROW_LEFT_TEX_COORD[1],
@@ -346,7 +338,7 @@ public class BodyHealthScreen extends Screen
         }
 
         if (tutorialRightButton.visible && (tutorialRightButton.isHovered() || rightArrowPressCounter > 0)) {
-            gui.blit(TUTORIAL_PAGES,
+            RenderUtil.blit(gui, TUTORIAL_PAGES,
                 tutorialRightButton.getX(),
                 tutorialRightButton.getY(),
                 ARROW_RIGHT_TEX_COORD[0], ARROW_RIGHT_TEX_COORD[1],
@@ -376,7 +368,7 @@ public class BodyHealthScreen extends Screen
         }
     }
 
-    private void renderBodyPartHealth(GuiGraphics gui, BodyPartEnum bodyPart, int mouseX, int mouseY, float partialTicks)
+    private void renderBodyPartHealth(GuiGraphicsExtractor gui, BodyPartEnum bodyPart, int mouseX, int mouseY, float partialTicks)
     {
         if (minecraft == null)
         {
@@ -408,19 +400,17 @@ public class BodyHealthScreen extends Screen
             bodyPartButton.active = true;
         }
 
-        bodyPartButton.render(gui, mouseX, mouseY, partialTicks);
+        bodyPartButton.extractRenderState(gui, mouseX, mouseY, partialTicks);
 
         if (bodyPartButton.isMouseOver(mouseX, mouseY) && this.hand != null)
         {
             totalRemainingHealing += this.healingValue;
         }
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1, 1, 1, 1);
         drawHealthBar(gui, bodyPart, healthRatio, MathUtil.round(totalRemainingHealing / maxHealth, 2));
     }
 
-    private void drawHealthBar(GuiGraphics gui, BodyPartEnum bodyPart, float healthRatio, float totalRemainingHealingRatio)
+    private void drawHealthBar(GuiGraphicsExtractor gui, BodyPartEnum bodyPart, float healthRatio, float totalRemainingHealingRatio)
     {
         HealthBarIcon healthBarIcon = HealthBarIcon.get(bodyPart);
         HealthBarCondition healthBarCondition = HealthBarCondition.get(healthRatio);
@@ -430,7 +420,7 @@ public class BodyHealthScreen extends Screen
         boolean shouldFlash = flashCounters.containsKey(bodyPart);
 
         // Draw empty health bar
-        gui.blit(BODY_HEALTH_SCREEN, this.leftPos + healthBarIcon.x, this.topPos + healthBarIcon.y,
+        RenderUtil.blit(gui, BODY_HEALTH_SCREEN, this.leftPos + healthBarIcon.x, this.topPos + healthBarIcon.y,
                 TEX_HEALTH_BAR_X + HEALTH_BAR_WIDTH * HealthBarCondition.DEAD.iconIndexX,
                 TEX_HEALTH_BAR_Y + HEALTH_BAR_HEIGHT * HealthBarCondition.DEAD.iconIndexY,
                 HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT);
@@ -454,19 +444,19 @@ public class BodyHealthScreen extends Screen
                     this.leftPos + healthBarIcon.x, this.topPos + healthBarIcon.y,
                     texX, texY, healthBarWidth, HEALTH_BAR_HEIGHT
             );
-            gui.blit(BODY_HEALTH_SCREEN, this.leftPos + healthBarIcon.x, this.topPos + healthBarIcon.y,
+            RenderUtil.blit(gui, BODY_HEALTH_SCREEN, this.leftPos + healthBarIcon.x, this.topPos + healthBarIcon.y,
                     texX, texY, healthBarWidth, HEALTH_BAR_HEIGHT);
         }
 
         // Draw healing bar
         if (healthBarPreviewWidth > 0)
-            gui.blit(BODY_HEALTH_SCREEN, this.leftPos + healthBarIcon.x + healthBarWidth, this.topPos + healthBarIcon.y,
+            RenderUtil.blit(gui, BODY_HEALTH_SCREEN, this.leftPos + healthBarIcon.x + healthBarWidth, this.topPos + healthBarIcon.y,
                     TEX_HEALTH_BAR_X + healthBarWidth + HEALTH_BAR_WIDTH * healthBarCondition.getPreviewVariant().iconIndexX,
                     TEX_HEALTH_BAR_Y + HEALTH_BAR_HEIGHT * healthBarCondition.getPreviewVariant().iconIndexY,
                     healthBarPreviewWidth, HEALTH_BAR_HEIGHT);
 
         if (shouldFlash)
-            gui.blit(BODY_HEALTH_SCREEN, this.leftPos + healthBarIcon.x, this.topPos + healthBarIcon.y,
+            RenderUtil.blit(gui, BODY_HEALTH_SCREEN, this.leftPos + healthBarIcon.x, this.topPos + healthBarIcon.y,
                     TEX_HEALTH_BAR_X + HEALTH_BAR_WIDTH * HealthBarCondition.FLASH.iconIndexX,
                     TEX_HEALTH_BAR_Y + HEALTH_BAR_HEIGHT * HealthBarCondition.FLASH.iconIndexY,
                     HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT);
@@ -566,7 +556,7 @@ public class BodyHealthScreen extends Screen
         }
 
         @Override
-        public void renderWidget(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+        protected void extractContents(@NotNull GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTicks) {
         }
     }
 
@@ -580,7 +570,7 @@ public class BodyHealthScreen extends Screen
         }
 
         @Override
-        public void renderWidget(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+        protected void extractContents(@NotNull GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTicks) {
         }
     }
 }

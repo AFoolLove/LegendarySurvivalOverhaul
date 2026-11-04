@@ -1,0 +1,230 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "legendarysurvivaloverhaul:temperature",
+    "scale": 1.0,
+    "entries": [
+      {
+        "threshold": 0.0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_00"
+        }
+      },
+      {
+        "threshold": 0.0333333,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_01"
+        }
+      },
+      {
+        "threshold": 0.0666666,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_02"
+        }
+      },
+      {
+        "threshold": 0.1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_03"
+        }
+      },
+      {
+        "threshold": 0.1333333,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_04"
+        }
+      },
+      {
+        "threshold": 0.1666666,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_05"
+        }
+      },
+      {
+        "threshold": 0.2,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_06"
+        }
+      },
+      {
+        "threshold": 0.2333333,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_07"
+        }
+      },
+      {
+        "threshold": 0.2666666,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_08"
+        }
+      },
+      {
+        "threshold": 0.3,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_09"
+        }
+      },
+      {
+        "threshold": 0.3333333,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_10"
+        }
+      },
+      {
+        "threshold": 0.3666666,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_11"
+        }
+      },
+      {
+        "threshold": 0.4,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_12"
+        }
+      },
+      {
+        "threshold": 0.4333333,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_13"
+        }
+      },
+      {
+        "threshold": 0.4666666,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_14"
+        }
+      },
+      {
+        "threshold": 0.5,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_15"
+        }
+      },
+      {
+        "threshold": 0.5333333,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_16"
+        }
+      },
+      {
+        "threshold": 0.5666666,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_17"
+        }
+      },
+      {
+        "threshold": 0.6,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_18"
+        }
+      },
+      {
+        "threshold": 0.6333333,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_19"
+        }
+      },
+      {
+        "threshold": 0.6666666,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_20"
+        }
+      },
+      {
+        "threshold": 0.7,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_21"
+        }
+      },
+      {
+        "threshold": 0.7333333,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_22"
+        }
+      },
+      {
+        "threshold": 0.7666666,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_23"
+        }
+      },
+      {
+        "threshold": 0.8,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_24"
+        }
+      },
+      {
+        "threshold": 0.8333333,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_25"
+        }
+      },
+      {
+        "threshold": 0.8666666,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_26"
+        }
+      },
+      {
+        "threshold": 0.9,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_27"
+        }
+      },
+      {
+        "threshold": 0.9333333,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_28"
+        }
+      },
+      {
+        "threshold": 0.9666666,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_29"
+        }
+      },
+      {
+        "threshold": 1.0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendarysurvivaloverhaul:item/thermometer/thermometer_29"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "legendarysurvivaloverhaul:item/thermometer"
+    }
+  }
+}

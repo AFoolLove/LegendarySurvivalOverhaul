@@ -11,6 +11,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -58,10 +59,10 @@ public class WaterPlantBlock extends CropBlock
                 .mapColor(MapColor.PLANT)
                 .randomTicks()
                 .noOcclusion()
-                .noCollission()
+                .noCollision()
                 .instabreak()
                 .sound(SoundType.CROP)
-                .pushReaction(PushReaction.DESTROY);
+                .pushReaction(PushReaction.POPPED);
     }
 
     @Override
@@ -167,7 +168,7 @@ public class WaterPlantBlock extends CropBlock
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context)
     {
-        Vec3 vector3d = state.getOffset(reader, pos);
+        Vec3 vector3d = state.getOffset(pos);
         if (state.getValue(HALF) == DoubleBlockHalf.LOWER)
             return SHAPE_BY_AGE[Math.min(this.getAge(state), 3)].move(vector3d.x, vector3d.y, vector3d.z);
         else
@@ -178,7 +179,7 @@ public class WaterPlantBlock extends CropBlock
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player)
     {
-        if (!level.isClientSide)
+        if (!level.isClientSide())
         {
             if (isUpperBlock(state))
             {
@@ -195,11 +196,11 @@ public class WaterPlantBlock extends CropBlock
     @Override
     protected int getBonemealAgeIncrease(Level pLevel)
     {
-        return Mth.nextInt(pLevel.random, 1, 2);
+        return Mth.nextInt(pLevel.getRandom(), 1, 2);
     }
 
     @Override
-    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state)
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull BonemealSource source)
     {
         if (canGrow((Level) level, state, pos))
         {

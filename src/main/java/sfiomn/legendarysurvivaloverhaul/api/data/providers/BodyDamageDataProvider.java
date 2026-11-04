@@ -7,7 +7,6 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.api.data.builder.IBodyPartResistanceData;
 import sfiomn.legendarysurvivaloverhaul.api.data.builder.IBodyPartsDamageSourceData;
@@ -34,26 +33,24 @@ public abstract class BodyDamageDataProvider implements DataProvider
     private final Map<String, IHealingConsumableData> consumablesBuilders = new HashMap<>();
     private final Map<String, IBodyPartsDamageSourceData> bodyPartsDamageSourceBuilders = new HashMap<>();
     private final Map<String, IBodyPartResistanceData> bodyPartResistanceBuilders = new HashMap<>();
-    private final ExistingFileHelper fileHelper;
 
-    public BodyDamageDataProvider(String modId, PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper fileHelper)
+    public BodyDamageDataProvider(String modId, PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider)
     {
         this.modId = modId;
-        this.fileHelper = fileHelper;
         this.consumablesPathProvider = output.createPathProvider(PackOutput.Target.DATA_PACK, LegendarySurvivalOverhaul.MOD_ID + "/body_damage/consumables");
         this.bodyPartsDamageSourcePathProvider = output.createPathProvider(PackOutput.Target.DATA_PACK, LegendarySurvivalOverhaul.MOD_ID + "/body_damage/damage_sources");
         this.bodyPartResistancePathProvider = output.createPathProvider(PackOutput.Target.DATA_PACK, LegendarySurvivalOverhaul.MOD_ID + "/body_damage/items");
         this.lookupProvider = lookupProvider;
     }
 
-    public abstract void generate(HolderLookup.Provider provider, ExistingFileHelper existingFileHelper);
+    public abstract void generate(HolderLookup.Provider provider);
 
     @Nonnull
     public CompletableFuture<?> run(@Nonnull CachedOutput pOutput)
     {
         return this.lookupProvider.thenCompose((p_255484_) -> {
             List<CompletableFuture<?>> list = new ArrayList<>();
-            this.generate(p_255484_, this.fileHelper);
+            this.generate(p_255484_);
             this.consumablesBuilders.forEach((consumable, builder) -> {
                 Identifier jsonKey = consumable.split(":").length == 1 ?
                         Identifier.fromNamespaceAndPath(this.modId, consumable.toLowerCase()) : Identifier.parse(consumable);

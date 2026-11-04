@@ -1,74 +1,70 @@
 package sfiomn.legendarysurvivaloverhaul.util;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
-import org.joml.Matrix4f;
+import net.minecraft.util.ARGB;
 
+/**
+ * Rendering helpers for the 26.3 {@code GuiGraphicsExtractor} GUI render-state system.
+ *
+ * <p>In 26.3 the old {@code GuiGraphics#blit(ResourceLocation, x, y, u, v, w, h)} overloads no longer
+ * exist. Every blit now requires an explicit {@code RenderPipeline} (and, when a tint is needed, an ARGB
+ * colour). The helpers below restore the old "texture is 256x256" convenience behaviour on top of the
+ * new API so the HUD code stays readable.</p>
+ */
 public final class RenderUtil
 {
+    /** Default texture size assumed by the old implicit 7-argument {@code blit}. */
+    private static final int DEFAULT_TEXTURE_SIZE = 256;
+
     private RenderUtil()
     {
     }
 
     /**
-     * Basically a more sensibly-named version of Minecraft's included blit function
-     * Useful to specify different texWidth and width as the corresponded blit function is protected
-     *
-     * @param matrix    The matrix this should be drawn from
-     * @param x         Horizontal position on the screen where this texture should be drawn
-     * @param y         Vertical position on the screen where this texture should be drawn
-     * @param texX      Horizontal position of the texture on the currently bound texture sheet.
-     * @param texY      Vertical position of the texture on the currently bound texture sheet.
-     * @param texWidth  Width of the given texture, in pixels
-     * @param texHeight Height of the given texture, in pixels
+     * Opaque blit with the legacy 256x256 texture-size assumption.
      */
-    public static void drawTexturedModelRect(Matrix4f matrix, float x, float y, int width, int height, int texX, int texY, int texWidth, int texHeight)
+    public static void blit(GuiGraphicsExtractor gui, Identifier texture, int x, int y, int u, int v, int width, int height)
     {
-        // f & f1 means 1/256 as we assume the image size to be 256x256
-        float f = 0.00390625f;
-        float f1 = 0.00390625f;
-        float z = 0.0f;
-
-        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
-        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-
-        bufferBuilder.addVertex(matrix, x, y + height, z)
-                .setUv((texX * f), (texY + texHeight) * f1).setColor(255, 255, 255, 122);
-        bufferBuilder.addVertex(matrix, (x + width), y + height, z)
-                .setUv((texX + texWidth) * f, (texY + texHeight) * f1).setColor(255, 255, 255, 122);
-        bufferBuilder.addVertex(matrix, (x + width), y, z)
-                .setUv((texX + texWidth) * f, (texY * f1)).setColor(255, 255, 255, 122);
-        bufferBuilder.addVertex(matrix, x, y, z)
-                .setUv((texX * f), (texY * f1)).setColor(255, 255, 255, 255);
-        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
+        blit(gui, texture, x, y, u, v, width, height, DEFAULT_TEXTURE_SIZE, DEFAULT_TEXTURE_SIZE);
     }
 
-    public static void drawTexturedModelRectWithAlpha(Matrix4f matrix, float x, float y, int width, int height, int texX, int texY, int texWidth, int texHeight, float alpha)
+    /**
+     * Blit with an explicit texture atlas size.
+     */
+    public static void blit(GuiGraphicsExtractor gui, Identifier texture, int x, int y, int u, int v, int width, int height, int textureWidth, int textureHeight)
     {
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
-
-        RenderUtil.drawTexturedModelRect(matrix, x, y, width, height, texX, texY, texWidth, texHeight);
-
-        RenderSystem.depthMask(true);
-        RenderSystem.enableDepthTest();
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        gui.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, (float) u, (float) v, width, height, width, height, textureWidth, textureHeight);
     }
 
-    public static void renderTextureOverlay(GuiGraphics gui, Identifier resourceLocation, int screenWidth, int screenHeight, float alpha)
+    /**
+     * Alpha-tinted blit (replaces the old {@code RenderSystem.setShaderColor(r, g, b, alpha) + blit} pattern).
+     */
+    public static void blitAlpha(GuiGraphicsExtractor gui, Identifier texture, int x, int y, int u, int v, int width, int height, float alpha)
     {
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        gui.setColor(1.0F, 1.0F, 1.0F, alpha);
+        blitAlpha(gui, texture, x, y, u, v, width, height, DEFAULT_TEXTURE_SIZE, DEFAULT_TEXTURE_SIZE, alpha);
+    }
 
-        gui.blit(resourceLocation, 0, 0, -90, 0.0F, 0.0F, screenWidth, screenHeight, screenWidth, screenHeight);
+    /**
+     * Alpha-tinted blit with an explicit texture atlas size.
+     */
+    public static void blitAlpha(GuiGraphicsExtractor gui, Identifier texture, int x, int y, int u, int v, int width, int height, int textureWidth, int textureHeight, float alpha)
+    {
+        gui.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, (float) u, (float) v, width, height, width, height, textureWidth, textureHeight, ARGB.white(alpha));
+    }
 
-        RenderSystem.depthMask(true);
-        RenderSystem.enableDepthTest();
-        gui.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+    /**
+     * Draws a full-screen alpha-blended texture overlay (used by the frostbite / heat-stroke overlays).
+     */
+    public static void renderTextureOverlay(GuiGraphicsExtractor gui, Identifier texture, int screenWidth, int screenHeight, float alpha)
+    {
+        if (texture == null || alpha <= 0.0f)
+        {
+            return;
+        }
+
+        gui.blit(RenderPipelines.GUI_TEXTURED, texture, 0, 0, 0.0f, 0.0f, screenWidth, screenHeight,
+                screenWidth, screenHeight, DEFAULT_TEXTURE_SIZE, DEFAULT_TEXTURE_SIZE, ARGB.white(alpha));
     }
 }

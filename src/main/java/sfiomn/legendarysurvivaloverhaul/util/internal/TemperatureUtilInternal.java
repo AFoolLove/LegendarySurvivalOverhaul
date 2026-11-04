@@ -64,7 +64,7 @@ public class TemperatureUtilInternal implements ITemperatureUtil
     public float getPlayerTargetTemperature(Player player)
     {
         float sum = 0.0f;
-        Level world = player.getCommandSenderWorld();
+        Level world = player.level();
         BlockPos pos = WorldUtil.getSidedBlockPos(world, player);
 
         for (var holder : MODIFIERS.getEntries())
@@ -252,13 +252,13 @@ public class TemperatureUtilInternal implements ITemperatureUtil
             // TODO: remove this temporary transfer to new coat tag name
             if (compound.contains("ArmorPadding"))
             {
-                compound.putString(COAT_TAG, compound.getString("ArmorPadding"));
+                compound.putString(COAT_TAG, compound.getStringOr("ArmorPadding", ""));
                 compound.remove("ArmorPadding");
                 stack.set(DataComponents.CUSTOM_DATA, CustomData.of(compound));
             }
             if (compound.contains(COAT_TAG))
             {
-                return compound.getString(COAT_TAG);
+                return compound.getStringOr(COAT_TAG, "");
             }
         }
         return "";

@@ -3,6 +3,7 @@ package sfiomn.legendarysurvivaloverhaul.api.temperature;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -85,7 +86,7 @@ public abstract class ModifierBase
         // and then normalize it from 0 to 1
         // Plains returned temperature 0.44, savanna 0.7, Ice plain 0.26
 
-        Identifier name = level.registryAccess().registryOrThrow(Registries.BIOME).getKey(biome);
+        Identifier name = level.registryAccess().lookupOrThrow(Registries.BIOME).getResourceKey(biome).map(ResourceKey::identifier).orElse(null);
         JsonTemperatureBiomeOverride biomeInfo = TemperatureDataManager.getBiome(name);
         if (name != null && biomeInfo != null)
         {
@@ -113,8 +114,10 @@ public abstract class ModifierBase
         // Dry biomes have humidity below 0.2
 
         Identifier name = level.registryAccess()
-                .registryOrThrow(Registries.BIOME)
-                .getKey(biome);
+                .lookupOrThrow(Registries.BIOME)
+                .getResourceKey(biome)
+                .map(ResourceKey::identifier)
+                .orElse(null);
 
         JsonTemperatureBiomeOverride biomeInfo = TemperatureDataManager.getBiome(name);
         if (name != null && biomeInfo != null)

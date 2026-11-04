@@ -103,7 +103,7 @@ public class SpreadPoint
 
     private double consumptionMultiplier(Direction originDirection)
     {
-        boolean upDirection = originDirection.getNormal().getY() > 0;
+        boolean upDirection = originDirection.getUnitVec3().y > 0;
         double consumptionMultiplier = 1;
         if (this.isWater)
         {

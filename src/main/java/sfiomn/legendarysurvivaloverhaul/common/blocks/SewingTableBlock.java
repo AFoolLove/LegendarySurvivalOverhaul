@@ -1,6 +1,5 @@
 package sfiomn.legendarysurvivaloverhaul.common.blocks;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -30,8 +29,6 @@ import sfiomn.legendarysurvivaloverhaul.common.containers.SewingTableContainer;
 public class SewingTableBlock extends HorizontalDirectionalBlock implements MenuProvider
 {
 
-    // --- 1) Required codec for 1.20.3+ ---
-    public static final MapCodec<SewingTableBlock> CODEC = simpleCodec(SewingTableBlock::new);
     private static final Component CONTAINER_TITLE =
             Component.translatable("container." + LegendarySurvivalOverhaul.MOD_ID + ".sewing_table").withStyle();
     private static final VoxelShape BASE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
@@ -52,12 +49,6 @@ public class SewingTableBlock extends HorizontalDirectionalBlock implements Menu
                 .mapColor(MapColor.WOOD)
                 .strength(4.0f, 10.0f)
                 .noOcclusion();
-    }
-
-    @Override
-    public MapCodec<SewingTableBlock> codec()
-    {
-        return CODEC;
     }
 
     @Override
@@ -85,7 +76,7 @@ public class SewingTableBlock extends HorizontalDirectionalBlock implements Menu
                                                      Player player,
                                                      BlockHitResult hit)
     {
-        if (level.isClientSide)
+        if (level.isClientSide())
         {
             return InteractionResult.SUCCESS;
         }
@@ -94,7 +85,7 @@ public class SewingTableBlock extends HorizontalDirectionalBlock implements Menu
     }
 
     @Override
-    public @NotNull ItemInteractionResult useItemOn(ItemStack stack,
+    public @NotNull InteractionResult useItemOn(ItemStack stack,
                                                     BlockState state,
                                                     Level level,
                                                     BlockPos pos,
@@ -104,8 +95,8 @@ public class SewingTableBlock extends HorizontalDirectionalBlock implements Menu
     {
         // If you don't want items to do anything special, delegate to the empty-hand handler:
         return this.useWithoutItem(state, level, pos, player, hit) == InteractionResult.CONSUME
-                ? ItemInteractionResult.SUCCESS
-                : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+                ? InteractionResult.SUCCESS
+                : InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
 

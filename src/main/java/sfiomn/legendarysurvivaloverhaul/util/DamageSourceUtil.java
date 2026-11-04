@@ -16,11 +16,11 @@ public class DamageSourceUtil
 
     private static Registry<DamageType> damageTypes(Level level)
     {
-        return level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
+        return level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE);
     }
 
     public static DamageSource getDamageSource(Level level, ResourceKey<DamageType> damageType)
     {
-        return new DamageSource(damageTypes(level).getHolderOrThrow(damageType));
+        return new DamageSource(damageTypes(level).getOrThrow(damageType));
     }
 }

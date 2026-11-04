@@ -1,7 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul.common.attachments.wetness;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -19,9 +19,11 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.LavaFluid;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import sfiomn.legendarysurvivaloverhaul.api.wetness.IWetnessAttachment;
 import sfiomn.legendarysurvivaloverhaul.common.integration.curios.CuriosUtil;
 import sfiomn.legendarysurvivaloverhaul.common.integration.meadow.MeadowUtil;
@@ -30,7 +32,7 @@ import sfiomn.legendarysurvivaloverhaul.registry.ItemRegistry;
 import sfiomn.legendarysurvivaloverhaul.util.MathUtil;
 import sfiomn.legendarysurvivaloverhaul.util.WorldUtil;
 
-public class WetnessAttachment implements IWetnessAttachment, INBTSerializable<CompoundTag>
+public class WetnessAttachment implements IWetnessAttachment, ValueIOSerializable
 {
     public static final int WETNESS_LIMIT = 400;
 
@@ -136,7 +138,8 @@ public class WetnessAttachment implements IWetnessAttachment, INBTSerializable<C
 
         // If the player is not riding a living entity, shift the position used for calculations up by one block
         // This way, sitting in a boat that's floating on the water won't increase a player's wetness
-        if (player.getVehicle() != null && !(player.getVehicle() instanceof LivingEntity) && !player.getVehicle().hasImpulse)
+        // NOTE 26.3: Entity#hasImpulse was removed from vanilla, so the extra impulse check is dropped here.
+        if (player.getVehicle() != null && !(player.getVehicle() instanceof LivingEntity))
         {
             pos = pos.above();
             if (this.wetness > 0 && level.getFluidState(pos).isEmpty())
@@ -246,20 +249,20 @@ public class WetnessAttachment implements IWetnessAttachment, INBTSerializable<C
         this.init();
 
         if (compound.contains("wetness"))
-            this.setWetness(compound.getInt("wetness"));
+            this.setWetness(compound.getIntOr("wetness", 0));
         if (compound.contains("wetnessTickTimer"))
-            this.setWetnessTickTimer(compound.getInt("wetnessTickTimer"));
+            this.setWetnessTickTimer(compound.getIntOr("wetnessTickTimer", 0));
     }
 
     @Override
-    public CompoundTag serializeNBT(HolderLookup.Provider provider)
+    public void serialize(ValueOutput output)
     {
-        return writeNBT();
+        output.store(writeNBT());
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt)
+    public void deserialize(ValueInput input)
     {
-        readNBT(nbt);
+        input.read(MapCodec.assumeMapUnsafe(CompoundTag.CODEC)).ifPresent(this::readNBT);
     }
 }

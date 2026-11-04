@@ -5,6 +5,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -43,7 +44,7 @@ public record DrinkBlockFluidMessage() implements CustomPacketPayload
 
     public static void sendToServer()
     {
-        PacketDistributor.sendToServer(new DrinkBlockFluidMessage());
+        ClientPacketDistributor.sendToServer(new DrinkBlockFluidMessage());
     }
 
     @Override

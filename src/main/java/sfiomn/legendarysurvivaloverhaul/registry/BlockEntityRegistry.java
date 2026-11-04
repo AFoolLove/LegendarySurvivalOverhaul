@@ -15,16 +15,17 @@ public class BlockEntityRegistry
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, LegendarySurvivalOverhaul.MOD_ID);
 
-    public static void register(IEventBus eventBus)
-    {
-        BLOCK_ENTITIES.register(eventBus);
-    }    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HeaterBlockEntity>> HEATER_BLOCK_ENTITY =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HeaterBlockEntity>> HEATER_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("heater", () ->
-                    BlockEntityType.Builder.of(HeaterBlockEntity::new, BlockRegistry.HEATER.get()).build(null));
+                    new BlockEntityType<>(HeaterBlockEntity::new, BlockRegistry.HEATER.get()));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CoolerBlockEntity>> COOLER_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("cooler", () ->
-                    BlockEntityType.Builder.of(CoolerBlockEntity::new, BlockRegistry.COOLER.get()).build(null));
+                    new BlockEntityType<>(CoolerBlockEntity::new, BlockRegistry.COOLER.get()));
 
+    public static void register(IEventBus eventBus)
+    {
+        BLOCK_ENTITIES.register(eventBus);
+    }
 
 }

@@ -1,14 +1,14 @@
 package sfiomn.legendarysurvivaloverhaul.common.listeners;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -22,15 +22,14 @@ import sfiomn.legendarysurvivaloverhaul.network.payloads.SyncTemperatureDimensio
 import java.util.HashMap;
 import java.util.Map;
 
-public class TemperatureDimensionListener extends SimpleJsonResourceReloadListener implements ITemperatureDimensionManager
+public class TemperatureDimensionListener extends SimpleJsonResourceReloadListener<JsonElement> implements ITemperatureDimensionManager
 {
 
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private static final Map<Identifier, JsonTemperatureDimension> TEMPERATURE_DIMENSIONS = new HashMap<>();
 
     public TemperatureDimensionListener()
     {
-        super(GSON, LegendarySurvivalOverhaul.MOD_ID + "/temperature/dimensions");
+        super(ExtraCodecs.JSON, FileToIdConverter.json(LegendarySurvivalOverhaul.MOD_ID + "/temperature/dimensions"));
     }
 
     public static void sendDataToClient(@Nullable ServerPlayer player)

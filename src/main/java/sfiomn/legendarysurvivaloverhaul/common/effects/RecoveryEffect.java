@@ -1,6 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul.common.effects;
 
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +15,7 @@ public class RecoveryEffect extends MobEffect
     }
 
     @Override
-    public boolean applyEffectTick(@NotNull LivingEntity entity, int amplifier)
+    public boolean applyEffectTick(ServerLevel serverLevel, LivingEntity entity, int amplifier)
     {
         entity.heal((float) Config.Baked.recoveryEffectHealingValue);
         return true;

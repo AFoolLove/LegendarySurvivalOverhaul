@@ -1,10 +1,11 @@
 package sfiomn.legendarysurvivaloverhaul.util;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.item.equipment.Equippable;
 import sfiomn.legendarysurvivaloverhaul.common.integration.curios.CuriosUtil;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
 
@@ -17,9 +18,10 @@ public class ItemUtil
 
     public static boolean canBeEquippedInSlot(ItemStack stack, EquipmentSlot slot)
     {
-        if (stack.getItem() instanceof ArmorItem armorItem)
+        Equippable equippable = stack.get(DataComponents.EQUIPPABLE);
+        if (equippable != null)
         {
-            return armorItem.getEquipmentSlot() == slot;
+            return equippable.slot() == slot;
         }
 
         if (stack.getItem() instanceof ShieldItem)
@@ -35,9 +37,10 @@ public class ItemUtil
 
     public static EquipmentSlot getEquippableSlot(ItemStack stack)
     {
-        if (stack.getItem() instanceof ArmorItem armorItem)
+        Equippable equippable = stack.get(DataComponents.EQUIPPABLE);
+        if (equippable != null)
         {
-            return armorItem.getEquipmentSlot();
+            return equippable.slot();
         }
 
         if (stack.getItem() instanceof ShieldItem)

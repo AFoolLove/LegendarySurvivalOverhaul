@@ -1,23 +1,30 @@
 package sfiomn.legendarysurvivaloverhaul.client.itemproperties;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperty;
+import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sfiomn.legendarysurvivaloverhaul.api.thirst.HydrationEnum;
 import sfiomn.legendarysurvivaloverhaul.api.thirst.ThirstUtil;
 
-
-public class CanteenProperty implements ClampedItemPropertyFunction
+/**
+ * 26.3 item-model property: canteen thirst/hydration tier.
+ *
+ * <p>Registered through {@code RegisterRangeSelectItemModelPropertyEvent} as
+ * {@code legendarysurvivaloverhaul:thirstenum} and referenced from an item model with
+ * {@code "type": "minecraft:range_dispatch"}.</p>
+ */
+@OnlyIn(Dist.CLIENT)
+public class CanteenProperty implements RangeSelectItemModelProperty
 {
+    public static final MapCodec<CanteenProperty> MAP_CODEC = MapCodec.unit(new CanteenProperty());
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public float unclampedCall(@NotNull ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity entity, int i)
+    public float get(ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable ItemOwner owner, int seed)
     {
         HydrationEnum hydrationEnum = ThirstUtil.getHydrationEnumTag(itemStack);
 
@@ -27,5 +34,11 @@ public class CanteenProperty implements ClampedItemPropertyFunction
         }
 
         return 0.0f;
+    }
+
+    @Override
+    public MapCodec<? extends RangeSelectItemModelProperty> type()
+    {
+        return MAP_CODEC;
     }
 }

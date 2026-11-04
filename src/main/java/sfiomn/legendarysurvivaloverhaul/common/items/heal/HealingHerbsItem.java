@@ -2,7 +2,7 @@ package sfiomn.legendarysurvivaloverhaul.common.items.heal;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
 
 public class HealingHerbsItem extends BodyHealingItem
@@ -13,9 +13,9 @@ public class HealingHerbsItem extends BodyHealingItem
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack)
+    public ItemUseAnimation getUseAnimation(ItemStack stack)
     {
-        return UseAnim.EAT;
+        return ItemUseAnimation.EAT;
     }
 
     @Override

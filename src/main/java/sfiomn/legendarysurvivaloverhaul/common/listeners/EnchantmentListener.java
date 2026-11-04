@@ -18,7 +18,7 @@ import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.common.enchantments.ModEnchantments;
 import sfiomn.legendarysurvivaloverhaul.common.items.drink.CanteenItem;
 
-@EventBusSubscriber(modid = LegendarySurvivalOverhaul.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = LegendarySurvivalOverhaul.MOD_ID)
 public class EnchantmentListener {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -91,7 +91,7 @@ public class EnchantmentListener {
         
         // Check if the result is a canteen with Purity enchantment
         if (!result.isEmpty() && result.getItem() instanceof CanteenItem) {
-            if (player.level().isClientSide) return;
+            if (player.level().isClientSide()) return;
             
             // Check if it has Purity enchantment
             ItemEnchantments enchantments = result.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);

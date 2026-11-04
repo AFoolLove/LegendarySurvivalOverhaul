@@ -6,6 +6,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -46,7 +47,7 @@ public record SyncTemperatureMountsPayload(
     // Client -> Server
     public static void sendToServer(Map<Identifier, JsonTemperatureResistance> data)
     {
-        PacketDistributor.sendToServer(new SyncTemperatureMountsPayload(data));
+        ClientPacketDistributor.sendToServer(new SyncTemperatureMountsPayload(data));
     }
 
     /* ---------- Convenience send helpers ---------- */
