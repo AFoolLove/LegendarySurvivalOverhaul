@@ -9,6 +9,11 @@
       {
         "texture": "legendarysurvivaloverhaul:snow"
       }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "legendarysurvivaloverhaul:snow"
+      }
     ]
   }
 }
