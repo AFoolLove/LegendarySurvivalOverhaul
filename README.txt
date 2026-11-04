@@ -18,6 +18,12 @@ Migration status (MC 26.3 / NeoForge 26.3.0.100 / Java 25):
       TerraFirmaCraft, Supplementaries, Meds and Herbs, Origins,
       Weather2, Survive
 
+Known limitation (26.3):
+  - the `hide coordinates / targeted info from the debug screen` option
+    (hideInfoFromDebug) is disabled: NeoForge removed
+    CustomizeGuiOverlayEvent.DebugText and the debug screen is data driven now,
+    so the config option currently has no effect.
+
 License: MIT License (see LICENSE.txt)
 Note:   optional compat mod jars used for local development live in libs/ (not committed).
 
