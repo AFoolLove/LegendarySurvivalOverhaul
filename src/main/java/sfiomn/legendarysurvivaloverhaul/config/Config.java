@@ -9,6 +9,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.config.json_old.JsonConfigRegistration;
+import sfiomn.legendarysurvivaloverhaul.common.integration.jsonConfig.JsonIntegrationConfigRegistration;
 import sfiomn.legendarysurvivaloverhaul.util.EnumUtil;
 
 import java.io.IOException;
@@ -100,6 +101,7 @@ public class Config
         container.registerConfig(ModConfig.Type.LOCAL, BODY_DAMAGE_SPEC, CONFIG_FOLDER + "body_damage.toml");
 
         JsonConfigRegistration.init(LegendarySurvivalOverhaul.modConfigJsons.toFile());
+        JsonIntegrationConfigRegistration.init(LegendarySurvivalOverhaul.modIntegrationConfigJsons.toFile());
     }
 
     /**
