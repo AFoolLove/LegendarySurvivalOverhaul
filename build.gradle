@@ -50,6 +50,7 @@ neoForge {
                     '--existing', file('src/main/resources/').getAbsolutePath()
         }
 
+
         // 26.3 split datagen into DataClient (assets) and DataServer (server data). Each run removes
         // stale files from its own output dir, so the two targets must be different directories.
         serverData {
@@ -171,4 +172,15 @@ idea {
         downloadSources = true
         downloadJavadoc = true
     }
+}
+
+// 26.3's DataClient run also emits datapack registry entries (advancements/recipes/...); keep the
+// client asset root asset-only by deleting those after the run. Server data goes to
+// src/generated/datapack via the serverData run.
+tasks.matching { it.name == 'runData' }.configureEach {
+    finalizedBy 'cleanupClientDataOutputs'
+}
+
+tasks.register('cleanupClientDataOutputs', Delete) {
+    delete 'src/generated/resources/data', 'src/generated/resources/.cache'
 }

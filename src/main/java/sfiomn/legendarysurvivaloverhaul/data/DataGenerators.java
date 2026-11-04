@@ -55,6 +55,13 @@ public final class DataGenerators
                         new LootTableProvider.SubProviderEntry(ModBarteringLootTables::new, LootContextParamSets.PIGLIN_BARTER));
     }
 
+    @SubscribeEvent
+    public static void gatherClientData(GatherDataEvent.Client event)
+    {
+        // blockstates + block/item models (26.3 model system: written as resources, item
+        // definitions live in src/main/resources/assets/.../items)
+        event.createProvider(ModModelProvider::new);
+    }
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void gatherServerData(GatherDataEvent.Server event)
     {
