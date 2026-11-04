@@ -45,3 +45,32 @@ type = "optional"
 versionRange = "[31,)"
 ordering = "BEFORE"
 side = "BOTH"
+
+# Optional third-party compatibility mods.
+[[dependencies."${mod_id}"]]
+modId = "mutantmonsters"
+type = "optional"
+versionRange = "[26,)"
+ordering = "BEFORE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "overflowingbars"
+type = "optional"
+versionRange = "[26,)"
+ordering = "BEFORE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "sereneseasons"
+type = "optional"
+versionRange = "[26.1,)"
+ordering = "BEFORE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "eclipticseasons"
+type = "optional"
+versionRange = "[0.15,)"
+ordering = "BEFORE"
+side = "BOTH"

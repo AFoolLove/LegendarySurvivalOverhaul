@@ -40,3 +40,9 @@ LegendarySurvivalOverhaul-neoforge-1.21.1/
 # local-only notes (contain personal paths) — never commit
 MIGRATION_PROGRESS.md
 docs/
+
+# local compat mod jars (tools/fetch-compat-libs.ps1)
+/libs/
+
+# local dev scripts (not tracked)
+/tools/

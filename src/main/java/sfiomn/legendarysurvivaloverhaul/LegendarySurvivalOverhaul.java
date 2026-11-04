@@ -32,6 +32,8 @@ import sfiomn.legendarysurvivaloverhaul.client.screens.SewingTableScreen;
 import sfiomn.legendarysurvivaloverhaul.client.screens.ThermalScreen;
 import sfiomn.legendarysurvivaloverhaul.common.attachments.ModAttachments;
 import sfiomn.legendarysurvivaloverhaul.common.integration.curios.CuriosEvents;
+import sfiomn.legendarysurvivaloverhaul.common.integration.eclipticseasons.EclipticSeasonsUtil;
+import sfiomn.legendarysurvivaloverhaul.common.integration.sereneseasons.SereneSeasonsUtil;
 import sfiomn.legendarysurvivaloverhaul.common.items.armor.ArmorMaterialBase;
 import sfiomn.legendarysurvivaloverhaul.common.listeners.*;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
@@ -243,6 +245,12 @@ public class LegendarySurvivalOverhaul
         {
             BodyDamageUtilInternal.initMalusConfig();
             BodyDamageUtilInternal.initLimbEffects();
+
+            if (sereneSeasonsLoaded)
+                SereneSeasonsUtil.initAverageTemperatures();
+
+            if (eclipticSeasonsLoaded)
+                EclipticSeasonsUtil.initAverageTemperatures();
         });
     }
 

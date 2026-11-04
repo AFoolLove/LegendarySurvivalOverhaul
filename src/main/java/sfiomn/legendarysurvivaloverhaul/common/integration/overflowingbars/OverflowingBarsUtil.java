@@ -1,12 +1,14 @@
 package sfiomn.legendarysurvivaloverhaul.common.integration.overflowingbars;
 
-/**
- * Vanilla-only stub of the Overflowing Bars integration for the 26.3 port.
- */
+import fuzs.overflowingbars.common.OverflowingBars;
+import fuzs.overflowingbars.common.config.ClientConfig;
+import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
+
 public class OverflowingBarsUtil
 {
     public static boolean isHealthBarOverflowing()
     {
-        return false;
+        return LegendarySurvivalOverhaul.overflowingbarsLoaded
+                && OverflowingBars.CONFIG.get(ClientConfig.class).health.allowHealthLayers;
     }
 }
