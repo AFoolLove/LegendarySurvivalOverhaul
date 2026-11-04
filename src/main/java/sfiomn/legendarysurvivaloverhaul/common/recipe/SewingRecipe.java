@@ -37,6 +37,11 @@ public class SewingRecipe implements Recipe<RecipeInput>
         return addition;
     }
 
+    public ItemStackTemplate getResultTemplate()
+    {
+        return result;
+    }
+
     @Override
     public boolean matches(@NotNull RecipeInput input, Level level)
     {
