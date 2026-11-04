@@ -1,4 +1,5 @@
 {
+    "message.legendarysurvivaloverhaul.thirst.blur_warning": "视线开始模糊了。喝点水吧",
   "key.category.legendarysurvivaloverhaul.main": "传说生存",
   "key.legendarysurvivaloverhaul.added_desc": "显示描述",
   "tooltip.legendarysurvivaloverhaul.added_desc.activate": "按 %s%s%s 查看更多描述。",

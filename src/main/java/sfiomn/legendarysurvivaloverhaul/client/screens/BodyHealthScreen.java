@@ -431,19 +431,9 @@ public class BodyHealthScreen extends Screen
         int texX = TEX_HEALTH_BAR_X + HEALTH_BAR_WIDTH * healthBarCondition.iconIndexX;
         int texY = TEX_HEALTH_BAR_Y + HEALTH_BAR_HEIGHT * healthBarCondition.iconIndexY;
 
-        sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul.LOGGER.info(
-                "[drawHealthBar] {}: ratio={}, barWidth={}/{}, condition={}, texCoords=({},{})",
-                bodyPart.name(), healthRatio, healthBarWidth, HEALTH_BAR_WIDTH, healthBarCondition.name(), texX, texY
-        );
-
         // Draw current health bar
         if (healthBarWidth > 0)
         {
-            sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul.LOGGER.info(
-                    "[drawHealthBar] Drawing filled bar at screen({},{}) from tex({},{}) size({},{})",
-                    this.leftPos + healthBarIcon.x, this.topPos + healthBarIcon.y,
-                    texX, texY, healthBarWidth, HEALTH_BAR_HEIGHT
-            );
             RenderUtil.blit(gui, BODY_HEALTH_SCREEN, this.leftPos + healthBarIcon.x, this.topPos + healthBarIcon.y,
                     texX, texY, healthBarWidth, HEALTH_BAR_HEIGHT);
         }

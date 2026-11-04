@@ -25,10 +25,6 @@ public class BodyPartButton extends Button
     public void setHealthRatio(float healthRatio)
     {
         this.healthRatio = healthRatio;
-        sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul.LOGGER.info(
-                "[BodyPartButton] setHealthRatio {}: ratio={}",
-                this.bodyPart.name(), healthRatio
-        );
     }
 
     @Override
@@ -86,11 +82,6 @@ public class BodyPartButton extends Button
             {
                 result = HEALTHY;
             }
-
-            sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul.LOGGER.info(
-                    "[BodyPartCondition] get({}): returning {}",
-                    healthRatio, result.name()
-            );
 
             return result;
         }
