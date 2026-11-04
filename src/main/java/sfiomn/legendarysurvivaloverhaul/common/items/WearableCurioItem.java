@@ -22,9 +22,17 @@ public class WearableCurioItem extends Item implements ICurioItem
     public InteractionResult use(Level level, Player player, InteractionHand hand)
     {
 
-        ItemStack itemstack = player.getItemInHand(hand);
+        ItemStack itemStack = player.getItemInHand(hand);
 
-        boolean isWorn = CuriosUtil.equipCurio(player, itemstack, hand);
+        // Server-authoritative: only the server may move the curio into the curio inventory.
+        // Mutating the client-side curio/inventory handlers makes the client predict an equip that
+        // the server never acknowledged, which can leave a ghost (fake) stack on the cursor.
+        if (level.isClientSide())
+        {
+            return InteractionResult.SUCCESS;
+        }
+
+        boolean isWorn = CuriosUtil.equipCurio(player, itemStack, hand);
         if (isWorn)
             level.playSound(null, player.blockPosition(), SoundEvents.ARMOR_EQUIP_GENERIC.value(), player.getSoundSource(), 1.0f, 1.0f);
 

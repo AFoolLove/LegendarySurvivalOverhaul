@@ -107,6 +107,15 @@ public final class WorldUtil
         return TemperatureUtil.getWorldTemperature(world, getSidedBlockPos(world, entity));
     }
 
+    /**
+     * 26.3 item model properties only expose an {@link net.minecraft.world.entity.ItemOwner} (level + position).
+     * Computes the world temperature for that position without touching any {@link net.minecraft.world.item.ItemStack}.
+     */
+    public static float calculateClientWorldPositionTemperature(Level world, net.minecraft.world.phys.Vec3 position)
+    {
+        return TemperatureUtil.getWorldTemperature(world, BlockPos.containing(position));
+    }
+
     public static float toFahrenheit(float temperature)
     {
         return 32 + (temperature * 1.8f);

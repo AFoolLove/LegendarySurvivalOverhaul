@@ -16,10 +16,8 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
-import sfiomn.legendarysurvivaloverhaul.common.attachments.temperature.TemperatureItemAttachment;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
 import sfiomn.legendarysurvivaloverhaul.registry.KeyMappingRegistry;
-import sfiomn.legendarysurvivaloverhaul.util.AttachmentUtil;
 import sfiomn.legendarysurvivaloverhaul.util.WorldUtil;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
@@ -40,9 +38,7 @@ public class ThermometerItem extends Item implements ICurioItem
     {
         if (level.isClientSide())
         {
-            TemperatureItemAttachment tempCap = AttachmentUtil.getTempItemAttachment(player.getMainHandItem());
-
-            float temperature = tempCap.getWorldTemperatureLevel();
+            float temperature = WorldUtil.calculateClientWorldEntityTemperature(level, player);
             Component temperatureComponent;
             if (Config.Baked.renderTemperatureInFahrenheit)
             {

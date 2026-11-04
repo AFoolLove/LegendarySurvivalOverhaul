@@ -14,12 +14,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
-import sfiomn.legendarysurvivaloverhaul.common.attachments.temperature.TemperatureItemAttachment;
 import sfiomn.legendarysurvivaloverhaul.common.integration.eclipticseasons.EclipticSeasonsUtil;
 import sfiomn.legendarysurvivaloverhaul.common.integration.sereneseasons.SereneSeasonsUtil;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
 import sfiomn.legendarysurvivaloverhaul.registry.ItemRegistry;
-import sfiomn.legendarysurvivaloverhaul.util.AttachmentUtil;
 import sfiomn.legendarysurvivaloverhaul.util.RenderUtil;
 import sfiomn.legendarysurvivaloverhaul.util.WorldUtil;
 
@@ -73,8 +71,7 @@ public class RenderTooltipFrame
                 text = EclipticSeasonsUtil.seasonTooltip(ENTITY_LOOKED_AT.level());
             } else if (itemInFrame == ItemRegistry.THERMOMETER.get())
             {
-                TemperatureItemAttachment tempItemCap = AttachmentUtil.getTempItemAttachment(((ItemFrame) ENTITY_LOOKED_AT).getItem());
-                float temperature = tempItemCap.getWorldTemperatureLevel();
+                float temperature = WorldUtil.calculateClientWorldEntityTemperature(ENTITY_LOOKED_AT.level(), ENTITY_LOOKED_AT);
                 if (Config.Baked.renderTemperatureInFahrenheit)
                 {
                     text = Component.literal(WorldUtil.toFahrenheit(temperature) + "\u00B0F");
