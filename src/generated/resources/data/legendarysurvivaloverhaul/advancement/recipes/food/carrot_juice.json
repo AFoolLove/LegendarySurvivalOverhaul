@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:carrot_juice"
+        "recipes": "legendarysurvivaloverhaul:carrot_juice"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

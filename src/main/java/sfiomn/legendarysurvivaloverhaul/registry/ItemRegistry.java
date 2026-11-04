@@ -1,6 +1,5 @@
 package sfiomn.legendarysurvivaloverhaul.registry;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
@@ -8,6 +7,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.api.item.CoatEnum;
@@ -23,14 +23,16 @@ import static sfiomn.legendarysurvivaloverhaul.common.items.armor.ArmorMaterialB
 
 public class ItemRegistry
 {
+    // 26.3: Item.Properties must already carry its id when the Item is constructed (the constructor registers the
+    // data component initializer for properties.itemIdOrThrow()), otherwise "Item id not set" NPE at startup.
+    // The specialized DeferredRegister.Items helpers call setId(...) automatically.
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(LegendarySurvivalOverhaul.MOD_ID);
 
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, LegendarySurvivalOverhaul.MOD_ID);
+    public static final DeferredItem<Item> THERMOMETER = ITEMS.registerItem("thermometer", ThermometerItem::new, p -> p.stacksTo(1));
+    public static final DeferredItem<Item> SEASONAL_CALENDAR = ITEMS.registerItem("seasonal_calendar", SeasonalCalendarItem::new);
 
-    public static final DeferredHolder<Item, ? extends Item> THERMOMETER = ITEMS.register("thermometer", () -> new ThermometerItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredHolder<Item, ? extends Item> SEASONAL_CALENDAR = ITEMS.register("seasonal_calendar", () -> new SeasonalCalendarItem(new Item.Properties()));
-
-    public static final DeferredHolder<Item, ? extends Item> NETHER_CHALICE = ITEMS.register("nether_chalice", () -> new NetherChaliceItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
-    public static final DeferredHolder<Item, ? extends Item> SPONGE = ITEMS.register("sponge", () -> new WearableCurioItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE))
+    public static final DeferredItem<Item> NETHER_CHALICE = ITEMS.registerItem("nether_chalice", NetherChaliceItem::new, p -> p.stacksTo(1).rarity(Rarity.EPIC));
+    public static final DeferredItem<Item> SPONGE = ITEMS.registerItem("sponge", properties -> new WearableCurioItem(properties)
     {
 
         @Override
@@ -40,11 +42,11 @@ public class ItemRegistry
 
             tooltipComponents.accept(Component.translatable("tooltip." + LegendarySurvivalOverhaul.MOD_ID + ".sponge.description"));
         }
-    });
-    public static final DeferredHolder<Item, ? extends Item> HEAT_RESISTANCE_RING = ITEMS.register("heat_resistance_ring", () -> new WearableCurioItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
-    public static final DeferredHolder<Item, ? extends Item> COLD_RESISTANCE_RING = ITEMS.register("cold_resistance_ring", () -> new WearableCurioItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
-    public static final DeferredHolder<Item, ? extends Item> THERMAL_RESISTANCE_RING = ITEMS.register("thermal_resistance_ring", () -> new WearableCurioItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
-    public static final DeferredHolder<Item, ? extends Item> FIRST_AID_SUPPLIES = ITEMS.register("first_aid_supplies", () -> new WearableCurioItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE))
+    }, p -> p.stacksTo(1).rarity(Rarity.RARE));
+    public static final DeferredItem<Item> HEAT_RESISTANCE_RING = ITEMS.registerItem("heat_resistance_ring", WearableCurioItem::new, p -> p.stacksTo(1).rarity(Rarity.RARE));
+    public static final DeferredItem<Item> COLD_RESISTANCE_RING = ITEMS.registerItem("cold_resistance_ring", WearableCurioItem::new, p -> p.stacksTo(1).rarity(Rarity.RARE));
+    public static final DeferredItem<Item> THERMAL_RESISTANCE_RING = ITEMS.registerItem("thermal_resistance_ring", WearableCurioItem::new, p -> p.stacksTo(1).rarity(Rarity.EPIC));
+    public static final DeferredItem<Item> FIRST_AID_SUPPLIES = ITEMS.registerItem("first_aid_supplies", properties -> new WearableCurioItem(properties)
     {
 
         @Override
@@ -54,47 +56,47 @@ public class ItemRegistry
 
             tooltipComponents.accept(Component.translatable("tooltip." + LegendarySurvivalOverhaul.MOD_ID + ".first_aid_supplies.description"));
         }
-    });
+    }, p -> p.stacksTo(1).rarity(Rarity.RARE));
 
-    public static final DeferredHolder<Item, ? extends Item> SNOW_HELMET = ITEMS.register("snow_helmet", () -> new Item(new Item.Properties().humanoidArmor(SNOW, ArmorType.HELMET)));
-    public static final DeferredHolder<Item, ? extends Item> SNOW_CHEST = ITEMS.register("snow_chestplate", () -> new Item(new Item.Properties().humanoidArmor(SNOW, ArmorType.CHESTPLATE)));
-    public static final DeferredHolder<Item, ? extends Item> SNOW_LEGGINGS = ITEMS.register("snow_leggings", () -> new Item(new Item.Properties().humanoidArmor(SNOW, ArmorType.LEGGINGS)));
-    public static final DeferredHolder<Item, ? extends Item> SNOW_BOOTS = ITEMS.register("snow_boots", () -> new Item(new Item.Properties().humanoidArmor(SNOW, ArmorType.BOOTS))
+    public static final DeferredItem<Item> SNOW_HELMET = ITEMS.registerItem("snow_helmet", Item::new, p -> p.humanoidArmor(SNOW, ArmorType.HELMET));
+    public static final DeferredItem<Item> SNOW_CHEST = ITEMS.registerItem("snow_chestplate", Item::new, p -> p.humanoidArmor(SNOW, ArmorType.CHESTPLATE));
+    public static final DeferredItem<Item> SNOW_LEGGINGS = ITEMS.registerItem("snow_leggings", Item::new, p -> p.humanoidArmor(SNOW, ArmorType.LEGGINGS));
+    public static final DeferredItem<Item> SNOW_BOOTS = ITEMS.registerItem("snow_boots", properties -> new Item(properties)
     {
         @Override
         public boolean canWalkOnPowderedSnow(ItemStack stack, LivingEntity wearer)
         {
             return true;
         }
-    });
+    }, p -> p.humanoidArmor(SNOW, ArmorType.BOOTS));
 
-    public static final DeferredHolder<Item, ? extends Item> DESERT_HELMET = ITEMS.register("desert_helmet", () -> new Item(new Item.Properties().humanoidArmor(DESERT, ArmorType.HELMET)));
-    public static final DeferredHolder<Item, ? extends Item> DESERT_CHEST = ITEMS.register("desert_chestplate", () -> new Item(new Item.Properties().humanoidArmor(DESERT, ArmorType.CHESTPLATE)));
-    public static final DeferredHolder<Item, ? extends Item> DESERT_LEGGINGS = ITEMS.register("desert_leggings", () -> new Item(new Item.Properties().humanoidArmor(DESERT, ArmorType.LEGGINGS)));
-    public static final DeferredHolder<Item, ? extends Item> DESERT_BOOTS = ITEMS.register("desert_boots", () -> new Item(new Item.Properties().humanoidArmor(DESERT, ArmorType.BOOTS)));
+    public static final DeferredItem<Item> DESERT_HELMET = ITEMS.registerItem("desert_helmet", Item::new, p -> p.humanoidArmor(DESERT, ArmorType.HELMET));
+    public static final DeferredItem<Item> DESERT_CHEST = ITEMS.registerItem("desert_chestplate", Item::new, p -> p.humanoidArmor(DESERT, ArmorType.CHESTPLATE));
+    public static final DeferredItem<Item> DESERT_LEGGINGS = ITEMS.registerItem("desert_leggings", Item::new, p -> p.humanoidArmor(DESERT, ArmorType.LEGGINGS));
+    public static final DeferredItem<Item> DESERT_BOOTS = ITEMS.registerItem("desert_boots", Item::new, p -> p.humanoidArmor(DESERT, ArmorType.BOOTS));
 
-    public static final DeferredHolder<Item, ? extends Item> COOLING_COAT_1 = ITEMS.register("cooling_coat_1", () -> new CoatItem(CoatEnum.COOLING_1, new Item.Properties().rarity(Rarity.COMMON)));
-    public static final DeferredHolder<Item, ? extends Item> COOLING_COAT_2 = ITEMS.register("cooling_coat_2", () -> new CoatItem(CoatEnum.COOLING_2, new Item.Properties().rarity(Rarity.RARE)));
-    public static final DeferredHolder<Item, ? extends Item> COOLING_COAT_3 = ITEMS.register("cooling_coat_3", () -> new CoatItem(CoatEnum.COOLING_3, new Item.Properties().rarity(Rarity.EPIC)));
-    public static final DeferredHolder<Item, ? extends Item> HEATING_COAT_1 = ITEMS.register("heating_coat_1", () -> new CoatItem(CoatEnum.HEATING_1, new Item.Properties().rarity(Rarity.COMMON)));
-    public static final DeferredHolder<Item, ? extends Item> HEATING_COAT_2 = ITEMS.register("heating_coat_2", () -> new CoatItem(CoatEnum.HEATING_2, new Item.Properties().rarity(Rarity.RARE)));
-    public static final DeferredHolder<Item, ? extends Item> HEATING_COAT_3 = ITEMS.register("heating_coat_3", () -> new CoatItem(CoatEnum.HEATING_3, new Item.Properties().rarity(Rarity.EPIC)));
-    public static final DeferredHolder<Item, ? extends Item> THERMAL_COAT_1 = ITEMS.register("thermal_coat_1", () -> new CoatItem(CoatEnum.THERMAL_1, new Item.Properties().rarity(Rarity.COMMON)));
-    public static final DeferredHolder<Item, ? extends Item> THERMAL_COAT_2 = ITEMS.register("thermal_coat_2", () -> new CoatItem(CoatEnum.THERMAL_2, new Item.Properties().rarity(Rarity.RARE)));
-    public static final DeferredHolder<Item, ? extends Item> THERMAL_COAT_3 = ITEMS.register("thermal_coat_3", () -> new CoatItem(CoatEnum.THERMAL_3, new Item.Properties().rarity(Rarity.EPIC)));
+    public static final DeferredItem<Item> COOLING_COAT_1 = ITEMS.registerItem("cooling_coat_1", p -> new CoatItem(CoatEnum.COOLING_1, p), props -> props.rarity(Rarity.COMMON));
+    public static final DeferredItem<Item> COOLING_COAT_2 = ITEMS.registerItem("cooling_coat_2", p -> new CoatItem(CoatEnum.COOLING_2, p), props -> props.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> COOLING_COAT_3 = ITEMS.registerItem("cooling_coat_3", p -> new CoatItem(CoatEnum.COOLING_3, p), props -> props.rarity(Rarity.EPIC));
+    public static final DeferredItem<Item> HEATING_COAT_1 = ITEMS.registerItem("heating_coat_1", p -> new CoatItem(CoatEnum.HEATING_1, p), props -> props.rarity(Rarity.COMMON));
+    public static final DeferredItem<Item> HEATING_COAT_2 = ITEMS.registerItem("heating_coat_2", p -> new CoatItem(CoatEnum.HEATING_2, p), props -> props.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> HEATING_COAT_3 = ITEMS.registerItem("heating_coat_3", p -> new CoatItem(CoatEnum.HEATING_3, p), props -> props.rarity(Rarity.EPIC));
+    public static final DeferredItem<Item> THERMAL_COAT_1 = ITEMS.registerItem("thermal_coat_1", p -> new CoatItem(CoatEnum.THERMAL_1, p), props -> props.rarity(Rarity.COMMON));
+    public static final DeferredItem<Item> THERMAL_COAT_2 = ITEMS.registerItem("thermal_coat_2", p -> new CoatItem(CoatEnum.THERMAL_2, p), props -> props.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> THERMAL_COAT_3 = ITEMS.registerItem("thermal_coat_3", p -> new CoatItem(CoatEnum.THERMAL_3, p), props -> props.rarity(Rarity.EPIC));
 
-    public static final DeferredHolder<Item, ? extends Item> COLD_STRING = ITEMS.register("cold_string", () -> new Item(new Item.Properties().rarity(Rarity.COMMON)));
-    public static final DeferredHolder<Item, ? extends Item> WARM_STRING = ITEMS.register("warm_string", () -> new Item(new Item.Properties().rarity(Rarity.COMMON)));
+    public static final DeferredItem<Item> COLD_STRING = ITEMS.registerSimpleItem("cold_string", p -> p.rarity(Rarity.COMMON));
+    public static final DeferredItem<Item> WARM_STRING = ITEMS.registerSimpleItem("warm_string", p -> p.rarity(Rarity.COMMON));
 
-    public static final DeferredHolder<Item, ? extends Item> SUN_FERN_SEEDS = ITEMS.register("sun_fern_seeds", () -> new BlockItem(BlockRegistry.SUN_FERN_CROP.get(), new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> SUN_FERN = ITEMS.register("sun_fern_leaf", () -> new Item(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> SUN_FERN_GOLD = ITEMS.register("sun_fern_gold_leaf", () -> new Item(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> ICE_FERN_SEEDS = ITEMS.register("ice_fern_seeds", () -> new BlockItem(BlockRegistry.ICE_FERN_CROP.get(), new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> ICE_FERN = ITEMS.register("ice_fern_leaf", () -> new Item(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> ICE_FERN_GOLD = ITEMS.register("ice_fern_gold_leaf", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<BlockItem> SUN_FERN_SEEDS = ITEMS.registerItem("sun_fern_seeds", p -> new BlockItem(BlockRegistry.SUN_FERN_CROP.get(), p));
+    public static final DeferredItem<Item> SUN_FERN = ITEMS.registerSimpleItem("sun_fern_leaf");
+    public static final DeferredItem<Item> SUN_FERN_GOLD = ITEMS.registerSimpleItem("sun_fern_gold_leaf");
+    public static final DeferredItem<BlockItem> ICE_FERN_SEEDS = ITEMS.registerItem("ice_fern_seeds", p -> new BlockItem(BlockRegistry.ICE_FERN_CROP.get(), p));
+    public static final DeferredItem<Item> ICE_FERN = ITEMS.registerSimpleItem("ice_fern_leaf");
+    public static final DeferredItem<Item> ICE_FERN_GOLD = ITEMS.registerSimpleItem("ice_fern_gold_leaf");
 
     // Thirst
-    public static final DeferredHolder<Item, ? extends Item> WATER_PURIFIER = ITEMS.register("water_purifier", () -> new WearableCurioItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE))
+    public static final DeferredItem<Item> WATER_PURIFIER = ITEMS.registerItem("water_purifier", properties -> new WearableCurioItem(properties)
     {
 
         @Override
@@ -104,39 +106,46 @@ public class ItemRegistry
 
             tooltipComponents.accept(Component.translatable("tooltip." + LegendarySurvivalOverhaul.MOD_ID + ".water_purifier.description"));
         }
-    });
+    }, p -> p.stacksTo(1).rarity(Rarity.RARE));
 
-    public static final DeferredHolder<Item, ? extends Item> CANTEEN = ITEMS.register("canteen", () -> new CanteenItem(new Item.Properties().rarity(Rarity.COMMON).enchantable(10)));
-    public static final DeferredHolder<Item, ? extends Item> LARGE_CANTEEN = ITEMS.register("large_canteen", () -> new LargeCanteenItem(new Item.Properties().rarity(Rarity.UNCOMMON).enchantable(10)));
+    public static final DeferredItem<Item> CANTEEN = ITEMS.registerItem("canteen", CanteenItem::new, p -> p.rarity(Rarity.COMMON).enchantable(10));
+    public static final DeferredItem<Item> LARGE_CANTEEN = ITEMS.registerItem("large_canteen", LargeCanteenItem::new, p -> p.rarity(Rarity.UNCOMMON).enchantable(10));
 
-    public static final DeferredHolder<Item, ? extends Item> APPLE_JUICE = ITEMS.register("apple_juice", () -> new JuiceItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> BEETROOT_JUICE = ITEMS.register("beetroot_juice", () -> new JuiceItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> CACTUS_JUICE = ITEMS.register("cactus_juice", () -> new JuiceItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> CARROT_JUICE = ITEMS.register("carrot_juice", () -> new JuiceItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> CHORUS_FRUIT_JUICE = ITEMS.register("chorus_fruit_juice", () -> new JuiceItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> GOLDEN_APPLE_JUICE = ITEMS.register("golden_apple_juice", () -> new JuiceItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
-    public static final DeferredHolder<Item, ? extends Item> GOLDEN_CARROT_JUICE = ITEMS.register("golden_carrot_juice", () -> new JuiceItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
-    public static final DeferredHolder<Item, ? extends Item> GLISTERING_MELON_JUICE = ITEMS.register("glistering_melon_juice", () -> new JuiceItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
-    public static final DeferredHolder<Item, ? extends Item> MELON_JUICE = ITEMS.register("melon_juice", () -> new JuiceItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> PUMPKIN_JUICE = ITEMS.register("pumpkin_juice", () -> new JuiceItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> SWEET_BERRIES_JUICE = ITEMS.register("sweet_berries_juice", () -> new JuiceItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> GLOW_BERRIES_JUICE = ITEMS.register("glow_berries_juice", () -> new JuiceItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> PURIFIED_WATER_BOTTLE = ITEMS.register("purified_water_bottle", () -> new PurifiedWaterBottleItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> WATER_PLANT_BAG = ITEMS.register("water_plant_bag", () -> new DrinkItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> WATER_PLANT_SEEDS = ITEMS.register("water_plant_seeds", () -> new BlockItem(BlockRegistry.WATER_PLANT_CROP.get(), new Item.Properties()));
+    public static final DeferredItem<Item> APPLE_JUICE = ITEMS.registerItem("apple_juice", JuiceItem::new);
+    public static final DeferredItem<Item> BEETROOT_JUICE = ITEMS.registerItem("beetroot_juice", JuiceItem::new);
+    public static final DeferredItem<Item> CACTUS_JUICE = ITEMS.registerItem("cactus_juice", JuiceItem::new);
+    public static final DeferredItem<Item> CARROT_JUICE = ITEMS.registerItem("carrot_juice", JuiceItem::new);
+    public static final DeferredItem<Item> CHORUS_FRUIT_JUICE = ITEMS.registerItem("chorus_fruit_juice", JuiceItem::new);
+    public static final DeferredItem<Item> GOLDEN_APPLE_JUICE = ITEMS.registerItem("golden_apple_juice", JuiceItem::new, p -> p.rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<Item> GOLDEN_CARROT_JUICE = ITEMS.registerItem("golden_carrot_juice", JuiceItem::new, p -> p.rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<Item> GLISTERING_MELON_JUICE = ITEMS.registerItem("glistering_melon_juice", JuiceItem::new, p -> p.rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<Item> MELON_JUICE = ITEMS.registerItem("melon_juice", JuiceItem::new);
+    public static final DeferredItem<Item> PUMPKIN_JUICE = ITEMS.registerItem("pumpkin_juice", JuiceItem::new);
+    public static final DeferredItem<Item> SWEET_BERRIES_JUICE = ITEMS.registerItem("sweet_berries_juice", JuiceItem::new);
+    public static final DeferredItem<Item> GLOW_BERRIES_JUICE = ITEMS.registerItem("glow_berries_juice", JuiceItem::new);
+    public static final DeferredItem<Item> PURIFIED_WATER_BOTTLE = ITEMS.registerItem("purified_water_bottle", PurifiedWaterBottleItem::new);
+    public static final DeferredItem<Item> WATER_PLANT_BAG = ITEMS.registerItem("water_plant_bag", DrinkItem::new);
+    public static final DeferredItem<BlockItem> WATER_PLANT_SEEDS = ITEMS.registerItem("water_plant_seeds", p -> new BlockItem(BlockRegistry.WATER_PLANT_CROP.get(), p));
 
     // Health Overhaul
-    public static final DeferredHolder<Item, ? extends Item> HEART_CONTAINER = ITEMS.register("heart_container", () -> new HeartContainerItem(new Item.Properties().rarity(Rarity.EPIC)));
-    public static final DeferredHolder<Item, ? extends Item> HEART_FRAGMENT = ITEMS.register("heart_fragment", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
-    public static final DeferredHolder<Item, ? extends Item> SHIELD_CONTAINER = ITEMS.register("shield_container", () -> new ShieldContainerItem(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final DeferredItem<Item> HEART_CONTAINER = ITEMS.registerItem("heart_container", HeartContainerItem::new, p -> p.rarity(Rarity.EPIC));
+    public static final DeferredItem<Item> HEART_FRAGMENT = ITEMS.registerSimpleItem("heart_fragment", p -> p.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> SHIELD_CONTAINER = ITEMS.registerItem("shield_container", ShieldContainerItem::new, p -> p.rarity(Rarity.EPIC));
 
     // Body Healing
-    public static final DeferredHolder<Item, ? extends Item> HEALING_HERBS = ITEMS.register("healing_herbs", () -> new HealingHerbsItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> PLASTER = ITEMS.register("plaster", () -> new PlasterItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> BANDAGE = ITEMS.register("bandage", () -> new BandageItem(new Item.Properties()));
-    public static final DeferredHolder<Item, ? extends Item> TONIC = ITEMS.register("tonic", () -> new TonicItem(new Item.Properties().rarity(Rarity.RARE)));
-    public static final DeferredHolder<Item, ? extends Item> MEDKIT = ITEMS.register("medkit", () -> new Medkit(new Item.Properties().rarity(Rarity.EPIC)));
-    public static final DeferredHolder<Item, ? extends Item> MORPHINE = ITEMS.register("morphine", () -> new MorphineItem(new Item.Properties()));
+    public static final DeferredItem<Item> HEALING_HERBS = ITEMS.registerItem("healing_herbs", HealingHerbsItem::new);
+    public static final DeferredItem<Item> PLASTER = ITEMS.registerItem("plaster", PlasterItem::new);
+    public static final DeferredItem<Item> BANDAGE = ITEMS.registerItem("bandage", BandageItem::new);
+    public static final DeferredItem<Item> TONIC = ITEMS.registerItem("tonic", TonicItem::new, p -> p.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> MEDKIT = ITEMS.registerItem("medkit", Medkit::new, p -> p.rarity(Rarity.EPIC));
+    public static final DeferredItem<Item> MORPHINE = ITEMS.registerItem("morphine", MorphineItem::new);
+
+    // Block items (26.3: block description prefix, matching the "block.<mod>.<id>" lang keys)
+    public static final DeferredItem<BlockItem> HEATER = ITEMS.registerSimpleBlockItem(BlockRegistry.HEATER);
+    public static final DeferredItem<BlockItem> COOLER = ITEMS.registerSimpleBlockItem(BlockRegistry.COOLER);
+    public static final DeferredItem<BlockItem> SEWING_TABLE = ITEMS.registerSimpleBlockItem(BlockRegistry.SEWING_TABLE);
+    public static final DeferredItem<BlockItem> SUN_FERN_GOLD_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(BlockRegistry.SUN_FERN_GOLD);
+    public static final DeferredItem<BlockItem> ICE_FERN_GOLD_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(BlockRegistry.ICE_FERN_GOLD);
 
     public static void register(IEventBus eventBus)
     {

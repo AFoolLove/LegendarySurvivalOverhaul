@@ -35,7 +35,7 @@
   },
   "frostbite_early": {
     "category": "neutral",
-    "subtitle": "sounds.legendarysurvivaloverhaul.frostbite",
+    "subtitle": "sounds.legendarysurvivaloverhaul.frostbite_early",
     "sounds": [
       {
         "name": "legendarysurvivaloverhaul:frostbite_early",

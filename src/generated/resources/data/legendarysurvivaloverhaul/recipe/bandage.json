@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "healing",
   "key": {
-    "h": {
-      "item": "legendarysurvivaloverhaul:healing_herbs"
-    },
-    "p": {
-      "item": "legendarysurvivaloverhaul:plaster"
-    }
+    "h": "legendarysurvivaloverhaul:healing_herbs",
+    "p": "legendarysurvivaloverhaul:plaster"
   },
   "pattern": [
     "  p",

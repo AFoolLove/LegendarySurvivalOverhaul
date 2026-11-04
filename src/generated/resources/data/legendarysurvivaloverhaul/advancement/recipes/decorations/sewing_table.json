@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:sewing_table"
+        "recipes": "legendarysurvivaloverhaul:sewing_table"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "h": {
-      "item": "legendarysurvivaloverhaul:heart_fragment"
-    }
+    "h": "legendarysurvivaloverhaul:heart_fragment"
   },
   "pattern": [
     "hhh",

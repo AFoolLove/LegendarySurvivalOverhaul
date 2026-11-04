@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:apple_juice"
+        "recipes": "legendarysurvivaloverhaul:apple_juice"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

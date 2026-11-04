@@ -3,21 +3,11 @@
   "category": "misc",
   "group": "drink",
   "ingredients": [
-    {
-      "item": "legendarysurvivaloverhaul:purified_water_bottle"
-    },
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:golden_apple"
-    },
-    {
-      "item": "minecraft:golden_apple"
-    },
-    {
-      "item": "minecraft:golden_apple"
-    }
+    "legendarysurvivaloverhaul:purified_water_bottle",
+    "minecraft:sugar",
+    "minecraft:golden_apple",
+    "minecraft:golden_apple",
+    "minecraft:golden_apple"
   ],
   "result": {
     "count": 1,

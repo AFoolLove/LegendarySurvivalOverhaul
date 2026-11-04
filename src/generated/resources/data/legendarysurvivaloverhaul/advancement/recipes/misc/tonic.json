@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:tonic"
+        "recipes": "legendarysurvivaloverhaul:tonic"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

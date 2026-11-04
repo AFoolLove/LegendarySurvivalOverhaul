@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:chorus_fruit_juice"
+        "recipes": "legendarysurvivaloverhaul:chorus_fruit_juice"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

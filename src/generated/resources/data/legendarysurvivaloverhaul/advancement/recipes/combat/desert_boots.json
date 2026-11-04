@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:desert_boots"
+        "recipes": "legendarysurvivaloverhaul:desert_boots"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

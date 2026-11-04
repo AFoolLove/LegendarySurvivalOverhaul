@@ -3,15 +3,9 @@
   "category": "misc",
   "group": "thermal_coat",
   "key": {
-    "c": {
-      "item": "legendarysurvivaloverhaul:cooling_coat_1"
-    },
-    "h": {
-      "item": "legendarysurvivaloverhaul:heating_coat_1"
-    },
-    "s": {
-      "item": "minecraft:stick"
-    }
+    "c": "legendarysurvivaloverhaul:cooling_coat_1",
+    "h": "legendarysurvivaloverhaul:heating_coat_1",
+    "s": "minecraft:stick"
   },
   "pattern": [
     " cs",

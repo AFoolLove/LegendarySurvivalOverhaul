@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:glistering_melon_juice"
+        "recipes": "legendarysurvivaloverhaul:glistering_melon_juice"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -3,21 +3,11 @@
   "category": "misc",
   "group": "drink",
   "ingredients": [
-    {
-      "item": "legendarysurvivaloverhaul:purified_water_bottle"
-    },
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:beetroot"
-    },
-    {
-      "item": "minecraft:beetroot"
-    },
-    {
-      "item": "minecraft:beetroot"
-    }
+    "legendarysurvivaloverhaul:purified_water_bottle",
+    "minecraft:sugar",
+    "minecraft:beetroot",
+    "minecraft:beetroot",
+    "minecraft:beetroot"
   ],
   "result": {
     "count": 1,

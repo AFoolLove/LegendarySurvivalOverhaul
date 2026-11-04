@@ -6,9 +6,9 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
+          "modifier": [
             {
-              "function": "minecraft:enchant_randomly",
+              "type": "minecraft:enchant_randomly",
               "options": "legendarysurvivaloverhaul:purity"
             }
           ],
@@ -22,8 +22,8 @@
       ],
       "rolls": {
         "type": "minecraft:uniform",
-        "max": 1.0,
-        "min": 1.0
+        "max": 1,
+        "min": 1
       }
     }
   ],

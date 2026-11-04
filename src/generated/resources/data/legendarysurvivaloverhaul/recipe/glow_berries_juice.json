@@ -3,21 +3,11 @@
   "category": "misc",
   "group": "drink",
   "ingredients": [
-    {
-      "item": "legendarysurvivaloverhaul:purified_water_bottle"
-    },
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:glow_berries"
-    },
-    {
-      "item": "minecraft:glow_berries"
-    },
-    {
-      "item": "minecraft:glow_berries"
-    }
+    "legendarysurvivaloverhaul:purified_water_bottle",
+    "minecraft:sugar",
+    "minecraft:glow_berries",
+    "minecraft:glow_berries",
+    "minecraft:glow_berries"
   ],
   "result": {
     "count": 1,

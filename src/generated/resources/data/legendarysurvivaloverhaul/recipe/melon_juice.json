@@ -3,21 +3,11 @@
   "category": "misc",
   "group": "drink",
   "ingredients": [
-    {
-      "item": "legendarysurvivaloverhaul:purified_water_bottle"
-    },
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:melon_slice"
-    },
-    {
-      "item": "minecraft:melon_slice"
-    },
-    {
-      "item": "minecraft:melon_slice"
-    }
+    "legendarysurvivaloverhaul:purified_water_bottle",
+    "minecraft:sugar",
+    "minecraft:melon_slice",
+    "minecraft:melon_slice",
+    "minecraft:melon_slice"
   ],
   "result": {
     "count": 1,

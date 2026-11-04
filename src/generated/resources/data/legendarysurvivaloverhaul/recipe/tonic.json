@@ -3,15 +3,9 @@
   "category": "misc",
   "group": "healing",
   "key": {
-    "b": {
-      "item": "minecraft:glass_bottle"
-    },
-    "g": {
-      "item": "minecraft:gold_ingot"
-    },
-    "h": {
-      "item": "legendarysurvivaloverhaul:healing_herbs"
-    }
+    "b": "minecraft:glass_bottle",
+    "g": "minecraft:gold_ingot",
+    "h": "legendarysurvivaloverhaul:healing_herbs"
   },
   "pattern": [
     " h ",

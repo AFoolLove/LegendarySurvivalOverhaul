@@ -1,6 +1,6 @@
-﻿{
+{
     "advancement.legendarysurvivaloverhaul":  "Legendary Survival Overhaul",
-    "advancement.legendarysurvivaloverhaul.description":  "",
+    "advancement.legendarysurvivaloverhaul.description":  "Making survival harder.",
     "advancement.legendarysurvivaloverhaul.get_a_thermometer":  "Get a Thermometer",
     "advancement.legendarysurvivaloverhaul.get_a_thermometer.description":  "Craft a Thermometer",
     "advancement.legendarysurvivaloverhaul.get_a_calendar":  "Get a Calendar",
@@ -9,7 +9,7 @@
     "advancement.legendarysurvivaloverhaul.get_a_sewing_table.description":  "Craft a Sewing Table",
     "advancement.legendarysurvivaloverhaul.sew_a_coat":  "Sew a Coat",
     "advancement.legendarysurvivaloverhaul.sew_a_coat.description":  "Use the sewing table to sew a coat on an armor",
-    "key.legendarysurvivaloverhaul.title":  "Legendary Survival Overhaul",
+    "key.category.legendarysurvivaloverhaul.main":  "Legendary Survival Overhaul",
     "key.legendarysurvivaloverhaul.added_desc":  "Show Description",
     "tooltip.legendarysurvivaloverhaul.added_desc.activate":  "Press %s%s%s for descriptions",
     "key.legendarysurvivaloverhaul.body_health":  "Show Body Health",
@@ -78,6 +78,8 @@
     "attribute.legendarysurvivaloverhaul.feet_resistance.desc":  "Player\u0027s feet resistance, multiplying the damage taken on the feet by this value before inflicted to the limbs",
     "attribute.legendarysurvivaloverhaul.permanent_heart":  "Permanent Heart",
     "attribute.legendarysurvivaloverhaul.permanent_heart.desc":  "Permanent Heart",
+    "attribute.legendarysurvivaloverhaul.broken_heart":  "Broken Heart",
+    "attribute.legendarysurvivaloverhaul.broken_heart.desc":  "Broken Heart",
     "attribute.legendarysurvivaloverhaul.broken_heart_resilience":  "Broken Heart Resilience",
     "attribute.legendarysurvivaloverhaul.broken_heart_resilience.desc":  "Broken Heart Resilience",
     "item.legendarysurvivaloverhaul.heart_container":  "Crystal Heart",

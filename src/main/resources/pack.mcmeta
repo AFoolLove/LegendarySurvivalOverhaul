@@ -2,7 +2,7 @@
     "pack": {
         "description": "Legendary Survival Overhaul",
         "min_format": [97, 1],
-        "max_format": [97, 1],
+        "max_format": [121, 0],
         "_comment": "Harder survival for a harder game."
     }
 }

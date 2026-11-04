@@ -65,10 +65,35 @@ public class MobEffectRegistry
     public static final DeferredHolder<MobEffect, ? extends MobEffect> HEADACHE = EFFECTS.register("headache", HeadacheEffect::new);
     public static final DeferredHolder<MobEffect, ? extends MobEffect> RECOVERY = EFFECTS.register("recovery", RecoveryEffect::new);
 
-    // 26.3: brewing is data-driven (net.minecraft.world.item.crafting.BrewingRecipe /
-    // data/<namespace>/recipe/brewing/*.json). The old RegisterBrewingRecipesEvent no longer exists.
-    // TODO(lead): provide the equivalent brewing recipe JSON resources for the potion mixes that used to be
-    // registered here (heat/cold resistance, immunity and temperature immunity potions + redstone extensions).
+    // 26.3: brewing is now fully data-driven (net.minecraft.world.item.crafting.BrewingRecipe, recipe type
+    // "minecraft:brewing", loaded from data/<namespace>/recipe/brewing/*.json). RegisterBrewingRecipesEvent no
+    // longer exists and NOTHING has to be registered in Java for these mixes - the potions themselves are already
+    // registered below, only the datapack JSON files are missing. The 13 mixes that used to live here are:
+    //
+    //   JSON recipe id (suggestion)                     input potion                      reagent                            output potion
+    //   heat_resistance_from_awkward                    minecraft:awkward                 legendarysurvivaloverhaul:sun_fern_leaf        heat_resistance
+    //   heat_resistance_long_from_redstone              heat_resistance                   minecraft:redstone                 heat_resistance_long
+    //   cold_resistance_from_awkward                    minecraft:awkward                 legendarysurvivaloverhaul:ice_fern_leaf        cold_resistance
+    //   cold_resistance_long_from_redstone              cold_resistance                   minecraft:redstone                 cold_resistance_long
+    //   heat_immunity_from_awkward                      minecraft:awkward                 legendarysurvivaloverhaul:sun_fern_gold_leaf   heat_immunity
+    //   heat_immunity_long_from_redstone                heat_immunity                     minecraft:redstone                 heat_immunity_long
+    //   cold_immunity_from_awkward                      minecraft:awkward                 legendarysurvivaloverhaul:ice_fern_gold_leaf   cold_immunity
+    //   cold_immunity_long_from_redstone                cold_immunity                     minecraft:redstone                 cold_immunity_long
+    //   temperature_immunity_from_heat_immunity         heat_immunity                     legendarysurvivaloverhaul:ice_fern_gold_leaf   temperature_immunity
+    //   temperature_immunity_long_from_heat_immunity    heat_immunity_long                legendarysurvivaloverhaul:ice_fern_gold_leaf   temperature_immunity_long
+    //   temperature_immunity_from_cold_immunity         cold_immunity                     legendarysurvivaloverhaul:sun_fern_gold_leaf   temperature_immunity
+    //   temperature_immunity_long_from_cold_immunity    cold_immunity_long                legendarysurvivaloverhaul:sun_fern_gold_leaf   temperature_immunity_long
+    //   temperature_immunity_long_from_redstone         temperature_immunity              minecraft:redstone                 temperature_immunity_long
+    //
+    // JSON shape (see vanilla example data/minecraft/recipe/brewing/lingering_potion_awkward_blaze_powder.json):
+    //   {
+    //     "type": "minecraft:brewing",
+    //     "input":  { "item": "minecraft:potion", "potion_contents": { "potions": "minecraft:awkward" } },
+    //     "reagent": { "item": "legendarysurvivaloverhaul:sun_fern_leaf" },
+    //     "output": { "id": "minecraft:potion", "components": { "minecraft:potion_contents": { "potion": "legendarysurvivaloverhaul:heat_resistance" } } }
+    //   }
+    // NOTE: for "potions" (input) the field is a holder-or-list field named potions, for "output" it is "potion".
+    // All referenced item ids exist: sun_fern_leaf / sun_fern_gold_leaf / ice_fern_leaf / ice_fern_gold_leaf.
 
     public static void register(IEventBus eventBus)
     {

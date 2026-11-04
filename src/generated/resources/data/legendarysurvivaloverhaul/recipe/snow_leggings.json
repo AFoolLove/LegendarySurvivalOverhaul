@@ -3,9 +3,7 @@
   "category": "equipment",
   "group": "snow_Armor",
   "key": {
-    "w": {
-      "tag": "minecraft:wool"
-    }
+    "w": "#minecraft:wool"
   },
   "pattern": [
     "www",

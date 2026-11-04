@@ -32,14 +32,13 @@ public class IceFernBlock extends CropBlock
 {
     public static final int MAX_AGE = 3;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
-    public static final Properties properties = getProperties();
     private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{
             Block.box(3.0D, 0.0D, 3.0D, 13.0D, 8.0D, 13.0D),
             Block.box(1.0D, 0.0D, 1.0D, 15.0D, 10.0D, 15.0D),
             Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D),
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
 
-    public IceFernBlock()
+    public IceFernBlock(Properties properties)
     {
         super(properties);
     }

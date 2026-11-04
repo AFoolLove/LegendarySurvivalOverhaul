@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:plaster"
+        "recipes": "legendarysurvivaloverhaul:plaster"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

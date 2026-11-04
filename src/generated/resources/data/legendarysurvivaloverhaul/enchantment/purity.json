@@ -12,7 +12,6 @@
     "base": 15,
     "per_level_above_first": 0
   },
-  "primary_items": "#legendarysurvivaloverhaul:enchantable/canteen",
   "slots": [
     "any"
   ],

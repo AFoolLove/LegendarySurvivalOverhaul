@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:cactus_juice"
+        "recipes": "legendarysurvivaloverhaul:cactus_juice"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

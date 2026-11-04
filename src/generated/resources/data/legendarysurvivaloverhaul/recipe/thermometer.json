@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "#": {
-      "item": "minecraft:glass"
-    },
-    "g": {
-      "item": "minecraft:gold_ingot"
-    },
-    "i": {
-      "item": "minecraft:iron_ingot"
-    },
-    "r": {
-      "item": "minecraft:redstone"
-    }
+    "#": "minecraft:glass",
+    "g": "minecraft:gold_ingot",
+    "i": "minecraft:iron_ingot",
+    "r": "minecraft:redstone"
   },
   "pattern": [
     "#g#",

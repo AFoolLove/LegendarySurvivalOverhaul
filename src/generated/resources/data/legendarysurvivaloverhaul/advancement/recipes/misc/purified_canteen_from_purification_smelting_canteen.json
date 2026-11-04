@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:purified_canteen_from_purification_smelting_canteen"
+        "recipes": "legendarysurvivaloverhaul:purified_canteen_from_purification_smelting_canteen"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

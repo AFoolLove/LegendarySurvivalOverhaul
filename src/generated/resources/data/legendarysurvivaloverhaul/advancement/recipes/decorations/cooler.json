@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:cooler"
+        "recipes": "legendarysurvivaloverhaul:cooler"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

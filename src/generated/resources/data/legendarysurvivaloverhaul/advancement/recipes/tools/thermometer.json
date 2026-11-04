@@ -43,7 +43,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:thermometer"
+        "recipes": "legendarysurvivaloverhaul:thermometer"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

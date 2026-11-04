@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:seasonal_calendar"
+        "recipes": "legendarysurvivaloverhaul:seasonal_calendar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

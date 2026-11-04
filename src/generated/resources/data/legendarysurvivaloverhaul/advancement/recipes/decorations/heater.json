@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:heater"
+        "recipes": "legendarysurvivaloverhaul:heater"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

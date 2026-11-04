@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "healing",
   "key": {
-    "s": {
-      "item": "minecraft:string"
-    },
-    "w": {
-      "tag": "minecraft:wool"
-    }
+    "s": "minecraft:string",
+    "w": "#minecraft:wool"
   },
   "pattern": [
     "ss ",

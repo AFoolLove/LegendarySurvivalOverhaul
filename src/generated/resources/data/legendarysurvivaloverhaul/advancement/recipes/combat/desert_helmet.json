@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:desert_helmet"
+        "recipes": "legendarysurvivaloverhaul:desert_helmet"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

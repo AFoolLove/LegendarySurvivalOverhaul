@@ -35,7 +35,6 @@ public class WaterPlantBlock extends CropBlock
 
     public static final int MAX_AGE = 7;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_7;
-    public static final Properties properties = getProperties();
     private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{
             Block.box(4.0D, 0.0D, 4.0D, 12.0D, 6.0D, 12.0D),
             Block.box(2.0D, 0.0D, 2.0D, 14.0D, 9.0D, 14.0D),
@@ -46,7 +45,7 @@ public class WaterPlantBlock extends CropBlock
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 7.0D, 16.0D),
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 11.0D, 16.0D)};
 
-    public WaterPlantBlock()
+    public WaterPlantBlock(Properties properties)
     {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(HALF, DoubleBlockHalf.LOWER));

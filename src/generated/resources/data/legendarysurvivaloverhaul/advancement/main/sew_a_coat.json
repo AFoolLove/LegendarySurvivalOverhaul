@@ -32,7 +32,7 @@
             "items": "#c:armors"
           }
         ],
-        "recipe_id": "legendarysurvivaloverhaul:sewing"
+        "recipes": "legendarysurvivaloverhaul:sewing"
       },
       "trigger": "minecraft:recipe_crafted"
     }

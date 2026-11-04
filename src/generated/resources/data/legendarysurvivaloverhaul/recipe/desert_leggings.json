@@ -3,12 +3,8 @@
   "category": "equipment",
   "group": "desert_armor",
   "key": {
-    "#": {
-      "item": "minecraft:leather"
-    },
-    "r": {
-      "item": "minecraft:string"
-    }
+    "#": "minecraft:leather",
+    "r": "minecraft:string"
   },
   "pattern": [
     "###",

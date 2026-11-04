@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "p": {
-      "tag": "minecraft:planks"
-    },
-    "r": {
-      "item": "minecraft:redstone"
-    },
-    "s": {
-      "item": "minecraft:snow_block"
-    }
+    "p": "#minecraft:planks",
+    "r": "minecraft:redstone",
+    "s": "minecraft:snow_block"
   },
   "pattern": [
     "psp",

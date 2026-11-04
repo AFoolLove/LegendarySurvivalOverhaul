@@ -3,15 +3,9 @@
   "category": "misc",
   "group": "thermal_coat",
   "key": {
-    "c": {
-      "item": "legendarysurvivaloverhaul:cooling_coat_3"
-    },
-    "e": {
-      "item": "minecraft:end_rod"
-    },
-    "h": {
-      "item": "legendarysurvivaloverhaul:heating_coat_3"
-    }
+    "c": "legendarysurvivaloverhaul:cooling_coat_3",
+    "e": "minecraft:end_rod",
+    "h": "legendarysurvivaloverhaul:heating_coat_3"
   },
   "pattern": [
     " ce",

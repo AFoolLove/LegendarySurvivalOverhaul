@@ -3,15 +3,9 @@
   "category": "misc",
   "group": "cooling_coat",
   "key": {
-    "c": {
-      "item": "legendarysurvivaloverhaul:cold_string"
-    },
-    "i": {
-      "item": "minecraft:iron_ingot"
-    },
-    "s": {
-      "item": "minecraft:stick"
-    }
+    "c": "legendarysurvivaloverhaul:cold_string",
+    "i": "minecraft:iron_ingot",
+    "s": "minecraft:stick"
   },
   "pattern": [
     " is",

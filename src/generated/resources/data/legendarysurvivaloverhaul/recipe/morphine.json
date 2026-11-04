@@ -3,15 +3,9 @@
   "category": "misc",
   "group": "healing",
   "key": {
-    "g": {
-      "item": "minecraft:glass"
-    },
-    "n": {
-      "item": "minecraft:iron_nugget"
-    },
-    "t": {
-      "item": "legendarysurvivaloverhaul:tonic"
-    }
+    "g": "minecraft:glass",
+    "n": "minecraft:iron_nugget",
+    "t": "legendarysurvivaloverhaul:tonic"
   },
   "pattern": [
     "  n",

@@ -3,15 +3,9 @@
   "category": "misc",
   "group": "heating_coat",
   "key": {
-    "#": {
-      "item": "legendarysurvivaloverhaul:heating_coat_2"
-    },
-    "e": {
-      "item": "minecraft:end_rod"
-    },
-    "n": {
-      "item": "minecraft:netherite_ingot"
-    }
+    "#": "legendarysurvivaloverhaul:heating_coat_2",
+    "e": "minecraft:end_rod",
+    "n": "minecraft:netherite_ingot"
   },
   "pattern": [
     " ne",

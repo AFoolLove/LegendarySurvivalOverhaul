@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:large_canteen"
+        "recipes": "legendarysurvivaloverhaul:large_canteen"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

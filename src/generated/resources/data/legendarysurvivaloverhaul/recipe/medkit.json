@@ -3,21 +3,11 @@
   "category": "misc",
   "group": "healing",
   "key": {
-    "b": {
-      "item": "legendarysurvivaloverhaul:bandage"
-    },
-    "g": {
-      "item": "minecraft:gold_ingot"
-    },
-    "i": {
-      "item": "minecraft:iron_ingot"
-    },
-    "s": {
-      "item": "minecraft:string"
-    },
-    "w": {
-      "tag": "minecraft:wool"
-    }
+    "b": "legendarysurvivaloverhaul:bandage",
+    "g": "minecraft:gold_ingot",
+    "i": "minecraft:iron_ingot",
+    "s": "minecraft:string",
+    "w": "#minecraft:wool"
   },
   "pattern": [
     "sis",

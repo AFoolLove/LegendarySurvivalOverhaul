@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:medkit"
+        "recipes": "legendarysurvivaloverhaul:medkit"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

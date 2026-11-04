@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "minecraft:campfire"
-    },
-    "i": {
-      "item": "minecraft:iron_ingot"
-    },
-    "w": {
-      "item": "minecraft:coal_block"
-    }
+    "c": "minecraft:campfire",
+    "i": "minecraft:iron_ingot",
+    "w": "minecraft:coal_block"
   },
   "pattern": [
     " i ",

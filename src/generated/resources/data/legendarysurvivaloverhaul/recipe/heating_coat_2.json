@@ -3,15 +3,9 @@
   "category": "misc",
   "group": "heating_coat",
   "key": {
-    "#": {
-      "item": "legendarysurvivaloverhaul:heating_coat_1"
-    },
-    "b": {
-      "item": "minecraft:blaze_rod"
-    },
-    "d": {
-      "item": "minecraft:diamond"
-    }
+    "#": "legendarysurvivaloverhaul:heating_coat_1",
+    "b": "minecraft:blaze_rod",
+    "d": "minecraft:diamond"
   },
   "pattern": [
     " db",

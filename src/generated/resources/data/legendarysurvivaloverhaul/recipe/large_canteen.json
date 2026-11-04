@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "healing",
   "key": {
-    "l": {
-      "item": "minecraft:leather"
-    },
-    "n": {
-      "item": "minecraft:netherite_scrap"
-    }
+    "l": "minecraft:leather",
+    "n": "minecraft:netherite_scrap"
   },
   "pattern": [
     " n ",

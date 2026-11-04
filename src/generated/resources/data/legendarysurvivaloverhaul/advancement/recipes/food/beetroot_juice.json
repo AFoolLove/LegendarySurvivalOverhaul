@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:beetroot_juice"
+        "recipes": "legendarysurvivaloverhaul:beetroot_juice"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

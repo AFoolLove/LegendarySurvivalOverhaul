@@ -37,14 +37,12 @@ import sfiomn.legendarysurvivaloverhaul.registry.BlockRegistry;
 public class HeaterBaseBlock extends ThermalBlock
 {
 
-    public static final Properties properties = getProperties();
-
     private static final VoxelShape FEET = Block.box(0.0d, 0.0d, 0.0d, 16.0d, 6.0d, 16.0d);
     private static final VoxelShape BASE = Block.box(1.0d, 6.0d, 1.0d, 15.0d, 16.0d, 15.0d);
 
     private static final VoxelShape XZ_AXIS_AABB = Shapes.or(FEET, BASE);
 
-    public HeaterBaseBlock(ThermalTypeEnum thermalType)
+    public HeaterBaseBlock(ThermalTypeEnum thermalType, BlockBehaviour.Properties properties)
     {
         super(thermalType, properties);
     }

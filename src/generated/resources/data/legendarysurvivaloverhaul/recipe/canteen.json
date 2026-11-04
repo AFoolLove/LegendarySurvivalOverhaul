@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "drink",
   "key": {
-    "i": {
-      "item": "minecraft:iron_ingot"
-    },
-    "l": {
-      "item": "minecraft:leather"
-    }
+    "i": "minecraft:iron_ingot",
+    "l": "minecraft:leather"
   },
   "pattern": [
     " i ",

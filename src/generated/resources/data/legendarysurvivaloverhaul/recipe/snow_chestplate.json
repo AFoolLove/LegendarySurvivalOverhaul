@@ -3,12 +3,8 @@
   "category": "equipment",
   "group": "snow_Armor",
   "key": {
-    "#": {
-      "item": "minecraft:leather"
-    },
-    "w": {
-      "tag": "minecraft:wool"
-    }
+    "#": "minecraft:leather",
+    "w": "#minecraft:wool"
   },
   "pattern": [
     "w w",

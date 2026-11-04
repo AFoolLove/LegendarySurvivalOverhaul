@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:brewing",
+  "input": {
+    "item": "minecraft:potion",
+    "potion_contents": {
+      "potions": "legendarysurvivaloverhaul:cold_immunity"
+    }
+  },
+  "output": {
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "legendarysurvivaloverhaul:temperature_immunity"
+      }
+    },
+    "id": "minecraft:potion"
+  },
+  "reagent": {
+    "item": "legendarysurvivaloverhaul:sun_fern_gold_leaf"
+  }
+}

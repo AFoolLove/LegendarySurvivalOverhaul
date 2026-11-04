@@ -3,15 +3,9 @@
   "category": "misc",
   "group": "cooling_coat",
   "key": {
-    "#": {
-      "item": "legendarysurvivaloverhaul:cooling_coat_1"
-    },
-    "b": {
-      "item": "minecraft:blaze_rod"
-    },
-    "d": {
-      "item": "minecraft:diamond"
-    }
+    "#": "legendarysurvivaloverhaul:cooling_coat_1",
+    "b": "minecraft:blaze_rod",
+    "d": "minecraft:diamond"
   },
   "pattern": [
     " db",

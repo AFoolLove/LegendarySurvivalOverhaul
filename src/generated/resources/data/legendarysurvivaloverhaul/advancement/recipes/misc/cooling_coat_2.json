@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:cooling_coat_2"
+        "recipes": "legendarysurvivaloverhaul:cooling_coat_2"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

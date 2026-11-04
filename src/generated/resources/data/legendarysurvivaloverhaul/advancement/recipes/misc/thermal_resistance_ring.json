@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:thermal_resistance_ring"
+        "recipes": "legendarysurvivaloverhaul:thermal_resistance_ring"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

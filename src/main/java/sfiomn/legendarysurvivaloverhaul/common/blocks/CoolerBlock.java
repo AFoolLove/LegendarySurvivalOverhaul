@@ -22,9 +22,7 @@ import sfiomn.legendarysurvivaloverhaul.registry.SoundRegistry;
 public class CoolerBlock extends ThermalBlock
 {
 
-    public static final Properties properties = getProperties();
-
-    public CoolerBlock(ThermalTypeEnum thermalType)
+    public CoolerBlock(ThermalTypeEnum thermalType, Properties properties)
     {
         super(thermalType, properties);
     }

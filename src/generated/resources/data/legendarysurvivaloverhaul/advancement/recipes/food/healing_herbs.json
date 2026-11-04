@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:healing_herbs"
+        "recipes": "legendarysurvivaloverhaul:healing_herbs"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

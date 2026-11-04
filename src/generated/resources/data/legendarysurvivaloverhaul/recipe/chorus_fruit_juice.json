@@ -3,21 +3,11 @@
   "category": "misc",
   "group": "drink",
   "ingredients": [
-    {
-      "item": "legendarysurvivaloverhaul:purified_water_bottle"
-    },
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:chorus_fruit"
-    },
-    {
-      "item": "minecraft:chorus_fruit"
-    },
-    {
-      "item": "minecraft:chorus_fruit"
-    }
+    "legendarysurvivaloverhaul:purified_water_bottle",
+    "minecraft:sugar",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit"
   ],
   "result": {
     "count": 1,

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:heart_container"
+        "recipes": "legendarysurvivaloverhaul:heart_container"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -19,7 +19,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:cold_string_from_sewing_string_ice_fern_leaf"
+        "recipes": "legendarysurvivaloverhaul:cold_string_from_sewing_string_ice_fern_leaf"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

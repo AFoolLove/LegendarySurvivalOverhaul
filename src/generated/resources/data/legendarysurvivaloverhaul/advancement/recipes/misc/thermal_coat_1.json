@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:thermal_coat_1"
+        "recipes": "legendarysurvivaloverhaul:thermal_coat_1"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

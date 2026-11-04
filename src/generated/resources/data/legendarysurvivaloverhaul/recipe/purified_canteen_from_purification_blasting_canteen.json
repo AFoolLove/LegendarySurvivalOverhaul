@@ -3,9 +3,7 @@
   "cookingtime": 80,
   "experience": 1.0,
   "group": "purification",
-  "ingredient": {
-    "item": "legendarysurvivaloverhaul:canteen"
-  },
+  "ingredient": "legendarysurvivaloverhaul:canteen",
   "result": {
     "count": 1,
     "id": "legendarysurvivaloverhaul:canteen"

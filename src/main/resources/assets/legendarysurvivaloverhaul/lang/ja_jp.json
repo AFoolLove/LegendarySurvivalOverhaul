@@ -9,7 +9,7 @@
   "advancement.legendarysurvivaloverhaul.get_a_sewing_table.description": "裁縫台をクラフトする",
   "advancement.legendarysurvivaloverhaul.sew_a_coat": "裏地を縫う",
   "advancement.legendarysurvivaloverhaul.sew_a_coat.description": "裁縫台で防具に裏地を縫い付ける",
-  "key.legendarysurvivaloverhaul.title": "Legendary Survival Overhaul",
+  "key.category.legendarysurvivaloverhaul.main": "Legendary Survival Overhaul",
   "key.legendarysurvivaloverhaul.added_desc": "説明を表示",
   "tooltip.legendarysurvivaloverhaul.added_desc.activate": "説明を表示するには %s%s%s を押す",
   "key.legendarysurvivaloverhaul.body_health": "体調を表示",

@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "legendarysurvivaloverhaul:snow_boots"
+        "recipes": "legendarysurvivaloverhaul:snow_boots"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
