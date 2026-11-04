@@ -73,9 +73,27 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     mavenLocal()
+
+    // JEI (mezz.jei) — optional integration APIs
+    maven {
+        name = "BlameJared"
+        url = "https://maven.blamejared.com/"
+    }
+    // Curios (top.theillusivec4.curios) — optional integration
+    maven {
+        name = "Illusive Soulworks"
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 dependencies {
+    // --- Curios (optional integration; loaded at runtime in dev too) ---
+    implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+
+    // --- JEI (optional integration; compile against the 26.3 API artifacts) ---
+    compileOnly "mezz.jei:jei-26.3-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-26.3-neoforge-api:${jei_version}"
+    runtimeOnly "mezz.jei:jei-26.3-neoforge:${jei_version}"
 }
 
 // Expand mod metadata declared in src/main/templates.
