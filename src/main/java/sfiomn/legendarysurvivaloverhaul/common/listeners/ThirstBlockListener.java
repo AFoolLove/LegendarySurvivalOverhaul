@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -28,7 +28,7 @@ import java.util.Map;
 public class ThirstBlockListener extends SimpleJsonResourceReloadListener implements IThirstBlockManager
 {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, List<JsonThirstBlock>> THIRST_BLOCKS = new HashMap<>();
+    private static final Map<Identifier, List<JsonThirstBlock>> THIRST_BLOCKS = new HashMap<>();
 
     public ThirstBlockListener()
     {
@@ -46,14 +46,14 @@ public class ThirstBlockListener extends SimpleJsonResourceReloadListener implem
         }
     }
 
-    public static void acceptServerThirstBlocks(Map<ResourceLocation, List<JsonThirstBlock>> thirstBlocks)
+    public static void acceptServerThirstBlocks(Map<Identifier, List<JsonThirstBlock>> thirstBlocks)
     {
         THIRST_BLOCKS.clear();
         THIRST_BLOCKS.putAll(thirstBlocks);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         THIRST_BLOCKS.clear();
 
@@ -74,7 +74,7 @@ public class ThirstBlockListener extends SimpleJsonResourceReloadListener implem
     }
 
     @Override
-    public List<JsonThirstBlock> get(ResourceLocation resourceLocation)
+    public List<JsonThirstBlock> get(Identifier resourceLocation)
     {
         return THIRST_BLOCKS.get(resourceLocation);
     }
@@ -85,7 +85,7 @@ public class ThirstBlockListener extends SimpleJsonResourceReloadListener implem
         List<JsonThirstBlock> jsonThirstBlocks = null;
         JsonThirstBlock defaultJct = null;
 
-        ResourceLocation blockRegistryName = BuiltInRegistries.BLOCK.getKey(block.getBlock());
+        Identifier blockRegistryName = BuiltInRegistries.BLOCK.getKey(block.getBlock());
 
         if (blockRegistryName != null)
             jsonThirstBlocks = THIRST_BLOCKS.get(blockRegistryName);
@@ -108,7 +108,7 @@ public class ThirstBlockListener extends SimpleJsonResourceReloadListener implem
         List<JsonThirstBlock> jsonThirstBlocks = null;
         JsonThirstBlock defaultJct = null;
 
-        ResourceLocation fluidRegistryName = BuiltInRegistries.FLUID.getKey(fluid.getType());
+        Identifier fluidRegistryName = BuiltInRegistries.FLUID.getKey(fluid.getType());
 
         if (fluidRegistryName != null)
             jsonThirstBlocks = THIRST_BLOCKS.get(fluidRegistryName);

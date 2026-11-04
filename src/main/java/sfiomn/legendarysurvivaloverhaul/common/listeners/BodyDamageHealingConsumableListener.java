@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -26,7 +26,7 @@ public class BodyDamageHealingConsumableListener extends SimpleJsonResourceReloa
 {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, JsonHealingConsumable> HEALING_CONSUMABLES = new HashMap<>();
+    private static final Map<Identifier, JsonHealingConsumable> HEALING_CONSUMABLES = new HashMap<>();
 
     public BodyDamageHealingConsumableListener()
     {
@@ -44,14 +44,14 @@ public class BodyDamageHealingConsumableListener extends SimpleJsonResourceReloa
         }
     }
 
-    public static void acceptServerHealingConsumables(Map<ResourceLocation, JsonHealingConsumable> healingConsumables)
+    public static void acceptServerHealingConsumables(Map<Identifier, JsonHealingConsumable> healingConsumables)
     {
         HEALING_CONSUMABLES.clear();
         HEALING_CONSUMABLES.putAll(healingConsumables);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         HEALING_CONSUMABLES.clear();
 
@@ -72,7 +72,7 @@ public class BodyDamageHealingConsumableListener extends SimpleJsonResourceReloa
     }
 
     @Override
-    public JsonHealingConsumable get(ResourceLocation itemRegistryName)
+    public JsonHealingConsumable get(Identifier itemRegistryName)
     {
         return HEALING_CONSUMABLES.get(itemRegistryName);
     }

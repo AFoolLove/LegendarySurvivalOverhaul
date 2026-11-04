@@ -1,7 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul.util;
 
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -16,9 +16,9 @@ public class AttributeBuilder
 {
 
     protected final Holder<Attribute> attribute;
-    protected final ResourceLocation descriptionId;
+    protected final Identifier descriptionId;
 
-    public AttributeBuilder(Holder<Attribute> attribute, ResourceLocation descriptionId)
+    public AttributeBuilder(Holder<Attribute> attribute, Identifier descriptionId)
     {
         this.attribute = attribute;
         this.descriptionId = descriptionId;
@@ -38,8 +38,8 @@ public class AttributeBuilder
             {
                 return; // Can't add modifier without a valid slot
             }
-            // Create a unique ResourceLocation using the UUID to avoid conflicts
-            ResourceLocation modifierId = ResourceLocation.fromNamespaceAndPath(
+            // Create a unique Identifier using the UUID to avoid conflicts
+            Identifier modifierId = Identifier.fromNamespaceAndPath(
                     descriptionId.getNamespace(),
                     descriptionId.getPath() + "_" + uuid.toString().substring(0, 8)
             );
@@ -60,8 +60,8 @@ public class AttributeBuilder
         AttributeInstance instance = player.getAttribute(attribute);
         if (instance != null)
         {
-            // Create a unique ResourceLocation using the UUID to avoid conflicts
-            ResourceLocation modifierId = ResourceLocation.fromNamespaceAndPath(
+            // Create a unique Identifier using the UUID to avoid conflicts
+            Identifier modifierId = Identifier.fromNamespaceAndPath(
                     descriptionId.getNamespace(),
                     descriptionId.getPath() + "_" + uuid.toString().substring(0, 8)
             );

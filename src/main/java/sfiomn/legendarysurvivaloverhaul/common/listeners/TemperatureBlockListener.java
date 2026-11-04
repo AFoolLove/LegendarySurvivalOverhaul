@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -27,7 +27,7 @@ public class TemperatureBlockListener extends SimpleJsonResourceReloadListener i
 {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, List<JsonTemperatureBlock>> TEMPERATURE_BLOCKS = new HashMap<>();
+    private static final Map<Identifier, List<JsonTemperatureBlock>> TEMPERATURE_BLOCKS = new HashMap<>();
 
     public TemperatureBlockListener()
     {
@@ -45,14 +45,14 @@ public class TemperatureBlockListener extends SimpleJsonResourceReloadListener i
         }
     }
 
-    public static void acceptServerTemperatureBlocks(Map<ResourceLocation, List<JsonTemperatureBlock>> temperatureBlocks)
+    public static void acceptServerTemperatureBlocks(Map<Identifier, List<JsonTemperatureBlock>> temperatureBlocks)
     {
         TEMPERATURE_BLOCKS.clear();
         TEMPERATURE_BLOCKS.putAll(temperatureBlocks);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         TEMPERATURE_BLOCKS.clear();
 
@@ -73,7 +73,7 @@ public class TemperatureBlockListener extends SimpleJsonResourceReloadListener i
     }
 
     @Override
-    public List<JsonTemperatureBlock> get(ResourceLocation itemRegistryName)
+    public List<JsonTemperatureBlock> get(Identifier itemRegistryName)
     {
         return TEMPERATURE_BLOCKS.get(itemRegistryName);
     }

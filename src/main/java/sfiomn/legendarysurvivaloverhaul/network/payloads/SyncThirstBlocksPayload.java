@@ -5,7 +5,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 public record SyncThirstBlocksPayload(
-        Map<ResourceLocation, List<JsonThirstBlock>> thirstBlocks
+        Map<Identifier, List<JsonThirstBlock>> thirstBlocks
 ) implements CustomPacketPayload
 {
 
-    public static final ResourceLocation ID =
-            ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sync_thirst_blocks");
+    public static final Identifier ID =
+            Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sync_thirst_blocks");
 
     public static final Type<SyncThirstBlocksPayload> TYPE = new Type<>(ID);
 
@@ -29,7 +29,7 @@ public record SyncThirstBlocksPayload(
             StreamCodec.composite(
                     ByteBufCodecs.map(
                             java.util.HashMap::new,
-                            ResourceLocation.STREAM_CODEC,
+                            Identifier.STREAM_CODEC,
                             ByteBufCodecs.fromCodecTrusted(JsonThirstBlock.LIST_CODEC)
                     ),
                     SyncThirstBlocksPayload::thirstBlocks,
@@ -44,7 +44,7 @@ public record SyncThirstBlocksPayload(
     }
 
     // Client -> Server
-    public static void sendToServer(Map<ResourceLocation, List<JsonThirstBlock>> data)
+    public static void sendToServer(Map<Identifier, List<JsonThirstBlock>> data)
     {
         PacketDistributor.sendToServer(new SyncThirstBlocksPayload(data));
     }
@@ -53,13 +53,13 @@ public record SyncThirstBlocksPayload(
 
     // Server -> one player
     public static void sendToPlayer(net.minecraft.server.level.ServerPlayer player,
-                                    Map<ResourceLocation, List<JsonThirstBlock>> data)
+                                    Map<Identifier, List<JsonThirstBlock>> data)
     {
         PacketDistributor.sendToPlayer(player, new SyncThirstBlocksPayload(data));
     }
 
     // Server -> all players
-    public static void sendToAll(Map<ResourceLocation, List<JsonThirstBlock>> data)
+    public static void sendToAll(Map<Identifier, List<JsonThirstBlock>> data)
     {
         PacketDistributor.sendToAllPlayers(new SyncThirstBlocksPayload(data));
     }

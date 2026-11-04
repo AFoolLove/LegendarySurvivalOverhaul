@@ -3,13 +3,13 @@ package sfiomn.legendarysurvivaloverhaul.client.shaders;
 import com.mojang.blaze3d.shaders.Uniform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.PostChain;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 public class FocusShader {
-    public static final ResourceLocation BLOBS2_SHADER = ResourceLocation.withDefaultNamespace("shaders/post/blobs2.json");
-    public static final ResourceLocation BLUR_SHADER = ResourceLocation.withDefaultNamespace("shaders/post/blur.json");
+    public static final Identifier BLOBS2_SHADER = Identifier.withDefaultNamespace("shaders/post/blobs2.json");
+    public static final Identifier BLUR_SHADER = Identifier.withDefaultNamespace("shaders/post/blur.json");
 
     private static boolean shaderLoadAttempted = false;
     private static boolean shaderAvailable = false;

@@ -5,7 +5,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -50,13 +50,13 @@ public abstract class ThirstDataProvider implements DataProvider
             List<CompletableFuture<?>> list = new ArrayList<>();
             this.generate(p_255484_, this.fileHelper);
             this.consumablesBuilders.forEach((consumable, builder) -> {
-                ResourceLocation jsonKey = consumable.split(":").length == 1 ?
-                        ResourceLocation.fromNamespaceAndPath(this.modId, consumable.toLowerCase()) : ResourceLocation.parse(consumable);
+                Identifier jsonKey = consumable.split(":").length == 1 ?
+                        Identifier.fromNamespaceAndPath(this.modId, consumable.toLowerCase()) : Identifier.parse(consumable);
                 list.add(DataProvider.saveStable(pOutput, builder.build(), this.consumablesPathProvider.json(jsonKey)));
             });
             this.blocksBuilders.forEach((block, builder) -> {
-                ResourceLocation jsonKey = block.split(":").length == 1 ?
-                        ResourceLocation.fromNamespaceAndPath(this.modId, block.toLowerCase()) : ResourceLocation.parse(block);
+                Identifier jsonKey = block.split(":").length == 1 ?
+                        Identifier.fromNamespaceAndPath(this.modId, block.toLowerCase()) : Identifier.parse(block);
                 list.add(DataProvider.saveStable(pOutput, builder.build(), this.blocksPathProvider.json(jsonKey)));
             });
             return CompletableFuture.allOf(list.toArray(CompletableFuture[]::new));
@@ -70,7 +70,7 @@ public abstract class ThirstDataProvider implements DataProvider
 
     public final IThirstDataHolder consumable(Item item)
     {
-        ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(item);
+        Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(item);
         assert itemRegistryName != null;
         return this.consumablesBuilders.computeIfAbsent(itemRegistryName.toString(), (k) -> new ThirstDataHolder());
     }
@@ -82,7 +82,7 @@ public abstract class ThirstDataProvider implements DataProvider
 
     public final IThirstDataHolder block(Block block)
     {
-        ResourceLocation blockRegistryName = BuiltInRegistries.BLOCK.getKey(block);
+        Identifier blockRegistryName = BuiltInRegistries.BLOCK.getKey(block);
         assert blockRegistryName != null;
         return this.blocksBuilders.computeIfAbsent(blockRegistryName.toString(), (k) -> new ThirstDataHolder());
     }

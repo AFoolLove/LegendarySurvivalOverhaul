@@ -2,7 +2,7 @@ package sfiomn.legendarysurvivaloverhaul.common.containers;
 
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
@@ -28,10 +28,9 @@ import java.util.List;
 import java.util.Objects;
 
 import static sfiomn.legendarysurvivaloverhaul.common.integration.mutantmonsters.MutantMonstersUtil.isMutantMonstersArmor;
-import static sfiomn.legendarysurvivaloverhaul.data.providers.ModAdvancementProvider.SEW_A_COAT_ADVANCEMENT;
-
 public class SewingTableContainer extends ItemCombinerMenu
 {
+    public static final String SEW_A_COAT_ADVANCEMENT = "legendarysurvivaloverhaul:main/sew_a_coat";
     public static final int INPUT_SLOT = 0;
     public static final int ADDITIONAL_SLOT = 1;
     public static final int RESULT_SLOT = 2;
@@ -131,7 +130,7 @@ public class SewingTableContainer extends ItemCombinerMenu
                     {
                         // Advancements now use AdvancementHolder
                         AdvancementHolder sewCoatAdvancement =
-                                serverPlayer.server.getAdvancements().get(ResourceLocation.parse(SEW_A_COAT_ADVANCEMENT));
+                                serverPlayer.server.getAdvancements().get(Identifier.parse(SEW_A_COAT_ADVANCEMENT));
                         if (sewCoatAdvancement != null)
                         {
                             for (String criteria : serverPlayer.getAdvancements()

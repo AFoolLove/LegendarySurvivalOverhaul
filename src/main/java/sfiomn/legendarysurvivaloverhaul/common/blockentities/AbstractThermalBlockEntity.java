@@ -7,7 +7,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
@@ -172,14 +172,14 @@ public abstract class AbstractThermalBlockEntity extends BaseContainerBlockEntit
 
     public boolean isItemValid(Item item)
     {
-        ResourceLocation registryNameItem = BuiltInRegistries.ITEM.getKey(item);
+        Identifier registryNameItem = BuiltInRegistries.ITEM.getKey(item);
         JsonTemperatureFuelItem fuelInfo = TemperatureDataManager.getFuelItem(registryNameItem);
         return fuelInfo != null && fuelInfo.thermalType == thermalType && fuelInfo.duration > 0;
     }
 
     public int getFuelDuration(ItemStack item)
     {
-        ResourceLocation registryNameItem = BuiltInRegistries.ITEM.getKey(item.getItem());
+        Identifier registryNameItem = BuiltInRegistries.ITEM.getKey(item.getItem());
         JsonTemperatureFuelItem fuelInfo = TemperatureDataManager.getFuelItem(registryNameItem);
         return fuelInfo != null ? fuelInfo.duration : 0;
     }

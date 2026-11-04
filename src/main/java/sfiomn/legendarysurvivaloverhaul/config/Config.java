@@ -1,6 +1,6 @@
 package sfiomn.legendarysurvivaloverhaul.config;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.config.IConfigSpec;
@@ -145,9 +145,9 @@ public class Config
 
         try
         {
-            // Only validate that it's a valid ResourceLocation format
+            // Only validate that it's a valid Identifier format
             // Don't check if it exists in registry as modded effects may not be loaded yet
-            ResourceLocation.parse(effectName);
+            Identifier.parse(effectName);
             return true;
         }
         catch (Exception e)
@@ -163,9 +163,9 @@ public class Config
 
         try
         {
-            // Only validate that it's a valid ResourceLocation format
+            // Only validate that it's a valid Identifier format
             // Don't check if it exists in registry as modded entities may not be loaded yet
-            ResourceLocation.parse(entityName);
+            Identifier.parse(entityName);
             return true;
         }
         catch (Exception e)

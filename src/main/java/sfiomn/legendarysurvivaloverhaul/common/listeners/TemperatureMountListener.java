@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -26,7 +26,7 @@ public class TemperatureMountListener extends SimpleJsonResourceReloadListener i
 {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, JsonTemperatureResistance> TEMPERATURE_MOUNTS = new HashMap<>();
+    private static final Map<Identifier, JsonTemperatureResistance> TEMPERATURE_MOUNTS = new HashMap<>();
 
     public TemperatureMountListener()
     {
@@ -44,14 +44,14 @@ public class TemperatureMountListener extends SimpleJsonResourceReloadListener i
         }
     }
 
-    public static void acceptServerTemperatureMounts(Map<ResourceLocation, JsonTemperatureResistance> temperatureMounts)
+    public static void acceptServerTemperatureMounts(Map<Identifier, JsonTemperatureResistance> temperatureMounts)
     {
         TEMPERATURE_MOUNTS.clear();
         TEMPERATURE_MOUNTS.putAll(temperatureMounts);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         TEMPERATURE_MOUNTS.clear();
 
@@ -72,7 +72,7 @@ public class TemperatureMountListener extends SimpleJsonResourceReloadListener i
     }
 
     @Override
-    public JsonTemperatureResistance get(ResourceLocation mountRegistryName)
+    public JsonTemperatureResistance get(Identifier mountRegistryName)
     {
         return TEMPERATURE_MOUNTS.get(mountRegistryName);
     }

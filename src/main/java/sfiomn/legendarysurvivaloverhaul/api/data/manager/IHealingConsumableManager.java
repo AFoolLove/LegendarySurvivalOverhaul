@@ -1,9 +1,9 @@
 package sfiomn.legendarysurvivaloverhaul.api.data.manager;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import sfiomn.legendarysurvivaloverhaul.api.data.json.JsonHealingConsumable;
 
 public interface IHealingConsumableManager
 {
-    JsonHealingConsumable get(ResourceLocation itemRegistryName);
+    JsonHealingConsumable get(Identifier itemRegistryName);
 }

@@ -1,9 +1,9 @@
 package sfiomn.legendarysurvivaloverhaul.api.data.manager;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import sfiomn.legendarysurvivaloverhaul.api.data.json.JsonTemperatureFuelItem;
 
 public interface ITemperatureFuelItemManager
 {
-    JsonTemperatureFuelItem get(ResourceLocation itemRegistryName);
+    JsonTemperatureFuelItem get(Identifier itemRegistryName);
 }

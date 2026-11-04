@@ -6,7 +6,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.decoration.ItemFrame;
@@ -27,7 +27,7 @@ import static sfiomn.legendarysurvivaloverhaul.util.WorldUtil.timeInGame;
 
 public class RenderTooltipFrame
 {
-    public static final ResourceLocation ICONS = ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/overlay.png");
+    public static final Identifier ICONS = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/overlay.png");
 
     private static final int FRAME_HEIGHT = 20;
     private static final int FRAME_WIDTH = 122;
@@ -63,7 +63,7 @@ public class RenderTooltipFrame
 
             Component text = null;
             if (LegendarySurvivalOverhaul.sereneSeasonsLoaded &&
-                    (java.util.Objects.equals(BuiltInRegistries.ITEM.getKey(itemInFrame), ResourceLocation.fromNamespaceAndPath("sereneseasons", "calendar"))
+                    (java.util.Objects.equals(BuiltInRegistries.ITEM.getKey(itemInFrame), Identifier.fromNamespaceAndPath("sereneseasons", "calendar"))
                             || itemInFrame == ItemRegistry.SEASONAL_CALENDAR.get()))
             {
                 text = SereneSeasonsUtil.seasonTooltip(ENTITY_LOOKED_AT.blockPosition(), ENTITY_LOOKED_AT.level());

@@ -5,7 +5,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -55,17 +55,17 @@ public abstract class BodyDamageDataProvider implements DataProvider
             List<CompletableFuture<?>> list = new ArrayList<>();
             this.generate(p_255484_, this.fileHelper);
             this.consumablesBuilders.forEach((consumable, builder) -> {
-                ResourceLocation jsonKey = consumable.split(":").length == 1 ?
-                        ResourceLocation.fromNamespaceAndPath(this.modId, consumable.toLowerCase()) : ResourceLocation.parse(consumable);
+                Identifier jsonKey = consumable.split(":").length == 1 ?
+                        Identifier.fromNamespaceAndPath(this.modId, consumable.toLowerCase()) : Identifier.parse(consumable);
                 list.add(DataProvider.saveStable(pOutput, builder.build(), this.consumablesPathProvider.json(jsonKey)));
             });
             this.bodyPartsDamageSourceBuilders.forEach((damageSource, builder) -> {
-                Path path = this.bodyPartsDamageSourcePathProvider.json(ResourceLocation.fromNamespaceAndPath(this.modId, damageSource.toLowerCase()));
+                Path path = this.bodyPartsDamageSourcePathProvider.json(Identifier.fromNamespaceAndPath(this.modId, damageSource.toLowerCase()));
                 list.add(DataProvider.saveStable(pOutput, builder.build(), path));
             });
             this.bodyPartResistanceBuilders.forEach((bodyResistance, builder) -> {
-                ResourceLocation jsonKey = bodyResistance.split(":").length == 1 ?
-                        ResourceLocation.fromNamespaceAndPath(this.modId, bodyResistance.toLowerCase()) : ResourceLocation.parse(bodyResistance);
+                Identifier jsonKey = bodyResistance.split(":").length == 1 ?
+                        Identifier.fromNamespaceAndPath(this.modId, bodyResistance.toLowerCase()) : Identifier.parse(bodyResistance);
                 list.add(DataProvider.saveStable(pOutput, builder.build(), this.bodyPartResistancePathProvider.json(jsonKey)));
             });
             return CompletableFuture.allOf(list.toArray(CompletableFuture[]::new));
@@ -79,7 +79,7 @@ public abstract class BodyDamageDataProvider implements DataProvider
 
     public final IHealingConsumableData consumable(Item item)
     {
-        ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(item);
+        Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(item);
         assert itemRegistryName != null;
         return this.consumablesBuilders.computeIfAbsent(itemRegistryName.toString(), (k) -> new HealingConsumableData());
     }
@@ -96,7 +96,7 @@ public abstract class BodyDamageDataProvider implements DataProvider
 
     public final IBodyPartResistanceData item(Item item)
     {
-        ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(item);
+        Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(item);
         assert itemRegistryName != null;
         return this.bodyPartResistanceBuilders.computeIfAbsent(itemRegistryName.toString(), (k) -> new BodyPartResistanceData());
     }

@@ -5,7 +5,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 public record SyncThirstConsumablesPaload(
-        Map<ResourceLocation, List<JsonThirstConsumable>> thirstConsumables
+        Map<Identifier, List<JsonThirstConsumable>> thirstConsumables
 ) implements CustomPacketPayload
 {
 
-    public static final ResourceLocation ID =
-            ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sync_thirst_consumables");
+    public static final Identifier ID =
+            Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sync_thirst_consumables");
 
     public static final Type<SyncThirstConsumablesPaload> TYPE = new Type<>(ID);
 
@@ -29,7 +29,7 @@ public record SyncThirstConsumablesPaload(
             StreamCodec.composite(
                     ByteBufCodecs.map(
                             java.util.HashMap::new,
-                            ResourceLocation.STREAM_CODEC,
+                            Identifier.STREAM_CODEC,
                             ByteBufCodecs.fromCodecTrusted(JsonThirstConsumable.LIST_CODEC)
                     ),
                     SyncThirstConsumablesPaload::thirstConsumables,
@@ -44,7 +44,7 @@ public record SyncThirstConsumablesPaload(
     }
 
     // Client -> Server
-    public static void sendToServer(Map<ResourceLocation, List<JsonThirstConsumable>> data)
+    public static void sendToServer(Map<Identifier, List<JsonThirstConsumable>> data)
     {
         PacketDistributor.sendToServer(new SyncThirstConsumablesPaload(data));
     }
@@ -53,13 +53,13 @@ public record SyncThirstConsumablesPaload(
 
     // Server -> one player
     public static void sendToPlayer(net.minecraft.server.level.ServerPlayer player,
-                                    Map<ResourceLocation, List<JsonThirstConsumable>> data)
+                                    Map<Identifier, List<JsonThirstConsumable>> data)
     {
         PacketDistributor.sendToPlayer(player, new SyncThirstConsumablesPaload(data));
     }
 
     // Server -> all players
-    public static void sendToAll(Map<ResourceLocation, List<JsonThirstConsumable>> data)
+    public static void sendToAll(Map<Identifier, List<JsonThirstConsumable>> data)
     {
         PacketDistributor.sendToAllPlayers(new SyncThirstConsumablesPaload(data));
     }

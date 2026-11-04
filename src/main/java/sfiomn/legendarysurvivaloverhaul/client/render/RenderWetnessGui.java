@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.common.attachments.wetness.WetnessAttachment;
@@ -17,7 +17,7 @@ import java.util.Random;
 public class RenderWetnessGui
 {
     private static final Random rand = new Random();
-    private static final ResourceLocation ICONS = ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/overlay.png");
+    private static final Identifier ICONS = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/overlay.png");
     private static final int WETNESS_TEXTURE_POS_Y = 96;
     private static final int WETNESS_TEXTURE_WIDTH = 10;
     private static final int WETNESS_TEXTURE_HEIGHT = 10;

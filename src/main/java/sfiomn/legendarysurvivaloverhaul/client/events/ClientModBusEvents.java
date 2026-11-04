@@ -3,7 +3,7 @@ package sfiomn.legendarysurvivaloverhaul.client.events;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.LayeredDraw;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -12,7 +12,6 @@ import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
-import sfiomn.legendarysurvivaloverhaul.client.integration.sereneseasons.RenderSeasonCards;
 import sfiomn.legendarysurvivaloverhaul.client.particles.BreathParticle;
 import sfiomn.legendarysurvivaloverhaul.client.particles.FernBlossomParticle;
 import sfiomn.legendarysurvivaloverhaul.client.render.*;
@@ -84,23 +83,15 @@ public class ClientModBusEvents
             RenderTooltipFrame.render(gui, guiGraphics, delta.getGameTimeDeltaPartialTick(false), w, h);
         };
 
-        LayeredDraw.Layer seasonCardLayer = (guiGraphics, delta) -> {
-            Gui gui = Minecraft.getInstance().gui;
-            int w = Minecraft.getInstance().getWindow().getGuiScaledWidth();
-            int h = Minecraft.getInstance().getWindow().getGuiScaledHeight();
-            RenderSeasonCards.render(gui, guiGraphics, delta.getGameTimeDeltaPartialTick(false), w, h);
-        };
-
-        event.registerAbove(VanillaGuiLayers.PLAYER_HEALTH, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "health_overhaul"), healthLayer);
-        event.registerBelow(VanillaGuiLayers.FOOD_LEVEL, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "cold_hunger"), coldHungerLayer);
-        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "thirst"), thirstLayer);
-        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "temperature"), temperatureLayer);
-        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "wetness"), wetnessLayer);
-        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "body_damage"), bodyDamageLayer);
+        event.registerAbove(VanillaGuiLayers.PLAYER_HEALTH, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "health_overhaul"), healthLayer);
+        event.registerBelow(VanillaGuiLayers.FOOD_LEVEL, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "cold_hunger"), coldHungerLayer);
+        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "thirst"), thirstLayer);
+        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "temperature"), temperatureLayer);
+        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "wetness"), wetnessLayer);
+        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "body_damage"), bodyDamageLayer);
         // Anchor overlays above commonly available layers to ensure rendering order
-        event.registerAbove(VanillaGuiLayers.PLAYER_HEALTH, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "temperature_overlay"), temperatureOverlayLayer);
-        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "item_frame_tooltip"), itemFrameTooltipLayer);
-        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "season_card"), seasonCardLayer);
+        event.registerAbove(VanillaGuiLayers.PLAYER_HEALTH, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "temperature_overlay"), temperatureOverlayLayer);
+        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "item_frame_tooltip"), itemFrameTooltipLayer);
     }
 
     @SubscribeEvent

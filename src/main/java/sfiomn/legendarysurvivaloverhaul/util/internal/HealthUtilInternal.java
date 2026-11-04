@@ -1,7 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul.util.internal;
 
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -24,10 +24,10 @@ public class HealthUtilInternal implements IHealthUtil
     public static final UUID INITIAL_PERMANENT_HEART_ATTRIBUTE_UUID = UUID.fromString("81e7fd2b-90d2-4673-84f6-8bd343fd7c5e");
     public static final UUID INITIAL_BROKEN_HEART_RESILIENCE_ATTRIBUTE_UUID = UUID.fromString("eb13fc3b-cc33-4716-a0b0-9f4cdd7704ba");
 
-    public static final AttributeBuilder HEALTH_ATTRIBUTE = new AttributeBuilder(Attributes.MAX_HEALTH, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "max_health"));
-    public static final AttributeBuilder BROKEN_HEART_ATTRIBUTE = new AttributeBuilder(AttributeRegistry.BROKEN_HEART, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "broken_heart"));
-    public static final AttributeBuilder PERMANENT_HEART_ATTRIBUTE = new AttributeBuilder(AttributeRegistry.PERMANENT_HEART, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "permanent_heart"));
-    public static final AttributeBuilder BROKEN_HEART_RESILIENCE_ATTRIBUTE = new AttributeBuilder(AttributeRegistry.BROKEN_HEART_RESILIENCE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "broken_heart_resilience"));
+    public static final AttributeBuilder HEALTH_ATTRIBUTE = new AttributeBuilder(Attributes.MAX_HEALTH, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "max_health"));
+    public static final AttributeBuilder BROKEN_HEART_ATTRIBUTE = new AttributeBuilder(AttributeRegistry.BROKEN_HEART, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "broken_heart"));
+    public static final AttributeBuilder PERMANENT_HEART_ATTRIBUTE = new AttributeBuilder(AttributeRegistry.PERMANENT_HEART, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "permanent_heart"));
+    public static final AttributeBuilder BROKEN_HEART_RESILIENCE_ATTRIBUTE = new AttributeBuilder(AttributeRegistry.BROKEN_HEART_RESILIENCE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "broken_heart_resilience"));
 
     @Override
     public void updatePlayerMaxHealthAttribute(Player player)
@@ -133,7 +133,7 @@ public class HealthUtilInternal implements IHealthUtil
 
         for (AttributeModifier attributeModifier : Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).getModifiers())
         {
-            ResourceLocation id = attributeModifier.id();
+            Identifier id = attributeModifier.id();
             if (id != null && id.getNamespace().equals(LegendarySurvivalOverhaul.MOD_ID) && id.getPath().startsWith("max_health_"))
             {
                 continue;

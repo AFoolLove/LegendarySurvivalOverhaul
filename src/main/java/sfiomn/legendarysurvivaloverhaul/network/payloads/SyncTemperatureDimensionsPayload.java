@@ -5,7 +5,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -15,19 +15,19 @@ import sfiomn.legendarysurvivaloverhaul.common.listeners.TemperatureDimensionLis
 import java.util.Map;
 
 public record SyncTemperatureDimensionsPayload(
-        Map<ResourceLocation, JsonTemperatureDimension> temperatureDimensions
+        Map<Identifier, JsonTemperatureDimension> temperatureDimensions
 ) implements CustomPacketPayload
 {
 
-    public static final ResourceLocation ID =
-            ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sync_temperature_dimensions");
+    public static final Identifier ID =
+            Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sync_temperature_dimensions");
     public static final Type<SyncTemperatureDimensionsPayload> TYPE = new Type<>(ID);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncTemperatureDimensionsPayload> STREAM_CODEC =
             StreamCodec.composite(
                     ByteBufCodecs.map(
                             java.util.HashMap::new,
-                            ResourceLocation.STREAM_CODEC,
+                            Identifier.STREAM_CODEC,
                             ByteBufCodecs.fromCodecTrusted(JsonTemperatureDimension.CODEC)
                     ),
                     SyncTemperatureDimensionsPayload::temperatureDimensions,
@@ -42,7 +42,7 @@ public record SyncTemperatureDimensionsPayload(
     }
 
     // Client -> Server
-    public static void sendToServer(Map<ResourceLocation, JsonTemperatureDimension> data)
+    public static void sendToServer(Map<Identifier, JsonTemperatureDimension> data)
     {
         PacketDistributor.sendToServer(new SyncTemperatureDimensionsPayload(data));
     }
@@ -51,13 +51,13 @@ public record SyncTemperatureDimensionsPayload(
 
     // Server -> one player
     public static void sendToPlayer(net.minecraft.server.level.ServerPlayer player,
-                                    Map<ResourceLocation, JsonTemperatureDimension> data)
+                                    Map<Identifier, JsonTemperatureDimension> data)
     {
         PacketDistributor.sendToPlayer(player, new SyncTemperatureDimensionsPayload(data));
     }
 
     // Server -> all players
-    public static void sendToAll(Map<ResourceLocation, JsonTemperatureDimension> data)
+    public static void sendToAll(Map<Identifier, JsonTemperatureDimension> data)
     {
         PacketDistributor.sendToAllPlayers(new SyncTemperatureDimensionsPayload(data));
     }

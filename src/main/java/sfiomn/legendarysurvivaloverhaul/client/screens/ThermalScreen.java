@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -17,8 +17,8 @@ import sfiomn.legendarysurvivaloverhaul.common.containers.AbstractThermalContain
 @OnlyIn(Dist.CLIENT)
 public class ThermalScreen extends AbstractContainerScreen<AbstractThermalContainer>
 {
-    public static final ResourceLocation HEATER_SCREEN = ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/heater_screen.png");
-    public static final ResourceLocation COOLER_SCREEN = ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/cooler_screen.png");
+    public static final Identifier HEATER_SCREEN = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/heater_screen.png");
+    public static final Identifier COOLER_SCREEN = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/cooler_screen.png");
     public static final int FUEL_LEVEL_WIDTH = 29;
     public static final int FUEL_LEVEL_HEIGHT = 27;
 
@@ -53,7 +53,7 @@ public class ThermalScreen extends AbstractContainerScreen<AbstractThermalContai
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1, 1, 1, 1);
 
-        ResourceLocation TEXTURE;
+        Identifier TEXTURE;
         if (menu.getThermalType() == ThermalTypeEnum.HEATING)
         {
             TEXTURE = HEATER_SCREEN;

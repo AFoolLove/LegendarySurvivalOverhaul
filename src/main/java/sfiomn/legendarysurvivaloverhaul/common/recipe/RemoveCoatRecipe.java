@@ -6,7 +6,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.item.crafting.*;
@@ -99,8 +99,8 @@ public class RemoveCoatRecipe extends CustomRecipe
     public static class Serializer implements RecipeSerializer<RemoveCoatRecipe>
     {
         public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation ID =
-                ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "remove_coat");
+        public static final Identifier ID =
+                Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "remove_coat");
 
         private static final MapCodec<RemoveCoatRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC).forGetter(RemoveCoatRecipe::category)

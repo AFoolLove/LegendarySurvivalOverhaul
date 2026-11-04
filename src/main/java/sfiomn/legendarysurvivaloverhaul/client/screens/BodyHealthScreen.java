@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
@@ -26,8 +26,8 @@ import java.util.Map;
 
 public class BodyHealthScreen extends Screen
 {
-    public static final ResourceLocation BODY_HEALTH_SCREEN = ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/body_health_screen.png");
-    public static final ResourceLocation TUTORIAL_PAGES = ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/tutorial_pages.png");
+    public static final Identifier BODY_HEALTH_SCREEN = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/body_health_screen.png");
+    public static final Identifier TUTORIAL_PAGES = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/tutorial_pages.png");
     public static final int HEALTH_SCREEN_WIDTH = 176;
     public static final int HEALTH_SCREEN_HEIGHT = 183;
     public static final int HEALTH_BAR_WIDTH = 30;

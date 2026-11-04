@@ -1,7 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul.api.temperature;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -100,7 +100,7 @@ public class TemperatureUtil
      * @param player           Player to which apply the temperature effect
      * @param itemRegistryName Item registry name that adds the temperature effect
      */
-    public static void applyConsumableTemperature(Player player, ResourceLocation itemRegistryName)
+    public static void applyConsumableTemperature(Player player, Identifier itemRegistryName)
     {
         internal.applyConsumableTemperature(player, itemRegistryName);
     }

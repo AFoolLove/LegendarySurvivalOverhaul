@@ -3,7 +3,7 @@ package sfiomn.legendarysurvivaloverhaul.client.render;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -22,10 +22,10 @@ import static sfiomn.legendarysurvivaloverhaul.util.RenderUtil.renderTextureOver
 @OnlyIn(Dist.CLIENT)
 public class RenderTemperatureOverlay
 {
-    private static final ResourceLocation FROSTBITE_EFFECT = ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/freeze_effect.png");
-    private static final ResourceLocation HEAT_STROKE_EFFECT = ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/heat_effect.png");
+    private static final Identifier FROSTBITE_EFFECT = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/freeze_effect.png");
+    private static final Identifier HEAT_STROKE_EFFECT = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/heat_effect.png");
     private static TemperatureAttachment TEMPERATURE_CAP = null;
-    private static ResourceLocation temperatureEffect = null;
+    private static Identifier temperatureEffect = null;
     private static float fadeLevel = 0;
     private static boolean triggerTemperatureSoundEffect;
 

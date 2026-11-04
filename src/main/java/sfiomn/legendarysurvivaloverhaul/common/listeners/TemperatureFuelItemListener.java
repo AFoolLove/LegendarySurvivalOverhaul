@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -26,7 +26,7 @@ public class TemperatureFuelItemListener extends SimpleJsonResourceReloadListene
 {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, JsonTemperatureFuelItem> TEMPERATURE_FUEL_ITEMS = new HashMap<>();
+    private static final Map<Identifier, JsonTemperatureFuelItem> TEMPERATURE_FUEL_ITEMS = new HashMap<>();
 
     public TemperatureFuelItemListener()
     {
@@ -44,14 +44,14 @@ public class TemperatureFuelItemListener extends SimpleJsonResourceReloadListene
         }
     }
 
-    public static void acceptServerTemperatureFuelItems(Map<ResourceLocation, JsonTemperatureFuelItem> temperatureFuelItems)
+    public static void acceptServerTemperatureFuelItems(Map<Identifier, JsonTemperatureFuelItem> temperatureFuelItems)
     {
         TEMPERATURE_FUEL_ITEMS.clear();
         TEMPERATURE_FUEL_ITEMS.putAll(temperatureFuelItems);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         TEMPERATURE_FUEL_ITEMS.clear();
 
@@ -72,7 +72,7 @@ public class TemperatureFuelItemListener extends SimpleJsonResourceReloadListene
     }
 
     @Override
-    public JsonTemperatureFuelItem get(ResourceLocation itemRegistryName)
+    public JsonTemperatureFuelItem get(Identifier itemRegistryName)
     {
         return TEMPERATURE_FUEL_ITEMS.get(itemRegistryName);
     }

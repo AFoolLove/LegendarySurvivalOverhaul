@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -27,7 +27,7 @@ public class TemperatureConsumableListener extends SimpleJsonResourceReloadListe
 {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, List<JsonTemperatureConsumable>> TEMPERATURE_CONSUMABLES = new HashMap<>();
+    private static final Map<Identifier, List<JsonTemperatureConsumable>> TEMPERATURE_CONSUMABLES = new HashMap<>();
 
     public TemperatureConsumableListener()
     {
@@ -45,14 +45,14 @@ public class TemperatureConsumableListener extends SimpleJsonResourceReloadListe
         }
     }
 
-    public static void acceptServerTemperatureConsumables(Map<ResourceLocation, List<JsonTemperatureConsumable>> temperatureConsumables)
+    public static void acceptServerTemperatureConsumables(Map<Identifier, List<JsonTemperatureConsumable>> temperatureConsumables)
     {
         TEMPERATURE_CONSUMABLES.clear();
         TEMPERATURE_CONSUMABLES.putAll(temperatureConsumables);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         TEMPERATURE_CONSUMABLES.clear();
 
@@ -73,7 +73,7 @@ public class TemperatureConsumableListener extends SimpleJsonResourceReloadListe
     }
 
     @Override
-    public List<JsonTemperatureConsumable> get(ResourceLocation itemRegistryName)
+    public List<JsonTemperatureConsumable> get(Identifier itemRegistryName)
     {
         return TEMPERATURE_CONSUMABLES.get(itemRegistryName);
     }

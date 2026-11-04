@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -141,7 +141,7 @@ public class BlockModifier extends ModifierBase
 			}
 		}
 
-		Map<ResourceLocation, List<JsonTemperatureBlock>> cachedTemperatureBlocks = new HashMap<>();
+		Map<Identifier, List<JsonTemperatureBlock>> cachedTemperatureBlocks = new HashMap<>();
 
 		for (SpreadPoint spreadPoint : visitedSpreadPoints)
 		{
@@ -215,7 +215,7 @@ public class BlockModifier extends ModifierBase
 		}
 	}
 
-	private float getTemperatureFromSpreadPoint(Level level, SpreadPoint spreadPoint, Map<ResourceLocation, List<JsonTemperatureBlock>> cachedTemperatureBlocks)
+	private float getTemperatureFromSpreadPoint(Level level, SpreadPoint spreadPoint, Map<Identifier, List<JsonTemperatureBlock>> cachedTemperatureBlocks)
 	{
 		//  Reuse the state cached on the SpreadPoint. Re-reading it here was a second blocking
 		//  chunk load on the server thread.
@@ -224,7 +224,7 @@ public class BlockModifier extends ModifierBase
 
 		BlockState blockState = spreadPoint.blockState();
 		float temperature = 0.0f;
-		ResourceLocation registryName = BuiltInRegistries.BLOCK.getKey(blockState.getBlock());
+		Identifier registryName = BuiltInRegistries.BLOCK.getKey(blockState.getBlock());
 
 		if (registryName == null || blockState.isAir())
 		{

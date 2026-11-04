@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -25,16 +25,16 @@ public class AdditionalLootTable extends LootModifier
 
     public static final Supplier<MapCodec<AdditionalLootTable>> CODEC = Suppliers.memoize(
             () -> RecordCodecBuilder.mapCodec(instance -> codecStart(instance)
-                    .and(ResourceLocation.CODEC.fieldOf("lootTable").forGetter(m -> m.lootTable))
+                    .and(Identifier.CODEC.fieldOf("lootTable").forGetter(m -> m.lootTable))
                     .and(com.mojang.serialization.Codec.BOOL.optionalFieldOf("replace", false).forGetter(m -> m.replace))
                     .apply(instance, AdditionalLootTable::new)
             )
     );
 
-    private final ResourceLocation lootTable;
+    private final Identifier lootTable;
     private final boolean replace;
 
-    public AdditionalLootTable(LootItemCondition[] conditions, ResourceLocation lootTable, boolean replace)
+    public AdditionalLootTable(LootItemCondition[] conditions, Identifier lootTable, boolean replace)
     {
         super(conditions);
         this.lootTable = lootTable;

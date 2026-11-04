@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.joml.Matrix4f;
 
 public final class RenderUtil
@@ -59,7 +59,7 @@ public final class RenderUtil
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    public static void renderTextureOverlay(GuiGraphics gui, ResourceLocation resourceLocation, int screenWidth, int screenHeight, float alpha)
+    public static void renderTextureOverlay(GuiGraphics gui, Identifier resourceLocation, int screenWidth, int screenHeight, float alpha)
     {
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);

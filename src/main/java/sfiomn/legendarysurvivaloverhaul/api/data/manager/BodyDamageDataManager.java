@@ -1,6 +1,6 @@
 package sfiomn.legendarysurvivaloverhaul.api.data.manager;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 import sfiomn.legendarysurvivaloverhaul.api.data.json.JsonBodyPartResistance;
 import sfiomn.legendarysurvivaloverhaul.api.data.json.JsonBodyPartsDamageSource;
@@ -32,7 +32,7 @@ public class BodyDamageDataManager
      * @return Healing Information
      */
     @Nullable
-    public static JsonHealingConsumable getHealingItem(ResourceLocation itemRegistryName)
+    public static JsonHealingConsumable getHealingItem(Identifier itemRegistryName)
     {
         return internalHealingConsumable.get(itemRegistryName);
     }
@@ -44,7 +44,7 @@ public class BodyDamageDataManager
      * @return Body Part Resistance Information
      */
     @Nullable
-    public static JsonBodyPartResistance getBodyResistanceItem(ResourceLocation itemRegistryName)
+    public static JsonBodyPartResistance getBodyResistanceItem(Identifier itemRegistryName)
     {
         return internalBodyResistanceItem.get(itemRegistryName);
     }

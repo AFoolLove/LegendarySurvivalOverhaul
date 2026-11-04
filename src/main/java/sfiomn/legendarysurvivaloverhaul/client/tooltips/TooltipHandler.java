@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.contents.TranslatableContents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
@@ -57,7 +57,7 @@ public class TooltipHandler
     {
         ItemStack stack = event.getItemStack();
 
-        ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(stack.getItem());
 
         if (!stack.isEmpty() && itemRegistryName != null)
         {
@@ -161,7 +161,7 @@ public class TooltipHandler
 
     private static void addFoodEffectText(ItemStack stack, List<Component> tooltips)
     {
-        ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(stack.getItem());
         List<JsonTemperatureConsumable> jtcs = TemperatureDataManager.getConsumable(itemRegistryName);
 
         if (jtcs != null)
@@ -193,7 +193,7 @@ public class TooltipHandler
     private static void addHealingText(ItemStack stack, List<Component> tooltips)
     {
 
-        ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(stack.getItem());
         JsonHealingConsumable jsonConsumableHeal = BodyDamageDataManager.getHealingItem(itemRegistryName);
 
         if (jsonConsumableHeal != null)
@@ -230,7 +230,7 @@ public class TooltipHandler
     private static void addShadeText(ItemStack stack, List<Component> tooltips)
     {
 
-        ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(stack.getItem());
 
         if (itemRegistryName != null && (BeachpartyUtil.canProvideShade(itemRegistryName) || ArtifactsUtil.canProvideShade(itemRegistryName)))
         {
@@ -303,7 +303,7 @@ public class TooltipHandler
     {
         MobEffect effect = null;
         if (effectName != null && !effectName.isEmpty() && effectChance > 0)
-            effect = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.parse(effectName));
+            effect = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(effectName));
 
         if (effect == null)
             return null;

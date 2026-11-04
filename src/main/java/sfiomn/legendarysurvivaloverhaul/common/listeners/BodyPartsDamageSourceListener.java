@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -26,7 +26,7 @@ public class BodyPartsDamageSourceListener extends SimpleJsonResourceReloadListe
 {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, JsonBodyPartsDamageSource> DAMAGE_SOURCES = new HashMap<>();
+    private static final Map<Identifier, JsonBodyPartsDamageSource> DAMAGE_SOURCES = new HashMap<>();
 
     public BodyPartsDamageSourceListener()
     {
@@ -44,14 +44,14 @@ public class BodyPartsDamageSourceListener extends SimpleJsonResourceReloadListe
         }
     }
 
-    public static void acceptServerDamageSources(Map<ResourceLocation, JsonBodyPartsDamageSource> damageSources)
+    public static void acceptServerDamageSources(Map<Identifier, JsonBodyPartsDamageSource> damageSources)
     {
         DAMAGE_SOURCES.clear();
         DAMAGE_SOURCES.putAll(damageSources);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         DAMAGE_SOURCES.clear();
 
@@ -74,7 +74,7 @@ public class BodyPartsDamageSourceListener extends SimpleJsonResourceReloadListe
     @Override
     public JsonBodyPartsDamageSource get(String damageSourceName)
     {
-        for (Map.Entry<ResourceLocation, JsonBodyPartsDamageSource> entry : DAMAGE_SOURCES.entrySet())
+        for (Map.Entry<Identifier, JsonBodyPartsDamageSource> entry : DAMAGE_SOURCES.entrySet())
         {
             if (entry.getKey().getPath().equals(damageSourceName))
                 return entry.getValue();

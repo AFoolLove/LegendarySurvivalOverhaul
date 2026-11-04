@@ -5,7 +5,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -16,12 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public record SyncTemperatureOriginsPayload(
-        Map<ResourceLocation, JsonTemperatureResistance> temperatureOrigins
+        Map<Identifier, JsonTemperatureResistance> temperatureOrigins
 ) implements CustomPacketPayload
 {
 
-    public static final ResourceLocation ID =
-            ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sync_temperature_origins");
+    public static final Identifier ID =
+            Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sync_temperature_origins");
 
     public static final Type<SyncTemperatureOriginsPayload> TYPE = new Type<>(ID);
 
@@ -29,7 +29,7 @@ public record SyncTemperatureOriginsPayload(
             StreamCodec.composite(
                     ByteBufCodecs.map(
                             HashMap::new,
-                            ResourceLocation.STREAM_CODEC,
+                            Identifier.STREAM_CODEC,
                             ByteBufCodecs.fromCodecTrusted(JsonTemperatureResistance.CODEC)
                     ),
                     SyncTemperatureOriginsPayload::temperatureOrigins,
@@ -44,7 +44,7 @@ public record SyncTemperatureOriginsPayload(
     }
 
     // Client -> Server
-    public static void sendToServer(Map<ResourceLocation, JsonTemperatureResistance> data)
+    public static void sendToServer(Map<Identifier, JsonTemperatureResistance> data)
     {
         PacketDistributor.sendToServer(new SyncTemperatureOriginsPayload(data));
     }
@@ -53,13 +53,13 @@ public record SyncTemperatureOriginsPayload(
 
     // Server -> one player
     public static void sendToPlayer(net.minecraft.server.level.ServerPlayer player,
-                                    Map<ResourceLocation, JsonTemperatureResistance> data)
+                                    Map<Identifier, JsonTemperatureResistance> data)
     {
         PacketDistributor.sendToPlayer(player, new SyncTemperatureOriginsPayload(data));
     }
 
     // Server -> all players
-    public static void sendToAll(Map<ResourceLocation, JsonTemperatureResistance> data)
+    public static void sendToAll(Map<Identifier, JsonTemperatureResistance> data)
     {
         PacketDistributor.sendToAllPlayers(new SyncTemperatureOriginsPayload(data));
     }

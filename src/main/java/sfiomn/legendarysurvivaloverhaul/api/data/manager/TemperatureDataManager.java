@@ -1,6 +1,6 @@
 package sfiomn.legendarysurvivaloverhaul.api.data.manager;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 import sfiomn.legendarysurvivaloverhaul.api.data.json.*;
 
@@ -25,7 +25,7 @@ public class TemperatureDataManager
      * @param blockRegistryName resource location of the block
      * @return list of Temperature Information
      */
-    public static List<JsonTemperatureBlock> getBlock(ResourceLocation blockRegistryName)
+    public static List<JsonTemperatureBlock> getBlock(Identifier blockRegistryName)
     {
         return internalBlock.get(blockRegistryName);
     }
@@ -36,7 +36,7 @@ public class TemperatureDataManager
      * @param itemRegistryName resource location of the consumable item
      * @return list of Temporary Temperature Effect
      */
-    public static List<JsonTemperatureConsumable> getConsumable(ResourceLocation itemRegistryName)
+    public static List<JsonTemperatureConsumable> getConsumable(Identifier itemRegistryName)
     {
         return internalConsumable.get(itemRegistryName);
     }
@@ -47,7 +47,7 @@ public class TemperatureDataManager
      * @param itemRegistryName resource location of the consumable block
      * @return list of Temporary Temperature Effect
      */
-    public static List<JsonTemperatureConsumableBlock> getConsumableBlock(ResourceLocation itemRegistryName)
+    public static List<JsonTemperatureConsumableBlock> getConsumableBlock(Identifier itemRegistryName)
     {
         return internalConsumableBlock.get(itemRegistryName);
     }
@@ -59,7 +59,7 @@ public class TemperatureDataManager
      * @return Temperature Resistances
      */
     @Nullable
-    public static JsonTemperatureResistance getItem(ResourceLocation itemRegistryName)
+    public static JsonTemperatureResistance getItem(Identifier itemRegistryName)
     {
         return internalItem.get(itemRegistryName);
     }
@@ -71,7 +71,7 @@ public class TemperatureDataManager
      * @return Biome Temperature overriding Minecraft Biome Temperature
      */
     @Nullable
-    public static JsonTemperatureBiomeOverride getBiome(ResourceLocation biomeRegistryName)
+    public static JsonTemperatureBiomeOverride getBiome(Identifier biomeRegistryName)
     {
         return internalBiome.get(biomeRegistryName);
     }
@@ -83,7 +83,7 @@ public class TemperatureDataManager
      * @return Fuel values
      */
     @Nullable
-    public static JsonTemperatureFuelItem getFuelItem(ResourceLocation itemRegistryName)
+    public static JsonTemperatureFuelItem getFuelItem(Identifier itemRegistryName)
     {
         return internalFuelItem.get(itemRegistryName);
     }
@@ -95,7 +95,7 @@ public class TemperatureDataManager
      * @return Dimension Temperature
      */
     @Nullable
-    public static JsonTemperatureDimension getDimension(ResourceLocation dimensionRegistryName)
+    public static JsonTemperatureDimension getDimension(Identifier dimensionRegistryName)
     {
         return internalDimension.get(dimensionRegistryName);
     }
@@ -107,7 +107,7 @@ public class TemperatureDataManager
      * @return Entity Temperature
      */
     @Nullable
-    public static JsonTemperatureResistance getMount(ResourceLocation mountRegistryName)
+    public static JsonTemperatureResistance getMount(Identifier mountRegistryName)
     {
         return internalMount.get(mountRegistryName);
     }
@@ -119,7 +119,7 @@ public class TemperatureDataManager
      * @return Origin Temperature
      */
     @Nullable
-    public static JsonTemperatureResistance getOrigin(ResourceLocation originRegistryName)
+    public static JsonTemperatureResistance getOrigin(Identifier originRegistryName)
     {
         return internalOrigin.get(originRegistryName);
     }

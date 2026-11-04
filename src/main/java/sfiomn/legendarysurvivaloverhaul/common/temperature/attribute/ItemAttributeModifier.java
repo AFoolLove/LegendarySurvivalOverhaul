@@ -1,7 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul.common.temperature.attribute;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import sfiomn.legendarysurvivaloverhaul.api.data.json.JsonTemperatureResistance;
 import sfiomn.legendarysurvivaloverhaul.api.data.manager.TemperatureDataManager;
@@ -16,7 +16,7 @@ public class ItemAttributeModifier extends AttributeModifierBase
     @Override
     public JsonTemperatureResistance getItemAttributes(ItemStack stack)
     {
-        ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(stack.getItem());
         JsonTemperatureResistance config = TemperatureDataManager.getItem(itemRegistryName);
         return config == null ? new JsonTemperatureResistance() : config;
     }

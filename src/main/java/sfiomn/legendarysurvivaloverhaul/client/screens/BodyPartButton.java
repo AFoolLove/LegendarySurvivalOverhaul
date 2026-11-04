@@ -3,13 +3,13 @@ package sfiomn.legendarysurvivaloverhaul.client.screens;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.api.bodydamage.BodyPartEnum;
 
 public class BodyPartButton extends Button
 {
-    public static final ResourceLocation BODY_PARTS_SCREEN = ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/body_parts_screen.png");
+    public static final Identifier BODY_PARTS_SCREEN = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/body_parts_screen.png");
     public BodyPartEnum bodyPart;
     public boolean isPressed;
     private float healthRatio;

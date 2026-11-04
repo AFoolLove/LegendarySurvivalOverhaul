@@ -6,7 +6,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.*;
@@ -85,15 +85,15 @@ public class SewingRecipe implements Recipe<RecipeInput>
     public static class Type implements RecipeType<SewingRecipe>
     {
         public static final Type INSTANCE = new Type();
-        public static final ResourceLocation ID =
-                ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sewing");
+        public static final Identifier ID =
+                Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sewing");
     }
 
     public static class Serializer implements RecipeSerializer<SewingRecipe>
     {
         public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation ID =
-                ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sewing");
+        public static final Identifier ID =
+                Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sewing");
 
         private static final MapCodec<SewingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 Ingredient.CODEC.fieldOf("base").forGetter(SewingRecipe::getBase),

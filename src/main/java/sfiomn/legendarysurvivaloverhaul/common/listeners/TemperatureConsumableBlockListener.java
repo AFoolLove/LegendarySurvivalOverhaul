@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -27,7 +27,7 @@ public class TemperatureConsumableBlockListener extends SimpleJsonResourceReload
 {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, List<JsonTemperatureConsumableBlock>> TEMPERATURE_CONSUMABLE_BLOCKS = new HashMap<>();
+    private static final Map<Identifier, List<JsonTemperatureConsumableBlock>> TEMPERATURE_CONSUMABLE_BLOCKS = new HashMap<>();
 
     public TemperatureConsumableBlockListener()
     {
@@ -45,14 +45,14 @@ public class TemperatureConsumableBlockListener extends SimpleJsonResourceReload
         }
     }
 
-    public static void acceptServerTemperatureConsumableBlocks(Map<ResourceLocation, List<JsonTemperatureConsumableBlock>> temperatureConsumableBlocks)
+    public static void acceptServerTemperatureConsumableBlocks(Map<Identifier, List<JsonTemperatureConsumableBlock>> temperatureConsumableBlocks)
     {
         TEMPERATURE_CONSUMABLE_BLOCKS.clear();
         TEMPERATURE_CONSUMABLE_BLOCKS.putAll(temperatureConsumableBlocks);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         TEMPERATURE_CONSUMABLE_BLOCKS.clear();
 
@@ -73,7 +73,7 @@ public class TemperatureConsumableBlockListener extends SimpleJsonResourceReload
     }
 
     @Override
-    public List<JsonTemperatureConsumableBlock> get(ResourceLocation itemRegistryName)
+    public List<JsonTemperatureConsumableBlock> get(Identifier itemRegistryName)
     {
         return TEMPERATURE_CONSUMABLE_BLOCKS.get(itemRegistryName);
     }

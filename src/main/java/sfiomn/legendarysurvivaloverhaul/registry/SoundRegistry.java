@@ -1,7 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul.registry;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -35,7 +35,7 @@ public class SoundRegistry
     private static DeferredHolder<SoundEvent, SoundEvent> registerSoundEvent(String name)
     {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(
-                ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, name)
+                Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, name)
         ));
     }
 

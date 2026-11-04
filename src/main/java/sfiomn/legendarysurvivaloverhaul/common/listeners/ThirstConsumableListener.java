@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -27,7 +27,7 @@ import java.util.Map;
 public class ThirstConsumableListener extends SimpleJsonResourceReloadListener implements IThirstConsumableManager
 {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, List<JsonThirstConsumable>> THIRST_CONSUMABLES = new HashMap<>();
+    private static final Map<Identifier, List<JsonThirstConsumable>> THIRST_CONSUMABLES = new HashMap<>();
 
     public ThirstConsumableListener()
     {
@@ -45,14 +45,14 @@ public class ThirstConsumableListener extends SimpleJsonResourceReloadListener i
         }
     }
 
-    public static void acceptServerThirstConsumables(Map<ResourceLocation, List<JsonThirstConsumable>> thirstConsumables)
+    public static void acceptServerThirstConsumables(Map<Identifier, List<JsonThirstConsumable>> thirstConsumables)
     {
         THIRST_CONSUMABLES.clear();
         THIRST_CONSUMABLES.putAll(thirstConsumables);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         THIRST_CONSUMABLES.clear();
 
@@ -73,7 +73,7 @@ public class ThirstConsumableListener extends SimpleJsonResourceReloadListener i
     }
 
     @Override
-    public List<JsonThirstConsumable> get(ResourceLocation resourceLocation)
+    public List<JsonThirstConsumable> get(Identifier resourceLocation)
     {
         return THIRST_CONSUMABLES.get(resourceLocation);
     }
@@ -84,7 +84,7 @@ public class ThirstConsumableListener extends SimpleJsonResourceReloadListener i
         List<JsonThirstConsumable> jsonThirstConsumables = null;
         JsonThirstConsumable defaultJct = null;
 
-        ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(itemStack.getItem());
+        Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(itemStack.getItem());
 
         if (itemRegistryName != null)
             jsonThirstConsumables = THIRST_CONSUMABLES.get(itemRegistryName);

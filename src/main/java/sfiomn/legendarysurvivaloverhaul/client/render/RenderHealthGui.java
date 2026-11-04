@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class RenderHealthGui
 {
-    public static final ResourceLocation ICONS = ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/overlay.png");
+    public static final Identifier ICONS = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/overlay.png");
     private static final Random rand = new Random();
     private static final int HEART_TEXTURE_WIDTH = 9;
     // Since 1.20.6+ vanilla GUI icons.png was split into individual sprites under hud/heart/*.
@@ -163,19 +163,19 @@ public class RenderHealthGui
     public enum HeartType
     {
         // Vanilla heart sprites (1.20.6+): hud/heart/container, hud/heart/full, hud/heart/half
-        CONTAINER(ResourceLocation.withDefaultNamespace("hud/heart/container")),
-        SHIELD(ResourceLocation.withDefaultNamespace("hud/heart/absorbing_full"), ResourceLocation.withDefaultNamespace("hud/heart/absorbing_half")),
+        CONTAINER(Identifier.withDefaultNamespace("hud/heart/container")),
+        SHIELD(Identifier.withDefaultNamespace("hud/heart/absorbing_full"), Identifier.withDefaultNamespace("hud/heart/absorbing_half")),
         // Keep BROKEN from our mod texture atlas (overlay.png)
         BROKEN(ICONS, 0);
 
         // Sprite-based
-        private final ResourceLocation fullSprite;
-        private final ResourceLocation halfSprite; // may be null when not applicable
+        private final Identifier fullSprite;
+        private final Identifier halfSprite; // may be null when not applicable
         // Texture-based (for BROKEN)
-        private final ResourceLocation location;
+        private final Identifier location;
         private final int index;
 
-        HeartType(ResourceLocation singleSprite)
+        HeartType(Identifier singleSprite)
         {
             this.fullSprite = singleSprite;
             this.halfSprite = null;
@@ -183,7 +183,7 @@ public class RenderHealthGui
             this.index = 0;
         }
 
-        HeartType(ResourceLocation fullSprite, ResourceLocation halfSprite)
+        HeartType(Identifier fullSprite, Identifier halfSprite)
         {
             this.fullSprite = fullSprite;
             this.halfSprite = halfSprite;
@@ -191,7 +191,7 @@ public class RenderHealthGui
             this.index = 0;
         }
 
-        HeartType(ResourceLocation location, int index)
+        HeartType(Identifier location, int index)
         {
             this.location = location;
             this.index = index;
@@ -204,7 +204,7 @@ public class RenderHealthGui
             return this == BROKEN;
         }
 
-        public ResourceLocation getSprite(boolean halfIcon)
+        public Identifier getSprite(boolean halfIcon)
         {
             if (this == SHIELD && halfIcon && this.halfSprite != null)
             {

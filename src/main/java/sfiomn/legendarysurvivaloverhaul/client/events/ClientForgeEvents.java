@@ -3,7 +3,7 @@ package sfiomn.legendarysurvivaloverhaul.client.events;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +28,6 @@ import sfiomn.legendarysurvivaloverhaul.api.data.json.JsonThirstBlock;
 import sfiomn.legendarysurvivaloverhaul.api.thirst.ThirstUtil;
 import sfiomn.legendarysurvivaloverhaul.client.ClientHooks;
 import sfiomn.legendarysurvivaloverhaul.client.effects.TemperatureBreathEffect;
-import sfiomn.legendarysurvivaloverhaul.client.integration.sereneseasons.RenderSeasonCards;
 import sfiomn.legendarysurvivaloverhaul.client.render.*;
 import sfiomn.legendarysurvivaloverhaul.client.sounds.TemperatureBreathSound;
 import sfiomn.legendarysurvivaloverhaul.common.attachments.thirst.ThirstAttachment;
@@ -69,7 +68,7 @@ public class ClientForgeEvents
         }
         if (LegendarySurvivalOverhaul.sereneSeasonsLoaded &&
                 BuiltInRegistries.ITEM.getKey(event.getItemStack().getItem())
-                        .equals(ResourceLocation.fromNamespaceAndPath("sereneseasons", "calendar")))
+                        .equals(Identifier.fromNamespaceAndPath("sereneseasons", "calendar")))
         {
             player.displayClientMessage(seasonTooltip(player.blockPosition(), player.level()), true);
         } else if (event.getItemStack().getItem() == Items.CLOCK)
@@ -197,9 +196,6 @@ public class ClientForgeEvents
             if (shouldApplyThirst(player) && Config.Baked.lowHydrationEffect)
                 RenderBlurOverlay.updateBlurIntensity(player);
 
-            if (LegendarySurvivalOverhaul.sereneSeasonsLoaded && Config.Baked.ssSeasonCardsEnabled)
-                RenderSeasonCards.updateSeasonCardFading(player);
-
             if (Config.Baked.localizedBodyDamageEnabled)
             {
                 RenderBodyDamageGui.updateFlashingTimer();
@@ -232,8 +228,6 @@ public class ClientForgeEvents
     {
         if (event.getLevel().isClientSide && event.getEntity() instanceof Player)
         {
-            if (LegendarySurvivalOverhaul.sereneSeasonsLoaded)
-                RenderSeasonCards.init();
         }
     }
 

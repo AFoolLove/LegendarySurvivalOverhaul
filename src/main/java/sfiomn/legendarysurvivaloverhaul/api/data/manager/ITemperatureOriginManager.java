@@ -1,9 +1,9 @@
 package sfiomn.legendarysurvivaloverhaul.api.data.manager;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import sfiomn.legendarysurvivaloverhaul.api.data.json.JsonTemperatureResistance;
 
 public interface ITemperatureOriginManager
 {
-    JsonTemperatureResistance get(ResourceLocation originRegistryName);
+    JsonTemperatureResistance get(Identifier originRegistryName);
 }

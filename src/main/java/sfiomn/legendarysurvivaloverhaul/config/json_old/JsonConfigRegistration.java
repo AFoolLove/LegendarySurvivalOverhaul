@@ -7,7 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import org.apache.commons.io.FileUtils;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -351,7 +351,7 @@ public class JsonConfigRegistration
 
                 for (String e : entriesToKeep)
                 {
-                    ResourceLocation rl = ResourceLocation.parse(e);
+                    Identifier rl = Identifier.parse(e);
                     Path endPath = Paths.get(customDatapackFolder.toString(), "data", rl.getNamespace(), LegendarySurvivalOverhaul.MOD_ID, "temperature", "dimensions");
                     if (!endPath.toFile().exists())
                     {
@@ -361,7 +361,7 @@ public class JsonConfigRegistration
                     File jsonFile = new File(endPath.toFile(), rl.getPath() + ".json");
                     TemperatureDimensionData tdd = new TemperatureDimensionData();
                     tdd.temperature(JsonConfig.dimensionTemperatures.get(e).temperature);
-                    if (!rl.equals(ResourceLocation.parse("the_nether")) && !rl.equals(ResourceLocation.parse("the_end")))
+                    if (!rl.equals(Identifier.parse("the_nether")) && !rl.equals(Identifier.parse("the_end")))
                     {
                         tdd.hasAltitude().seaLevelHeight(64);
                     }
@@ -393,7 +393,7 @@ public class JsonConfigRegistration
 
                 for (String e : entriesToKeep)
                 {
-                    ResourceLocation rl = ResourceLocation.parse(e);
+                    Identifier rl = Identifier.parse(e);
                     Path endPath = Paths.get(customDatapackFolder.toString(), "data", rl.getNamespace(), LegendarySurvivalOverhaul.MOD_ID, "temperature", "biomes");
                     if (!endPath.toFile().exists())
                     {
@@ -432,7 +432,7 @@ public class JsonConfigRegistration
 
                 for (String e : entriesToKeep)
                 {
-                    ResourceLocation rl = ResourceLocation.parse(e);
+                    Identifier rl = Identifier.parse(e);
                     Path endPath = Paths.get(customDatapackFolder.toString(), "data", rl.getNamespace(), LegendarySurvivalOverhaul.MOD_ID, "temperature", "items");
                     if (!endPath.toFile().exists())
                     {
@@ -473,7 +473,7 @@ public class JsonConfigRegistration
 
                 for (String e : entriesToKeep)
                 {
-                    ResourceLocation rl = ResourceLocation.parse(e);
+                    Identifier rl = Identifier.parse(e);
                     Path endPath = Paths.get(customDatapackFolder.toString(), "data", rl.getNamespace(), LegendarySurvivalOverhaul.MOD_ID, "temperature", "entities");
                     if (!endPath.toFile().exists())
                     {
@@ -514,7 +514,7 @@ public class JsonConfigRegistration
 
                 for (String e : entriesToKeep)
                 {
-                    ResourceLocation rl = ResourceLocation.parse(e);
+                    Identifier rl = Identifier.parse(e);
                     Path endPath = Paths.get(customDatapackFolder.toString(), "data", rl.getNamespace(), LegendarySurvivalOverhaul.MOD_ID, "temperature", "blocks");
                     if (!endPath.toFile().exists())
                     {
@@ -561,7 +561,7 @@ public class JsonConfigRegistration
 
                 for (String e : entriesToKeep)
                 {
-                    ResourceLocation rl = ResourceLocation.parse(e);
+                    Identifier rl = Identifier.parse(e);
                     Path endPath = Paths.get(customDatapackFolder.toString(), "data", rl.getNamespace(), LegendarySurvivalOverhaul.MOD_ID, "temperature", "fuel_items");
                     if (!endPath.toFile().exists())
                     {
@@ -603,7 +603,7 @@ public class JsonConfigRegistration
 
                 for (String e : entriesToKeep)
                 {
-                    ResourceLocation rl = ResourceLocation.parse(e);
+                    Identifier rl = Identifier.parse(e);
                     Path endPath = Paths.get(customDatapackFolder.toString(), "data", rl.getNamespace(), LegendarySurvivalOverhaul.MOD_ID, "temperature", "consumables");
                     if (!endPath.toFile().exists())
                     {
@@ -653,7 +653,7 @@ public class JsonConfigRegistration
 
                 for (String e : entriesToKeep)
                 {
-                    ResourceLocation rl = ResourceLocation.parse(e);
+                    Identifier rl = Identifier.parse(e);
                     Path endPath = Paths.get(customDatapackFolder.toString(), "data", rl.getNamespace(), LegendarySurvivalOverhaul.MOD_ID, "thirst", "blocks");
                     if (!endPath.toFile().exists())
                     {
@@ -669,7 +669,7 @@ public class JsonConfigRegistration
                         td.saturation(jbft.saturation);
                         for (JsonEffectParameter jep : jbft.effects)
                         {
-                            MobEffect me = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.parse(jep.name));
+                            MobEffect me = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(jep.name));
                             if (me != null)
                                 td.addEffect(me, jep.duration, jep.chance, jep.amplifier);
                         }
@@ -708,7 +708,7 @@ public class JsonConfigRegistration
 
                 for (String e : entriesToKeep)
                 {
-                    ResourceLocation rl = ResourceLocation.parse(e);
+                    Identifier rl = Identifier.parse(e);
                     Path endPath = Paths.get(customDatapackFolder.toString(), "data", rl.getNamespace(), LegendarySurvivalOverhaul.MOD_ID, "thirst", "consumables");
                     if (!endPath.toFile().exists())
                     {
@@ -724,7 +724,7 @@ public class JsonConfigRegistration
                         td.saturation(jct.saturation);
                         for (JsonEffectParameter jep : jct.effects)
                         {
-                            MobEffect me = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.parse(jep.name));
+                            MobEffect me = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(jep.name));
                             if (me != null)
                                 td.addEffect(me, jep.duration, jep.chance, jep.amplifier);
                         }
@@ -763,7 +763,7 @@ public class JsonConfigRegistration
 
                 for (String e : entriesToKeep)
                 {
-                    ResourceLocation rl = ResourceLocation.parse(e);
+                    Identifier rl = Identifier.parse(e);
                     Path endPath = Paths.get(customDatapackFolder.toString(), "data", rl.getNamespace(), LegendarySurvivalOverhaul.MOD_ID, "body_damage", "consumables");
                     if (!endPath.toFile().exists())
                     {
@@ -804,7 +804,7 @@ public class JsonConfigRegistration
 
                 for (String e : entriesToKeep)
                 {
-                    ResourceLocation rl = ResourceLocation.parse(e);
+                    Identifier rl = Identifier.parse(e);
                     Path endPath = Paths.get(customDatapackFolder.toString(), "data", rl.getNamespace(), LegendarySurvivalOverhaul.MOD_ID, "body_damage", "damage_sources");
                     if (!endPath.toFile().exists())
                     {

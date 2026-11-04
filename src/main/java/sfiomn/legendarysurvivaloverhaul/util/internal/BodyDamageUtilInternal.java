@@ -3,7 +3,7 @@ package sfiomn.legendarysurvivaloverhaul.util.internal;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
@@ -31,13 +31,13 @@ import java.util.stream.Collectors;
 public class BodyDamageUtilInternal implements IBodyDamageUtil
 {
     public static final UUID BROKEN_HEART_ATTRIBUTE_UUID = UUID.fromString("2e3cede5-3c18-45c2-8a46-31b89fb9c027");
-    public static final AttributeBuilder BODY_RESISTANCE = new AttributeBuilder(AttributeRegistry.BODY_RESISTANCE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "body_resistance"));
-    public static final AttributeBuilder HEAD_RESISTANCE = new AttributeBuilder(AttributeRegistry.HEAD_RESISTANCE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "head_temperature"));
-    public static final AttributeBuilder CHEST_RESISTANCE = new AttributeBuilder(AttributeRegistry.CHEST_RESISTANCE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "chest_temperature"));
-    public static final AttributeBuilder RIGHT_ARM_RESISTANCE = new AttributeBuilder(AttributeRegistry.RIGHT_ARM_RESISTANCE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "right_arm_resistance"));
-    public static final AttributeBuilder LEFT_ARM_RESISTANCE = new AttributeBuilder(AttributeRegistry.LEFT_ARM_RESISTANCE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "left_arm_resistance"));
-    public static final AttributeBuilder LEGS_RESISTANCE = new AttributeBuilder(AttributeRegistry.LEGS_RESISTANCE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "legs_resistance"));
-    public static final AttributeBuilder FEET_RESISTANCE = new AttributeBuilder(AttributeRegistry.FEET_RESISTANCE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "feet_resistance"));
+    public static final AttributeBuilder BODY_RESISTANCE = new AttributeBuilder(AttributeRegistry.BODY_RESISTANCE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "body_resistance"));
+    public static final AttributeBuilder HEAD_RESISTANCE = new AttributeBuilder(AttributeRegistry.HEAD_RESISTANCE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "head_temperature"));
+    public static final AttributeBuilder CHEST_RESISTANCE = new AttributeBuilder(AttributeRegistry.CHEST_RESISTANCE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "chest_temperature"));
+    public static final AttributeBuilder RIGHT_ARM_RESISTANCE = new AttributeBuilder(AttributeRegistry.RIGHT_ARM_RESISTANCE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "right_arm_resistance"));
+    public static final AttributeBuilder LEFT_ARM_RESISTANCE = new AttributeBuilder(AttributeRegistry.LEFT_ARM_RESISTANCE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "left_arm_resistance"));
+    public static final AttributeBuilder LEGS_RESISTANCE = new AttributeBuilder(AttributeRegistry.LEGS_RESISTANCE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "legs_resistance"));
+    public static final AttributeBuilder FEET_RESISTANCE = new AttributeBuilder(AttributeRegistry.FEET_RESISTANCE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "feet_resistance"));
     public static final Map<BodyPartEnum, AttributeBuilder> bodyPartResistanceAttribute = new HashMap<>();
     public static final Map<EquipmentSlot, UUID> equipmentSlotBodyResistanceUuid = new HashMap<>();
     private static final List<Holder<MobEffect>> firstAidSuppliesBoostingEffects = new ArrayList<>();
@@ -80,7 +80,7 @@ public class BodyDamageUtilInternal implements IBodyDamageUtil
             for (int i = 0; i < malus.effects.size(); i++)
             {
                 MobEffect malusEffect = BuiltInRegistries.MOB_EFFECT
-                        .getOptional(ResourceLocation.parse(malus.effects.get(i)))
+                        .getOptional(Identifier.parse(malus.effects.get(i)))
                         .orElse(null);
                 int malusAmplifier;
                 float malusThreshold;
@@ -115,11 +115,11 @@ public class BodyDamageUtilInternal implements IBodyDamageUtil
     {
         for (String effectRegistryName : Config.Baked.firstAidSuppliesBoostedOnEffects)
         {
-            if (ResourceLocation.tryParse(effectRegistryName) == null)
+            if (Identifier.tryParse(effectRegistryName) == null)
                 LegendarySurvivalOverhaul.LOGGER.info("First Aid Supplies boosting effect : not valid effect registry name : {}", effectRegistryName);
 
             MobEffect boostingEffect = BuiltInRegistries.MOB_EFFECT
-                    .getOptional(ResourceLocation.parse(effectRegistryName))
+                    .getOptional(Identifier.parse(effectRegistryName))
                     .orElse(null);
             if (boostingEffect == null)
             {
@@ -131,11 +131,11 @@ public class BodyDamageUtilInternal implements IBodyDamageUtil
 
         for (String effectRegistryName : Config.Baked.passiveLimbRegenerationEffects)
         {
-            if (ResourceLocation.tryParse(effectRegistryName) == null)
+            if (Identifier.tryParse(effectRegistryName) == null)
                 LegendarySurvivalOverhaul.LOGGER.info("Limb Regeneration Effect : not valid effect registry name : {}", effectRegistryName);
 
             MobEffect regenerationEffect = BuiltInRegistries.MOB_EFFECT
-                    .getOptional(ResourceLocation.parse(effectRegistryName))
+                    .getOptional(Identifier.parse(effectRegistryName))
                     .orElse(null);
             if (regenerationEffect == null)
             {
@@ -149,7 +149,7 @@ public class BodyDamageUtilInternal implements IBodyDamageUtil
     @Override
     public void applyConsumableHealing(Player player, ItemStack itemStack, boolean itemAlreadyConsumed)
     {
-        ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(itemStack.getItem());
+        Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(itemStack.getItem());
         JsonHealingConsumable jsonConsumableHeal = BodyDamageDataManager.getHealingItem(itemRegistryName);
 
         if (jsonConsumableHeal == null)

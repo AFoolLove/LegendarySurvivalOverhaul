@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -26,7 +26,7 @@ public class TemperatureBiomeListener extends SimpleJsonResourceReloadListener i
 {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, JsonTemperatureBiomeOverride> TEMPERATURE_BIOMES = new HashMap<>();
+    private static final Map<Identifier, JsonTemperatureBiomeOverride> TEMPERATURE_BIOMES = new HashMap<>();
 
     public TemperatureBiomeListener()
     {
@@ -44,14 +44,14 @@ public class TemperatureBiomeListener extends SimpleJsonResourceReloadListener i
         }
     }
 
-    public static void acceptServerTemperatureBiomes(Map<ResourceLocation, JsonTemperatureBiomeOverride> temperatureBiomes)
+    public static void acceptServerTemperatureBiomes(Map<Identifier, JsonTemperatureBiomeOverride> temperatureBiomes)
     {
         TEMPERATURE_BIOMES.clear();
         TEMPERATURE_BIOMES.putAll(temperatureBiomes);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         TEMPERATURE_BIOMES.clear();
 
@@ -72,7 +72,7 @@ public class TemperatureBiomeListener extends SimpleJsonResourceReloadListener i
     }
 
     @Override
-    public JsonTemperatureBiomeOverride get(ResourceLocation itemRegistryName)
+    public JsonTemperatureBiomeOverride get(Identifier itemRegistryName)
     {
         return TEMPERATURE_BIOMES.get(itemRegistryName);
     }

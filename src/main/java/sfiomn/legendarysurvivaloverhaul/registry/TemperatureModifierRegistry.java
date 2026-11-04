@@ -2,7 +2,7 @@ package sfiomn.legendarysurvivaloverhaul.registry;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -23,11 +23,11 @@ import sfiomn.legendarysurvivaloverhaul.common.temperature.dynamic.TemperatureRe
 public class TemperatureModifierRegistry
 {
     public static final ResourceKey<Registry<ModifierBase>> MODIFIERS_KEY =
-            ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "temperature_modifiers"));
+            ResourceKey.createRegistryKey(Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "temperature_modifiers"));
     public static final ResourceKey<Registry<DynamicModifierBase>> DYNAMIC_MODIFIERS_KEY =
-            ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "dynamic_temperature_modifiers"));
+            ResourceKey.createRegistryKey(Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "dynamic_temperature_modifiers"));
     public static final ResourceKey<Registry<AttributeModifierBase>> ITEM_ATTRIBUTE_MODIFIERS_KEY =
-            ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "item_attribute_temperature_modifiers"));
+            ResourceKey.createRegistryKey(Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "item_attribute_temperature_modifiers"));
 
     public static final DeferredRegister<ModifierBase> MODIFIERS =
             DeferredRegister.create(MODIFIERS_KEY, LegendarySurvivalOverhaul.MOD_ID);

@@ -2,7 +2,7 @@ package sfiomn.legendarysurvivaloverhaul.common.events;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -103,11 +103,11 @@ public class CommonNeoForgeEvents
             if (itemStackInBasket != ItemStack.EMPTY)
                 usedItemStack = itemStackInBasket;
         }
-        ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(usedItemStack.getItem());
+        Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(usedItemStack.getItem());
 
         if (LegendarySurvivalOverhaul.medsandherbsLoaded
                 && itemRegistryName != null && itemRegistryName.getNamespace().equals("meds_and_herbs")) {
-            if(itemRegistryName.equals(ResourceLocation.fromNamespaceAndPath("meds_and_herbs", "syringe_morphine"))) {
+            if(itemRegistryName.equals(Identifier.fromNamespaceAndPath("meds_and_herbs", "syringe_morphine"))) {
                 if (!MedsAndHerbsUtil.triggerMorphineBehavior(player)) {
                     event.setCanceled(true);
                     event.setCancellationResult(InteractionResult.CONSUME);
@@ -135,7 +135,7 @@ public class CommonNeoForgeEvents
         }
 
         if (!entity.level().isClientSide) {
-            ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(usedItemStack.getItem());
+            Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(usedItemStack.getItem());
             TemperatureUtil.applyConsumableTemperature(player, itemRegistryName);
         }
 
@@ -239,7 +239,7 @@ public class CommonNeoForgeEvents
             }
 
             if ((Config.Baked.localizedBodyDamageEnabled)) {
-                ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(event.getItemStack().getItem());
+                Identifier itemRegistryName = BuiltInRegistries.ITEM.getKey(event.getItemStack().getItem());
                 JsonBodyPartResistance config = BodyDamageDataManager.getBodyResistanceItem(itemRegistryName);
 
                 if (itemRegistryName == null || config == null)

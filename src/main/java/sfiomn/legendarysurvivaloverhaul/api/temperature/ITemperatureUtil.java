@@ -1,7 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul.api.temperature;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -17,7 +17,7 @@ public interface ITemperatureUtil
 
     float clampTemperature(float temperature);
 
-    void applyConsumableTemperature(Player player, ResourceLocation itemRegistryName);
+    void applyConsumableTemperature(Player player, Identifier itemRegistryName);
 
     void applyConsumableBlockTemperature(Player player, BlockState blockState);
 

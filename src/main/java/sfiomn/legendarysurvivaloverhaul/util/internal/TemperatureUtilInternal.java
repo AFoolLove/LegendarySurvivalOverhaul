@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -42,11 +42,11 @@ public class TemperatureUtilInternal implements ITemperatureUtil
 {
     public static final String COAT_TAG = "Coat";
 
-    public static final AttributeBuilder HEATING_TEMPERATURE = new AttributeBuilder(AttributeRegistry.HEATING_TEMPERATURE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "heating_temperature"));
-    public static final AttributeBuilder COOLING_TEMPERATURE = new AttributeBuilder(AttributeRegistry.COOLING_TEMPERATURE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "cooling_temperature"));
-    public static final AttributeBuilder HEAT_RESISTANCE = new AttributeBuilder(AttributeRegistry.HEAT_RESISTANCE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "heat_resistance"));
-    public static final AttributeBuilder COLD_RESISTANCE = new AttributeBuilder(AttributeRegistry.COLD_RESISTANCE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "cold_resistance"));
-    public static final AttributeBuilder THERMAL_RESISTANCE = new AttributeBuilder(AttributeRegistry.THERMAL_RESISTANCE, ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "thermal_resistance"));
+    public static final AttributeBuilder HEATING_TEMPERATURE = new AttributeBuilder(AttributeRegistry.HEATING_TEMPERATURE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "heating_temperature"));
+    public static final AttributeBuilder COOLING_TEMPERATURE = new AttributeBuilder(AttributeRegistry.COOLING_TEMPERATURE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "cooling_temperature"));
+    public static final AttributeBuilder HEAT_RESISTANCE = new AttributeBuilder(AttributeRegistry.HEAT_RESISTANCE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "heat_resistance"));
+    public static final AttributeBuilder COLD_RESISTANCE = new AttributeBuilder(AttributeRegistry.COLD_RESISTANCE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "cold_resistance"));
+    public static final AttributeBuilder THERMAL_RESISTANCE = new AttributeBuilder(AttributeRegistry.THERMAL_RESISTANCE, Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "thermal_resistance"));
 
     public static final Map<EquipmentSlot, UUID> equipmentSlotTemperatureUuid = new HashMap<>();
 
@@ -158,7 +158,7 @@ public class TemperatureUtilInternal implements ITemperatureUtil
     }
 
     @Override
-    public void applyConsumableTemperature(Player player, ResourceLocation itemRegistryName)
+    public void applyConsumableTemperature(Player player, Identifier itemRegistryName)
     {
         if (Config.Baked.temperatureEnabled)
         {
@@ -184,7 +184,7 @@ public class TemperatureUtilInternal implements ITemperatureUtil
     {
         if (Config.Baked.temperatureEnabled)
         {
-            ResourceLocation blockRegistryName = BuiltInRegistries.BLOCK.getKey(blockState.getBlock());
+            Identifier blockRegistryName = BuiltInRegistries.BLOCK.getKey(blockState.getBlock());
             List<JsonTemperatureConsumableBlock> jsonConsumableBlockTemperatures = TemperatureDataManager.getConsumableBlock(blockRegistryName);
 
             if (jsonConsumableBlockTemperatures != null)

@@ -5,7 +5,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -125,7 +125,7 @@ public class WetnessAttachment implements IWetnessAttachment, INBTSerializable<C
 
         if (player.getVehicle() != null)
         {
-            ResourceLocation entityRegistryName = BuiltInRegistries.ENTITY_TYPE.getKey(player.getVehicle().getType());
+            Identifier entityRegistryName = BuiltInRegistries.ENTITY_TYPE.getKey(player.getVehicle().getType());
             if (entityRegistryName != null && Config.Baked.wetnessImmunityMounts.contains(entityRegistryName.toString()))
             {
                 if (this.wetness > 0)

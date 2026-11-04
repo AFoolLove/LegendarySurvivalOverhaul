@@ -1,6 +1,6 @@
 package sfiomn.legendarysurvivaloverhaul.api.data.manager;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
@@ -23,7 +23,7 @@ public class ThirstDataManager
      * @return list of Thirst Information
      */
     @Nullable
-    public static List<JsonThirstBlock> getBlock(ResourceLocation blockRegistryName)
+    public static List<JsonThirstBlock> getBlock(Identifier blockRegistryName)
     {
         return internalBlock.get(blockRegistryName);
     }
@@ -59,7 +59,7 @@ public class ThirstDataManager
      * @return list of Thirst Information
      */
     @Nullable
-    public static List<JsonThirstConsumable> getConsumable(ResourceLocation itemRegistryName)
+    public static List<JsonThirstConsumable> getConsumable(Identifier itemRegistryName)
     {
         return internalConsumable.get(itemRegistryName);
     }

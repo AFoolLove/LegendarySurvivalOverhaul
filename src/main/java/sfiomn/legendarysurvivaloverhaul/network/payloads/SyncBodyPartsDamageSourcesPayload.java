@@ -5,7 +5,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -16,12 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public record SyncBodyPartsDamageSourcesPayload(
-        Map<ResourceLocation, JsonBodyPartsDamageSource> damageSources
+        Map<Identifier, JsonBodyPartsDamageSource> damageSources
 ) implements CustomPacketPayload
 {
 
-    public static final ResourceLocation ID =
-            ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sync_body_parts_damage_sources");
+    public static final Identifier ID =
+            Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sync_body_parts_damage_sources");
 
     public static final Type<SyncBodyPartsDamageSourcesPayload> TYPE = new Type<>(ID);
 
@@ -29,7 +29,7 @@ public record SyncBodyPartsDamageSourcesPayload(
             StreamCodec.composite(
                     ByteBufCodecs.map(
                             HashMap::new,
-                            ResourceLocation.STREAM_CODEC,
+                            Identifier.STREAM_CODEC,
                             ByteBufCodecs.fromCodecTrusted(JsonBodyPartsDamageSource.CODEC)
                     ),
                     SyncBodyPartsDamageSourcesPayload::damageSources,
@@ -44,7 +44,7 @@ public record SyncBodyPartsDamageSourcesPayload(
     }
 
     // Client -> Server
-    public static void sendToServer(Map<ResourceLocation, JsonBodyPartsDamageSource> data)
+    public static void sendToServer(Map<Identifier, JsonBodyPartsDamageSource> data)
     {
         PacketDistributor.sendToServer(new SyncBodyPartsDamageSourcesPayload(data));
     }
@@ -53,13 +53,13 @@ public record SyncBodyPartsDamageSourcesPayload(
 
     // Server -> one player
     public static void sendToPlayer(net.minecraft.server.level.ServerPlayer player,
-                                    Map<ResourceLocation, JsonBodyPartsDamageSource> data)
+                                    Map<Identifier, JsonBodyPartsDamageSource> data)
     {
         PacketDistributor.sendToPlayer(player, new SyncBodyPartsDamageSourcesPayload(data));
     }
 
     // Server -> all
-    public static void sendToAll(Map<ResourceLocation, JsonBodyPartsDamageSource> data)
+    public static void sendToAll(Map<Identifier, JsonBodyPartsDamageSource> data)
     {
         PacketDistributor.sendToAllPlayers(new SyncBodyPartsDamageSourcesPayload(data));
     }

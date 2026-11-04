@@ -1,7 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul;
 
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -288,13 +288,13 @@ public class LegendarySurvivalOverhaul
         {
             Config.Baked.bakeClient();
 
-            ItemProperties.register(ItemRegistry.THERMOMETER.get(), ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "temperature"), new ThermometerProperty());
-            ItemProperties.register(ItemRegistry.CANTEEN.get(), ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "thirstenum"), new CanteenProperty());
-            ItemProperties.register(ItemRegistry.LARGE_CANTEEN.get(), ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "thirstenum"), new CanteenProperty());
+            ItemProperties.register(ItemRegistry.THERMOMETER.get(), Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "temperature"), new ThermometerProperty());
+            ItemProperties.register(ItemRegistry.CANTEEN.get(), Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "thirstenum"), new CanteenProperty());
+            ItemProperties.register(ItemRegistry.LARGE_CANTEEN.get(), Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "thirstenum"), new CanteenProperty());
             if (LegendarySurvivalOverhaul.sereneSeasonsLoaded || LegendarySurvivalOverhaul.eclipticSeasonsLoaded)
             {
-                ItemProperties.register(ItemRegistry.SEASONAL_CALENDAR.get(), ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "time"), new SeasonalCalendarTimeProperty());
-                ItemProperties.register(ItemRegistry.SEASONAL_CALENDAR.get(), ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "seasontype"), new SeasonalCalendarSeasonTypeProperty());
+                ItemProperties.register(ItemRegistry.SEASONAL_CALENDAR.get(), Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "time"), new SeasonalCalendarTimeProperty());
+                ItemProperties.register(ItemRegistry.SEASONAL_CALENDAR.get(), Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "seasontype"), new SeasonalCalendarSeasonTypeProperty());
             }
         }
 

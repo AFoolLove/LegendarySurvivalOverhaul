@@ -5,7 +5,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
@@ -16,19 +16,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public record SyncBodyPartResistanceItemsPayload(
-        Map<ResourceLocation, JsonBodyPartResistance> bodyPartResistanceItems
+        Map<Identifier, JsonBodyPartResistance> bodyPartResistanceItems
 ) implements CustomPacketPayload
 {
 
-    public static final ResourceLocation ID =
-            ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sync_body_part_resistance_items");
+    public static final Identifier ID =
+            Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "sync_body_part_resistance_items");
     public static final Type<SyncBodyPartResistanceItemsPayload> TYPE = new Type<>(ID);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncBodyPartResistanceItemsPayload> STREAM_CODEC =
             StreamCodec.composite(
                     ByteBufCodecs.map(
                             HashMap::new,
-                            ResourceLocation.STREAM_CODEC,
+                            Identifier.STREAM_CODEC,
                             ByteBufCodecs.fromCodecTrusted(JsonBodyPartResistance.CODEC)
                     ),
                     SyncBodyPartResistanceItemsPayload::bodyPartResistanceItems,
@@ -43,7 +43,7 @@ public record SyncBodyPartResistanceItemsPayload(
     }
 
     // Client -> Server
-    public static void sendToServer(Map<ResourceLocation, JsonBodyPartResistance> data)
+    public static void sendToServer(Map<Identifier, JsonBodyPartResistance> data)
     {
         PacketDistributor.sendToServer(new SyncBodyPartResistanceItemsPayload(data));
     }
@@ -52,13 +52,13 @@ public record SyncBodyPartResistanceItemsPayload(
 
     // Server -> one player
     public static void sendToPlayer(net.minecraft.server.level.ServerPlayer player,
-                                    Map<ResourceLocation, JsonBodyPartResistance> data)
+                                    Map<Identifier, JsonBodyPartResistance> data)
     {
         PacketDistributor.sendToPlayer(player, new SyncBodyPartResistanceItemsPayload(data));
     }
 
     // Server -> everyone
-    public static void sendToAll(Map<ResourceLocation, JsonBodyPartResistance> data)
+    public static void sendToAll(Map<Identifier, JsonBodyPartResistance> data)
     {
         PacketDistributor.sendToAllPlayers(new SyncBodyPartResistanceItemsPayload(data));
     }

@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -26,7 +26,7 @@ public class TemperatureDimensionListener extends SimpleJsonResourceReloadListen
 {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, JsonTemperatureDimension> TEMPERATURE_DIMENSIONS = new HashMap<>();
+    private static final Map<Identifier, JsonTemperatureDimension> TEMPERATURE_DIMENSIONS = new HashMap<>();
 
     public TemperatureDimensionListener()
     {
@@ -44,14 +44,14 @@ public class TemperatureDimensionListener extends SimpleJsonResourceReloadListen
         }
     }
 
-    public static void acceptServerTemperatureDimensions(Map<ResourceLocation, JsonTemperatureDimension> temperatureDimensions)
+    public static void acceptServerTemperatureDimensions(Map<Identifier, JsonTemperatureDimension> temperatureDimensions)
     {
         TEMPERATURE_DIMENSIONS.clear();
         TEMPERATURE_DIMENSIONS.putAll(temperatureDimensions);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         TEMPERATURE_DIMENSIONS.clear();
 
@@ -72,7 +72,7 @@ public class TemperatureDimensionListener extends SimpleJsonResourceReloadListen
     }
 
     @Override
-    public JsonTemperatureDimension get(ResourceLocation dimensionRegistryName)
+    public JsonTemperatureDimension get(Identifier dimensionRegistryName)
     {
         return TEMPERATURE_DIMENSIONS.get(dimensionRegistryName);
     }

@@ -6,7 +6,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -28,8 +28,8 @@ public record BodyPartHealingTimeMessage(
 ) implements CustomPacketPayload
 {
 
-    public static final ResourceLocation ID =
-            ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "body_part_healing_time");
+    public static final Identifier ID =
+            Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "body_part_healing_time");
     public static final Type<BodyPartHealingTimeMessage> TYPE = new Type<>(ID);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, BodyPartHealingTimeMessage> STREAM_CODEC =
@@ -79,7 +79,7 @@ public record BodyPartHealingTimeMessage(
                 usedItemStack = itemStackInBasket;
         }
 
-        ResourceLocation itemStackRegistryName = BuiltInRegistries.ITEM.getKey(usedItemStack.getItem());
+        Identifier itemStackRegistryName = BuiltInRegistries.ITEM.getKey(usedItemStack.getItem());
         JsonHealingConsumable jhc = BodyDamageDataManager.getHealingItem(itemStackRegistryName);
 
         player.serverLevel().playSound(null, player, SoundRegistry.HEAL_BODY_PART.get(), SoundSource.PLAYERS, 1.0f, 1.0f);

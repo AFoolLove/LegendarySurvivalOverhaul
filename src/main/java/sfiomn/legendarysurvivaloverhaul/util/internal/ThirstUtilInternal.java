@@ -3,7 +3,7 @@ package sfiomn.legendarysurvivaloverhaul.util.internal;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -150,7 +150,7 @@ public class ThirstUtilInternal implements IThirstUtil
         {
             if (effect.chance >= 0.0f && effect.duration > 0 && !effect.name.isEmpty() && player.level().random.nextFloat() < effect.chance)
             {
-                ResourceLocation effectId = ResourceLocation.parse(effect.name);
+                Identifier effectId = Identifier.parse(effect.name);
                 var effectHolder = BuiltInRegistries.MOB_EFFECT.getHolder(effectId);
                 if (effectHolder.isPresent())
                 {
@@ -184,7 +184,7 @@ public class ThirstUtilInternal implements IThirstUtil
     @Override
     public JsonThirstBlock getFluidThirstLookedAt(Player player, double finalDistance)
     {
-        ResourceLocation rain = ResourceLocation.parse("rain");
+        Identifier rain = Identifier.parse("rain");
 
         // Check if player is looking up, if it's raining, if they can see sky, and if drinkFromRain is enabled
         if (player.getViewXRot(1.0f) < -60.0f && player.level().isRainingAt(player.blockPosition().above()) &&
@@ -207,7 +207,7 @@ public class ThirstUtilInternal implements IThirstUtil
         {
 
             FluidState fluidState = player.level().getFluidState(((BlockHitResult) positionLookedAt).getBlockPos());
-            ResourceLocation fluidRegistryName = BuiltInRegistries.FLUID.getKey(fluidState.getType());
+            Identifier fluidRegistryName = BuiltInRegistries.FLUID.getKey(fluidState.getType());
             JsonThirstBlock defaultThirst = null;
 
             if (fluidRegistryName != null && !fluidState.isEmpty())
@@ -263,7 +263,7 @@ public class ThirstUtilInternal implements IThirstUtil
             JsonThirstBlock defaultThirst = null;
 
             BlockState blockState = player.level().getBlockState(((BlockHitResult) positionLookedAt).getBlockPos());
-            ResourceLocation blockRegistryName = BuiltInRegistries.BLOCK.getKey(blockState.getBlock());
+            Identifier blockRegistryName = BuiltInRegistries.BLOCK.getKey(blockState.getBlock());
 
             if (blockRegistryName != null)
             {

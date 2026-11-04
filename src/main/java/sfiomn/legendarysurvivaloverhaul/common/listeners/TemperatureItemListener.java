@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -26,7 +26,7 @@ public class TemperatureItemListener extends SimpleJsonResourceReloadListener im
 {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, JsonTemperatureResistance> TEMPERATURE_ITEMS = new HashMap<>();
+    private static final Map<Identifier, JsonTemperatureResistance> TEMPERATURE_ITEMS = new HashMap<>();
 
     public TemperatureItemListener()
     {
@@ -44,14 +44,14 @@ public class TemperatureItemListener extends SimpleJsonResourceReloadListener im
         }
     }
 
-    public static void acceptServerTemperatureItems(Map<ResourceLocation, JsonTemperatureResistance> temperatureItems)
+    public static void acceptServerTemperatureItems(Map<Identifier, JsonTemperatureResistance> temperatureItems)
     {
         TEMPERATURE_ITEMS.clear();
         TEMPERATURE_ITEMS.putAll(temperatureItems);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         TEMPERATURE_ITEMS.clear();
 
@@ -72,7 +72,7 @@ public class TemperatureItemListener extends SimpleJsonResourceReloadListener im
     }
 
     @Override
-    public JsonTemperatureResistance get(ResourceLocation itemRegistryName)
+    public JsonTemperatureResistance get(Identifier itemRegistryName)
     {
         return TEMPERATURE_ITEMS.get(itemRegistryName);
     }

@@ -1,7 +1,7 @@
 package sfiomn.legendarysurvivaloverhaul.common.items.heal;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -52,7 +52,7 @@ public class BodyHealingItem extends Item
             return InteractionResultHolder.success(stack);
         }
 
-        ResourceLocation registryName = BuiltInRegistries.ITEM.getKey(this);
+        Identifier registryName = BuiltInRegistries.ITEM.getKey(this);
         JsonHealingConsumable jsonConsumableHeal = BodyDamageDataManager.getHealingItem(registryName);
 
         if (jsonConsumableHeal != null)
@@ -85,7 +85,7 @@ public class BodyHealingItem extends Item
         if (!(entity instanceof Player player))
             return stack;
 
-        ResourceLocation registryName = BuiltInRegistries.ITEM.getKey(this);
+        Identifier registryName = BuiltInRegistries.ITEM.getKey(this);
         JsonHealingConsumable jsonConsumableHeal = BodyDamageDataManager.getHealingItem(registryName);
 
         if (jsonConsumableHeal == null)

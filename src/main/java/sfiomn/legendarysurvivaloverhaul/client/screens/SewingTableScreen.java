@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -19,7 +19,7 @@ import sfiomn.legendarysurvivaloverhaul.common.containers.SewingTableContainer;
 @OnlyIn(Dist.CLIENT)
 public class SewingTableScreen extends AbstractContainerScreen<SewingTableContainer>
 {
-    public static final ResourceLocation SEWING_TABLE_SCREEN = ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/sewing_table_screen.png");
+    public static final Identifier SEWING_TABLE_SCREEN = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/sewing_table_screen.png");
     Rect2i craftDisabledArea;
 
     public SewingTableScreen(SewingTableContainer screenContainer, Inventory playerInventory, Component titleIn)

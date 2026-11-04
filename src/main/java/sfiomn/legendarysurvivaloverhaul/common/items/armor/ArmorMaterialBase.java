@@ -3,7 +3,7 @@ package sfiomn.legendarysurvivaloverhaul.common.items.armor;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ArmorItem;
@@ -36,7 +36,7 @@ public class ArmorMaterialBase
             SoundEvents.ARMOR_EQUIP_LEATHER,
             () -> Ingredient.of(ItemTags.WOOL),
             List.of(
-                    new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "snow"))
+                    new ArmorMaterial.Layer(Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "snow"))
             ),
             0,
             0
@@ -55,7 +55,7 @@ public class ArmorMaterialBase
             SoundEvents.ARMOR_EQUIP_LEATHER,
             () -> Ingredient.of(Items.LEATHER),
             List.of(
-                    new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "desert"))
+                    new ArmorMaterial.Layer(Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "desert"))
             ),
             0,
             0

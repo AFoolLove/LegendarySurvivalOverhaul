@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -26,7 +26,7 @@ public class TemperatureOriginListener extends SimpleJsonResourceReloadListener 
 {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, JsonTemperatureResistance> TEMPERATURE_ORIGINS = new HashMap<>();
+    private static final Map<Identifier, JsonTemperatureResistance> TEMPERATURE_ORIGINS = new HashMap<>();
 
     public TemperatureOriginListener()
     {
@@ -44,14 +44,14 @@ public class TemperatureOriginListener extends SimpleJsonResourceReloadListener 
         }
     }
 
-    public static void acceptServerTemperatureOrigins(Map<ResourceLocation, JsonTemperatureResistance> temperatureOrigins)
+    public static void acceptServerTemperatureOrigins(Map<Identifier, JsonTemperatureResistance> temperatureOrigins)
     {
         TEMPERATURE_ORIGINS.clear();
         TEMPERATURE_ORIGINS.putAll(temperatureOrigins);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         TEMPERATURE_ORIGINS.clear();
 
@@ -72,7 +72,7 @@ public class TemperatureOriginListener extends SimpleJsonResourceReloadListener 
     }
 
     @Override
-    public JsonTemperatureResistance get(ResourceLocation originRegistryName)
+    public JsonTemperatureResistance get(Identifier originRegistryName)
     {
         return TEMPERATURE_ORIGINS.get(originRegistryName);
     }

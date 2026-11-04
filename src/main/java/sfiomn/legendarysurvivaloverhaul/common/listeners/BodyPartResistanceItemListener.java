@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -26,7 +26,7 @@ public class BodyPartResistanceItemListener extends SimpleJsonResourceReloadList
 {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, JsonBodyPartResistance> BODY_PART_RESISTANCE_ITEMS = new HashMap<>();
+    private static final Map<Identifier, JsonBodyPartResistance> BODY_PART_RESISTANCE_ITEMS = new HashMap<>();
 
     public BodyPartResistanceItemListener()
     {
@@ -44,14 +44,14 @@ public class BodyPartResistanceItemListener extends SimpleJsonResourceReloadList
         }
     }
 
-    public static void acceptServerBodyPartResistanceItems(Map<ResourceLocation, JsonBodyPartResistance> temperatureItems)
+    public static void acceptServerBodyPartResistanceItems(Map<Identifier, JsonBodyPartResistance> temperatureItems)
     {
         BODY_PART_RESISTANCE_ITEMS.clear();
         BODY_PART_RESISTANCE_ITEMS.putAll(temperatureItems);
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
+    protected void apply(@NotNull Map<Identifier, JsonElement> resourceLocationJsonElementMap, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller)
     {
         BODY_PART_RESISTANCE_ITEMS.clear();
 
@@ -72,7 +72,7 @@ public class BodyPartResistanceItemListener extends SimpleJsonResourceReloadList
     }
 
     @Override
-    public JsonBodyPartResistance get(ResourceLocation itemRegistryName)
+    public JsonBodyPartResistance get(Identifier itemRegistryName)
     {
         return BODY_PART_RESISTANCE_ITEMS.get(itemRegistryName);
     }
