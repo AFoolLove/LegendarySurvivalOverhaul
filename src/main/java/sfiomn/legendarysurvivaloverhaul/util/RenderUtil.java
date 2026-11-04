@@ -65,6 +65,6 @@ public final class RenderUtil
         }
 
         gui.blit(RenderPipelines.GUI_TEXTURED, texture, 0, 0, 0.0f, 0.0f, screenWidth, screenHeight,
-                screenWidth, screenHeight, DEFAULT_TEXTURE_SIZE, DEFAULT_TEXTURE_SIZE, ARGB.white(alpha));
+                screenWidth, screenHeight, screenWidth, screenHeight, ARGB.white(alpha));
     }
 }
