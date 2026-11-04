@@ -138,13 +138,17 @@ sourceSets.main.resources.srcDir generateModMetadata
 neoForge.ideSyncTask generateModMetadata
 
 tasks.named('jar', Jar).configure {
+    // 26.3-kawa: mark the artifact so the kawa custom build can never be confused with the
+    // upstream-synchronised 26.3 build (same mod id / version).
+    archiveFileName = "${base.archivesName.get()}-${project.version}-kawa.jar"
     manifest {
         attributes(['Specification-Title'     : mod_id,
                     'Specification-Vendor'    : mod_authors,
                     'Specification-Version'   : '1',
                     'Implementation-Title'    : project.name,
                     'Implementation-Version'  : mod_version,
-                    'Implementation-Vendor'   : mod_authors])
+                    'Implementation-Vendor'   : mod_authors,
+                    'Kawa-Build'              : 'true'])
     }
 }
 
