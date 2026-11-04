@@ -1,0 +1,10 @@
+{
+  "type": "legendarysurvivaloverhaul:double_block",
+  "to_place": {
+    "id": "legendarysurvivaloverhaul:water_plant_crop",
+    "properties": {
+      "age": "7",
+      "half": "lower"
+    }
+  }
+}

@@ -1,9 +1,0 @@
-{
-  "type": "legendarysurvivaloverhaul:gold_fern",
-  "to_place": {
-    "id": "legendarysurvivaloverhaul:sun_fern_crop",
-    "properties": {
-      "age": "3"
-    }
-  }
-}

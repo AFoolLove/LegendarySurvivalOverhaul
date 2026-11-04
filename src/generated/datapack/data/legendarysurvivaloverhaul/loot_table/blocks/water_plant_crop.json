@@ -1,0 +1,131 @@
+{
+  "type": "minecraft:block",
+  "modifier": {
+    "type": "minecraft:explosion_decay"
+  },
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "condition": {
+                "type": "minecraft:match_block",
+                "blocks": "legendarysurvivaloverhaul:water_plant_crop",
+                "state": {
+                  "age": "7"
+                }
+              },
+              "name": "legendarysurvivaloverhaul:water_plant_seeds"
+            },
+            {
+              "type": "minecraft:item",
+              "name": "legendarysurvivaloverhaul:water_plant_seeds"
+            }
+          ]
+        }
+      ],
+      "rolls": 1
+    },
+    {
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "legendarysurvivaloverhaul:water_plant_crop",
+        "state": {
+          "age": "7"
+        }
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "modifier": {
+            "type": "minecraft:apply_bonus",
+            "enchantment": "minecraft:fortune",
+            "formula": "minecraft:binomial_with_bonus_count",
+            "parameters": {
+              "extra": 3,
+              "probability": 0.5714286
+            }
+          },
+          "name": "legendarysurvivaloverhaul:water_plant_seeds"
+        }
+      ],
+      "rolls": 1
+    },
+    {
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "legendarysurvivaloverhaul:water_plant_crop",
+        "state": {
+          "age": "5"
+        }
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "legendarysurvivaloverhaul:water_plant_bag"
+        }
+      ],
+      "modifier": {
+        "type": "minecraft:set_count",
+        "count": {
+          "type": "minecraft:uniform",
+          "max": 2,
+          "min": 1
+        }
+      },
+      "rolls": 1
+    },
+    {
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "legendarysurvivaloverhaul:water_plant_crop",
+        "state": {
+          "age": "6"
+        }
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "legendarysurvivaloverhaul:water_plant_bag"
+        }
+      ],
+      "modifier": {
+        "type": "minecraft:set_count",
+        "count": {
+          "type": "minecraft:uniform",
+          "max": 3,
+          "min": 1
+        }
+      },
+      "rolls": 1
+    },
+    {
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "legendarysurvivaloverhaul:water_plant_crop",
+        "state": {
+          "age": "7"
+        }
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "legendarysurvivaloverhaul:water_plant_bag"
+        }
+      ],
+      "modifier": {
+        "type": "minecraft:set_count",
+        "count": {
+          "type": "minecraft:uniform",
+          "max": 4,
+          "min": 2
+        }
+      },
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "legendarysurvivaloverhaul:blocks/water_plant_crop"
+}

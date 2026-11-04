@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "snow_Armor",
+  "key": {
+    "#": "minecraft:leather",
+    "w": "#minecraft:wool"
+  },
+  "pattern": [
+    "w w",
+    "www",
+    "w#w"
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:snow_chestplate"
+  }
+}

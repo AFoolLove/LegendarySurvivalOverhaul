@@ -1,8 +1,0 @@
-{
-  "type": "legendarysurvivaloverhaul:additional_loot_table",
-  "lootTable": "legendarysurvivaloverhaul:inject/chests/abandoned_mineshaft",
-  "condition": {
-    "type": "neoforge:loot_table_id",
-    "loot_table_id": "minecraft:chests/abandoned_mineshaft"
-  }
-}

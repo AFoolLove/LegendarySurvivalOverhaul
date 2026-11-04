@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": "legendarysurvivaloverhaul:cold_resistance_ring",
+    "h": "legendarysurvivaloverhaul:heat_resistance_ring",
+    "s": "legendarysurvivaloverhaul:cold_string",
+    "t": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "legendarysurvivaloverhaul:temperature_immunity"
+        }
+      },
+      "items": "minecraft:potion"
+    },
+    "w": "legendarysurvivaloverhaul:warm_string"
+  },
+  "pattern": [
+    " wh",
+    "stw",
+    "cs "
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:thermal_resistance_ring"
+  }
+}

@@ -11,6 +11,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.display.FurnaceRecipeDisplay;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -76,6 +79,27 @@ public class PurificationSmeltingRecipe extends AbstractCookingRecipe
         return result;
     }
 
+    @Override
+    public java.util.List<RecipeDisplay> display()
+    {
+        // Restore the 1.21.1 preview: show the purified canteen (PURIFIED tag + capacity)
+        // instead of the plain result template. 26.3 replaced Recipe#getResultItem with display().
+        ItemStack preview = this.result().create();
+        if (preview.getItem() instanceof CanteenItem canteenItem)
+        {
+            ThirstUtil.setHydrationEnumTag(preview, HydrationEnum.PURIFIED);
+            ThirstUtil.setCapacityTag(preview, canteenItem.getMaxCapacity());
+        }
+
+        return java.util.List.of(new FurnaceRecipeDisplay(
+                this.input().display(),
+                SlotDisplay.AnyFuel.INSTANCE,
+                new SlotDisplay.ItemStackSlotDisplay(ItemStackTemplate.fromNonEmptyStack(preview)),
+                new SlotDisplay.ItemSlotDisplay(this.furnaceIcon()),
+                this.cookingTime(),
+                this.experience()
+        ));
+    }
     @Override
     public @NotNull RecipeSerializer<? extends AbstractCookingRecipe> getSerializer()
     {

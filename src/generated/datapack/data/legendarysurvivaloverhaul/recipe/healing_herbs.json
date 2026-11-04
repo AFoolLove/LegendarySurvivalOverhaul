@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "healing",
+  "key": {
+    "f": "#minecraft:flowers",
+    "s": "#c:seeds"
+  },
+  "pattern": [
+    "ff ",
+    "ss ",
+    "   "
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:healing_herbs"
+  }
+}

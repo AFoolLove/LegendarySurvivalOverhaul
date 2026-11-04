@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "drink",
+  "ingredients": [
+    "legendarysurvivaloverhaul:purified_water_bottle",
+    "minecraft:sugar",
+    "minecraft:carrot",
+    "minecraft:carrot",
+    "minecraft:carrot"
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:carrot_juice"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "drink",
+  "ingredients": [
+    "legendarysurvivaloverhaul:purified_water_bottle",
+    "minecraft:sugar",
+    "minecraft:pumpkin",
+    "minecraft:pumpkin",
+    "minecraft:pumpkin"
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:pumpkin_juice"
+  }
+}

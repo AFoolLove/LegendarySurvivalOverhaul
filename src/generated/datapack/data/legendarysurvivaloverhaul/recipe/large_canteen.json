@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "healing",
+  "key": {
+    "l": "minecraft:leather",
+    "n": "minecraft:netherite_scrap"
+  },
+  "pattern": [
+    " n ",
+    "l l",
+    "lll"
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:large_canteen"
+  }
+}
