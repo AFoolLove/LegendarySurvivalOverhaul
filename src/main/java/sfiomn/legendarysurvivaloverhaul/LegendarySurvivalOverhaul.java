@@ -36,11 +36,6 @@ import sfiomn.legendarysurvivaloverhaul.client.itemproperties.ThermometerPropert
 import sfiomn.legendarysurvivaloverhaul.client.screens.SewingTableScreen;
 import sfiomn.legendarysurvivaloverhaul.client.screens.ThermalScreen;
 import sfiomn.legendarysurvivaloverhaul.common.attachments.ModAttachments;
-import sfiomn.legendarysurvivaloverhaul.common.integration.curios.CuriosEvents;
-import sfiomn.legendarysurvivaloverhaul.common.integration.eclipticseasons.EclipticSeasonsUtil;
-import sfiomn.legendarysurvivaloverhaul.common.integration.jsonConfig.JsonIntegrationConfigRegistration;
-import sfiomn.legendarysurvivaloverhaul.common.integration.sereneseasons.SereneSeasonsUtil;
-import sfiomn.legendarysurvivaloverhaul.common.integration.vampirism.VampirismEvents;
 import sfiomn.legendarysurvivaloverhaul.common.items.armor.ArmorMaterialBase;
 import sfiomn.legendarysurvivaloverhaul.common.listeners.*;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
@@ -178,22 +173,14 @@ public class LegendarySurvivalOverhaul
         if (mutantMonstersLoaded)
             LOGGER.debug("Mutant Monsters is loaded, enabling compatibility");
 
+        // NOTE: With the 26.3 vanilla-only port, third-party integration classes are excluded
+        // from compilation (see build.gradle), so no integration event handlers are registered here.
+        // They will be re-enabled with the compatibility pass.
         if (curiosLoaded)
-        {
-            LOGGER.debug("Curios is loaded, enabling compatibility");
-            forgeBus.register(CuriosEvents.class);
-        }
+            LOGGER.debug("Curios is loaded, compatibility disabled in this build");
 
         if (vampirismLoaded)
-        {
-            LOGGER.debug("Vampirism is loaded, enabling compatibility");
-            forgeBus.register(VampirismEvents.class);
-        }
-
-//		if (originsLoaded) {
-//			LOGGER.debug("Origins is loaded, enabling compatibility");
-//			forgeBus.register(OriginsEvents.class);
-//		}
+            LOGGER.debug("Vampirism is loaded, compatibility disabled in this build");
 
         if (supplementariesLoaded)
             LOGGER.debug("Supplementarie is loaded, enabling compatibility");
@@ -221,8 +208,6 @@ public class LegendarySurvivalOverhaul
 
         if (surviveLoaded)
             LOGGER.debug("Survive is loaded, I hope you know what you're doing");
-
-        JsonIntegrationConfigRegistration.init(LegendarySurvivalOverhaul.modIntegrationConfigJsons.toFile());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
@@ -260,12 +245,6 @@ public class LegendarySurvivalOverhaul
         {
             BodyDamageUtilInternal.initMalusConfig();
             BodyDamageUtilInternal.initLimbEffects();
-
-            if (sereneSeasonsLoaded)
-                SereneSeasonsUtil.initAverageTemperatures();
-
-            if (eclipticSeasonsLoaded)
-                EclipticSeasonsUtil.initAverageTemperatures();
         });
     }
 

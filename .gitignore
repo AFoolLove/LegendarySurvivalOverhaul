@@ -21,11 +21,22 @@ build
 eclipse
 run
 
-# Files from Forge MDK
+# Files from NeoForge MDK
 forge*changelog.txt
 so_changelog.txt
 src/generated/resources/.cache/cache
 /run-data/
 /src/generated/resources/.cache/
-/runs/
-/docs/
+
+# 1.21.1 reference source (kawa build) — kept locally only, never committed
+legendarysurvivaloverhaul-kawa/
+
+# migration reference source (official 1.21.1 branch 2.4.7.2) — never committed
+LegendarySurvivalOverhaul-neoforge-1.21.1/
+
+# local build logs / scratch
+.build/
+
+# local-only notes (contain personal paths) — never commit
+MIGRATION_PROGRESS.md
+docs/
