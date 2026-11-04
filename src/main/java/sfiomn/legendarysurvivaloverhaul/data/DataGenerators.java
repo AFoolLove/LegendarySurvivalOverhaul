@@ -42,7 +42,8 @@ public final class DataGenerators
                 .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
                 .add(Registries.DAMAGE_TYPE, ModDamageTypes::bootstrap)
                 .add(Registries.ENCHANTMENT, ModEnchantments::bootstrap)
-                .advancement(LegendarySurvivalAdvancements::new);
+                .advancement(LegendarySurvivalAdvancements::new)
+                .recipe((recipes, advancements) -> new ModRecipeProvider(recipes, advancements));
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
