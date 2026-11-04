@@ -2,20 +2,17 @@
 modLoader = "javafml"
 loaderVersion = "${loader_version_range}"
 license = "${mod_license}"
-issueTrackerURL = "https://github.com/sfiomn/LegendarySurvivalOverhaul/issues"
+issueTrackerURL = "https://github.com/AFoolLove/LegendarySurvivalOverhaul/issues"
 
 [[mods]]
 modId = "${mod_id}"
 version = "${mod_version}"
 displayName = "${mod_name}"
-displayURL = "https://github.com/sfiomn/LegendarySurvivalOverhaul"
+displayURL = "https://github.com/AFoolLove/LegendarySurvivalOverhaul"
 iconFile = "logo.png"
 credits = "Charles445, Icey"
 authors = "${mod_authors}"
 description = '''${mod_description}'''
-
-# Optional third-party integrations are intentionally not declared yet:
-# the 26.3 port is vanilla-only for now. They will be re-added with the compatibility pass.
 
 [[dependencies."${mod_id}"]]
 modId = "neoforge"
