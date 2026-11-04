@@ -8,6 +8,7 @@ import net.minecraft.data.recipes.RecipeUnlockAdvancementBuilder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -21,10 +22,10 @@ public class SewingRecipeBuilder
     private final RecipeCategory category;
     private final Ingredient base;
     private final Ingredient addition;
-    private final ItemStack result;
+    private final ItemLike result;
     private final RecipeUnlockAdvancementBuilder advancementBuilder = new RecipeUnlockAdvancementBuilder();
 
-    public SewingRecipeBuilder(RecipeCategory category, Ingredient base, Ingredient addition, ItemStack result)
+    public SewingRecipeBuilder(RecipeCategory category, Ingredient base, Ingredient addition, ItemLike result)
     {
         this.category = category;
         this.base = base;
@@ -32,7 +33,7 @@ public class SewingRecipeBuilder
         this.result = result;
     }
 
-    public static SewingRecipeBuilder sewingRecipe(Ingredient base, Ingredient addition, ItemStack result,
+    public static SewingRecipeBuilder sewingRecipe(Ingredient base, Ingredient addition, ItemLike result,
                                                    RecipeCategory category)
     {
         return new SewingRecipeBuilder(category, base, addition, result);
@@ -57,7 +58,7 @@ public class SewingRecipeBuilder
     public void save(RecipeOutput output, ResourceKey<Recipe<?>> id)
     {
         SewingRecipe recipe = new SewingRecipe(this.base, this.addition,
-                ItemStackTemplate.fromNonEmptyStack(this.result));
+                new ItemStackTemplate(this.result.asItem()));
         output.accept(id, recipe, this.advancementBuilder.build(output, id, this.category));
     }
 }

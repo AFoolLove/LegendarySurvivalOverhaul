@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "drink",
+  "ingredients": [
+    "legendarysurvivaloverhaul:purified_water_bottle",
+    "minecraft:sugar",
+    "minecraft:melon_slice",
+    "minecraft:melon_slice",
+    "minecraft:melon_slice"
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:melon_juice"
+  }
+}

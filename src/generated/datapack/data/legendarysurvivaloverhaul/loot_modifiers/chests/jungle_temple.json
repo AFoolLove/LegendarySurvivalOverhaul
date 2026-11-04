@@ -1,0 +1,8 @@
+{
+  "type": "legendarysurvivaloverhaul:additional_loot_table",
+  "condition": {
+    "type": "neoforge:loot_table_id",
+    "loot_table_id": "minecraft:chests/jungle_temple"
+  },
+  "lootTable": "legendarysurvivaloverhaul:inject/chests/jungle_temple"
+}

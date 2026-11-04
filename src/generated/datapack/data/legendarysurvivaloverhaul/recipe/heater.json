@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": "minecraft:campfire",
+    "i": "minecraft:iron_ingot",
+    "w": "minecraft:coal_block"
+  },
+  "pattern": [
+    " i ",
+    "ici",
+    "iwi"
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:heater"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "legendarysurvivaloverhaul:purification_smelting",
+  "cookingtime": 240,
+  "experience": 1.0,
+  "group": "purification",
+  "ingredient": "legendarysurvivaloverhaul:canteen",
+  "result": {
+    "id": "legendarysurvivaloverhaul:canteen"
+  }
+}

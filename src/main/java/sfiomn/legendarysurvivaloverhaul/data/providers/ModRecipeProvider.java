@@ -93,7 +93,7 @@ public class ModRecipeProvider extends RecipeProvider
                 .save(this.output, id(recipeName + "_from_purification_blasting_" + getItemName(inputItem)));
     }
 
-    protected void sewing(Ingredient input, Ingredient addition, ItemStack result, String recipeName)
+    protected void sewing(Ingredient input, Ingredient addition, ItemLike result, String recipeName)
     {
         ItemLike inputItem = firstItem(input);
         ItemLike additionItem = firstItem(addition);
@@ -486,8 +486,8 @@ public class ModRecipeProvider extends RecipeProvider
         purification_blasting(Ingredient.of(ItemRegistry.CANTEEN.get()), ItemRegistry.CANTEEN.get(), 1.0f, 80, "purified_canteen");
         purification_blasting(Ingredient.of(ItemRegistry.LARGE_CANTEEN.get()), ItemRegistry.LARGE_CANTEEN.get(), 1.0f, 80, "purified_large_canteen");
 
-        sewing(Ingredient.of(Items.STRING), Ingredient.of(ItemRegistry.ICE_FERN.get()), new ItemStack(ItemRegistry.COLD_STRING.get()), "cold_string");
-        sewing(Ingredient.of(Items.STRING), Ingredient.of(ItemRegistry.SUN_FERN.get()), new ItemStack(ItemRegistry.WARM_STRING.get()), "warm_string");
+        sewing(Ingredient.of(Items.STRING), Ingredient.of(ItemRegistry.ICE_FERN.get()), ItemRegistry.COLD_STRING.get(), "cold_string");
+        sewing(Ingredient.of(Items.STRING), Ingredient.of(ItemRegistry.SUN_FERN.get()), ItemRegistry.WARM_STRING.get(), "warm_string");
 
         SpecialRecipeBuilder.special(() -> new RemoveCoatRecipe(CraftingBookCategory.MISC))
                 .save(this.output, id("remove_coat"));

@@ -68,18 +68,14 @@ public class PurificationRecipeBuilder
 
     private static CookingBookCategory determineSmeltingRecipeCategory(ItemLike result)
     {
-        if (result.asItem().components().has(net.minecraft.core.component.DataComponents.FOOD))
-        {
-            return CookingBookCategory.FOOD;
-        } else
-        {
-            return result.asItem() instanceof BlockItem ? CookingBookCategory.BLOCKS : CookingBookCategory.MISC;
-        }
+        // Item components are not bound yet during datapack registry bootstrap, so keep it simple:
+        // all purification results (canteens / water bottle) are misc recipes.
+        return CookingBookCategory.MISC;
     }
 
     private static CookingBookCategory determineBlastingRecipeCategory(ItemLike result)
     {
-        return result.asItem() instanceof BlockItem ? CookingBookCategory.BLOCKS : CookingBookCategory.MISC;
+        return CookingBookCategory.MISC;
     }
 
     public PurificationRecipeBuilder unlockedBy(String name, Criterion<?> criterion)

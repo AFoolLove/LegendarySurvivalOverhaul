@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "drink",
+  "ingredients": [
+    "legendarysurvivaloverhaul:purified_water_bottle",
+    "minecraft:sugar",
+    "minecraft:sweet_berries",
+    "minecraft:sweet_berries",
+    "minecraft:sweet_berries"
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:sweet_berries_juice"
+  }
+}

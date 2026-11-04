@@ -42,7 +42,7 @@ public final class LegendarySurvivalAdvancements extends AdvancementSubProvider
 
     private static ItemStackTemplate icon(Item item)
     {
-        return ItemStackTemplate.fromNonEmptyStack(new ItemStack(item));
+        return new ItemStackTemplate(item);
     }
 
     @Override

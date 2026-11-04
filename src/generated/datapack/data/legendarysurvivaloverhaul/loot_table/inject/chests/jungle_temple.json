@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "legendarysurvivaloverhaul:heart_fragment",
+          "weight": 30
+        },
+        {
+          "type": "minecraft:item",
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": 2
+          },
+          "name": "legendarysurvivaloverhaul:heart_fragment",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 80
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "legendarysurvivaloverhaul:inject/chests/jungle_temple"
+}

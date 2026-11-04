@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": "minecraft:glass",
+    "g": "minecraft:gold_ingot",
+    "i": "minecraft:iron_ingot",
+    "r": "minecraft:redstone"
+  },
+  "pattern": [
+    "#g#",
+    "#r#",
+    "i#i"
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:thermometer"
+  }
+}

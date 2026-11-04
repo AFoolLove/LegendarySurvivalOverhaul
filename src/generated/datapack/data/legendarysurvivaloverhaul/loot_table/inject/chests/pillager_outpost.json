@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "legendarysurvivaloverhaul:first_aid_supplies"
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 99
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "legendarysurvivaloverhaul:inject/chests/pillager_outpost"
+}

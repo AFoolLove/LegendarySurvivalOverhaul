@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "thermal_coat",
+  "key": {
+    "c": "legendarysurvivaloverhaul:cooling_coat_3",
+    "e": "minecraft:end_rod",
+    "h": "legendarysurvivaloverhaul:heating_coat_3"
+  },
+  "pattern": [
+    " ce",
+    " eh",
+    "   "
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:thermal_coat_3"
+  }
+}

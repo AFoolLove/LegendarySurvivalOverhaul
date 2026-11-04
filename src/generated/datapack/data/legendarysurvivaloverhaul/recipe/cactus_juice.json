@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "drink",
+  "ingredients": [
+    "legendarysurvivaloverhaul:purified_water_bottle",
+    "minecraft:sugar",
+    "minecraft:cactus",
+    "minecraft:cactus",
+    "minecraft:cactus"
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:cactus_juice"
+  }
+}

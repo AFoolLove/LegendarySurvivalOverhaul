@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "legendarysurvivaloverhaul:water_purifier"
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 100
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "legendarysurvivaloverhaul:inject/entities/drowned"
+}

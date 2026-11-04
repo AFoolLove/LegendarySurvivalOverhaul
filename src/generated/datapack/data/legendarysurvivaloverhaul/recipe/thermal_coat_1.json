@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "thermal_coat",
+  "key": {
+    "c": "legendarysurvivaloverhaul:cooling_coat_1",
+    "h": "legendarysurvivaloverhaul:heating_coat_1",
+    "s": "minecraft:stick"
+  },
+  "pattern": [
+    " cs",
+    " sh",
+    "   "
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:thermal_coat_1"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "legendarysurvivaloverhaul:sun_fern_gold_leaf"
+        }
+      ],
+      "rolls": 1
+    },
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "legendarysurvivaloverhaul:sun_fern_seeds"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "legendarysurvivaloverhaul:blocks/sun_fern_gold"
+}

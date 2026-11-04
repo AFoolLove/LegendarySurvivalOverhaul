@@ -31,6 +31,14 @@ public class ModBlockLootTables extends BlockLootSubProvider
         super(Set.of(), FeatureFlags.REGISTRY.allFlags(), output);
     }
 
+    @Override
+    protected Iterable<Block> getKnownBlocks()
+    {
+        return BlockRegistry.BLOCKS.getEntries().stream()
+                .map(holder -> (Block) holder.get())
+                .toList();
+    }
+
     private static Holder<ContextIntProvider> between(int min, int max)
     {
         return Holder.direct(new UniformGenerator(ContextIntProviders.exactly(min), ContextIntProviders.exactly(max)));

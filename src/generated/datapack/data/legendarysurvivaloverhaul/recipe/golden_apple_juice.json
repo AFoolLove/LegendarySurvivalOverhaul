@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "drink",
+  "ingredients": [
+    "legendarysurvivaloverhaul:purified_water_bottle",
+    "minecraft:sugar",
+    "minecraft:golden_apple",
+    "minecraft:golden_apple",
+    "minecraft:golden_apple"
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:golden_apple_juice"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "drink",
+  "ingredients": [
+    "legendarysurvivaloverhaul:purified_water_bottle",
+    "minecraft:sugar",
+    "minecraft:glow_berries",
+    "minecraft:glow_berries",
+    "minecraft:glow_berries"
+  ],
+  "result": {
+    "id": "legendarysurvivaloverhaul:glow_berries_juice"
+  }
+}
