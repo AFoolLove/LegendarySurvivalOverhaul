@@ -49,7 +49,7 @@ public class CuriosUtil
      */
     public static boolean equipCurio(Player player, ItemStack stack, InteractionHand hand)
     {
-        if (!LegendarySurvivalOverhaul.curiosLoaded || stack.isEmpty())
+        if (!LegendarySurvivalOverhaul.curiosLoaded || stack.isEmpty() || player.level().isClientSide())
             return false;
 
         Optional<ICuriosItemHandler> curiosInventoryOpt = CuriosApi.getCuriosInventory(player);
