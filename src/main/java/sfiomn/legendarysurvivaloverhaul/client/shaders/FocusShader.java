@@ -1,8 +1,6 @@
 package sfiomn.legendarysurvivaloverhaul.client.shaders;
 
 import net.minecraft.resources.Identifier;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 /**
  * Screen "focus"/blur effect driver.
@@ -20,7 +18,6 @@ import net.neoforged.api.distmarker.OnlyIn;
  * this class intentionally keeps the public API but does nothing, so the game never crashes on a
  * missing shader.</p>
  */
-@OnlyIn(Dist.CLIENT)
 public class FocusShader {
     public static final Identifier BLOBS2_SHADER = Identifier.withDefaultNamespace("shaders/post/blobs2.json");
     public static final Identifier BLUR_SHADER = Identifier.withDefaultNamespace("shaders/post/blur.json");
@@ -35,7 +32,6 @@ public class FocusShader {
         // No-op: see class javadoc.
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void updateIntensity(float intensity) {
         // No-op: see class javadoc.
     }

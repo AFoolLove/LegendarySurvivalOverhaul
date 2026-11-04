@@ -7,6 +7,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -17,9 +18,9 @@ public class SewingRecipe implements Recipe<RecipeInput>
 {
     private final Ingredient base;
     private final Ingredient addition;
-    private final ItemStack result;
+    private final ItemStackTemplate result;
 
-    public SewingRecipe(Ingredient base, Ingredient addition, ItemStack result)
+    public SewingRecipe(Ingredient base, Ingredient addition, ItemStackTemplate result)
     {
         this.base = base;
         this.addition = addition;
@@ -47,7 +48,7 @@ public class SewingRecipe implements Recipe<RecipeInput>
     @Override
     public @NotNull ItemStack assemble(@NotNull RecipeInput input)
     {
-        ItemStack itemstack = this.result.copy();
+        ItemStack itemstack = this.result.create();
         ItemStack base = input.getItem(0);
         CustomData custom = base.get(DataComponents.CUSTOM_DATA);
         if (custom != null)
@@ -96,13 +97,13 @@ public class SewingRecipe implements Recipe<RecipeInput>
     public static final MapCodec<SewingRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Ingredient.CODEC.fieldOf("base").forGetter(SewingRecipe::getBase),
             Ingredient.CODEC.fieldOf("addition").forGetter(SewingRecipe::getAddition),
-            ItemStack.CODEC.fieldOf("result").forGetter(r -> r.result)
+            ItemStackTemplate.CODEC.fieldOf("result").forGetter(r -> r.result)
     ).apply(instance, SewingRecipe::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, SewingRecipe> STREAM_CODEC = StreamCodec.composite(
             Ingredient.CONTENTS_STREAM_CODEC, r -> r.base,
             Ingredient.CONTENTS_STREAM_CODEC, r -> r.addition,
-            ItemStack.STREAM_CODEC, r -> r.result,
+            ItemStackTemplate.STREAM_CODEC, r -> r.result,
             SewingRecipe::new
     );
 

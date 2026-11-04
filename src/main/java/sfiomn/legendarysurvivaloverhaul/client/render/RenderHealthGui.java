@@ -8,8 +8,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.api.bodydamage.IBodyDamageAttachment;
 import sfiomn.legendarysurvivaloverhaul.api.health.HealthUtil;
@@ -152,7 +150,6 @@ public class RenderHealthGui
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public enum HeartType
     {
         // Vanilla heart sprites (1.20.6+): hud/heart/container, hud/heart/full, hud/heart/half

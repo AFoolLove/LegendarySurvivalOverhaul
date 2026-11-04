@@ -8,8 +8,6 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import sfiomn.legendarysurvivaloverhaul.api.block.ThermalTypeEnum;
 import sfiomn.legendarysurvivaloverhaul.common.blockentities.AbstractThermalBlockEntity;
@@ -66,13 +64,11 @@ public abstract class AbstractThermalContainer extends AbstractContainerMenu
         return this.thermalType;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public boolean isPowered()
     {
         return this.blockEntity.isPowered();
     }
 
-    @OnlyIn(Dist.CLIENT)
     public float getFuelTimeScale()
     {
         if (this.dataAccess.get(1) != 0)

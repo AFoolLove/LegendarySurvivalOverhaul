@@ -24,6 +24,14 @@ neoForge {
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
+        // Local-only dev run: boots straight into the "LSO-Test" world (created via runServer and
+        // copied into run/saves) so gameplay can be validated without manual menu interaction.
+        clientGameplay {
+            client()
+            programArguments.addAll '--quickPlaySingleplayer', 'LSO-Test'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
         server {
             server()
             programArgument '--nogui'

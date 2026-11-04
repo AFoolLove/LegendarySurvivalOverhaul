@@ -10,8 +10,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import sfiomn.legendarysurvivaloverhaul.registry.ParticleTypeRegistry;
 
 public class IceFernGoldBlock extends BushBlock
@@ -44,7 +42,6 @@ public class IceFernGoldBlock extends BushBlock
                 blockState.is(Blocks.FARMLAND) || blockState.is(Blocks.SNOW_BLOCK);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand)
     {

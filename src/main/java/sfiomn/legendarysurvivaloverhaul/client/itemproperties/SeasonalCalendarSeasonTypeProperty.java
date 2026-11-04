@@ -8,8 +8,6 @@ import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.common.integration.sereneseasons.SereneSeasonsUtil;
@@ -24,7 +22,6 @@ import sfiomn.legendarysurvivaloverhaul.common.integration.sereneseasons.SereneS
  * field that the 1.21.1 integration enum had, so the original 0.0 / 0.1 / 0.9 thresholds are mapped here
  * (same numeric values as upstream: NORMAL_SEASON=0.0, TROPICAL_SEASON=0.1, NO_SEASON=0.9).</p>
  */
-@OnlyIn(Dist.CLIENT)
 public class SeasonalCalendarSeasonTypeProperty implements RangeSelectItemModelProperty
 {
     public static final MapCodec<SeasonalCalendarSeasonTypeProperty> MAP_CODEC = MapCodec.unit(new SeasonalCalendarSeasonTypeProperty());

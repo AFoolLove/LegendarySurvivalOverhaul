@@ -4,8 +4,6 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.api.temperature.TemperatureEnum;
 import sfiomn.legendarysurvivaloverhaul.common.attachments.temperature.TemperatureAttachment;
@@ -18,7 +16,6 @@ import sfiomn.legendarysurvivaloverhaul.util.MathUtil;
 
 import static sfiomn.legendarysurvivaloverhaul.util.RenderUtil.renderTextureOverlay;
 
-@OnlyIn(Dist.CLIENT)
 public class RenderTemperatureOverlay
 {
     private static final Identifier FROSTBITE_EFFECT = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/freeze_effect.png");

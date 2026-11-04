@@ -5,14 +5,11 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.api.block.ThermalTypeEnum;
 import sfiomn.legendarysurvivaloverhaul.common.containers.AbstractThermalContainer;
 import sfiomn.legendarysurvivaloverhaul.util.RenderUtil;
 
-@OnlyIn(Dist.CLIENT)
 public class ThermalScreen extends AbstractContainerScreen<AbstractThermalContainer>
 {
     public static final Identifier HEATER_SCREEN = Identifier.fromNamespaceAndPath(LegendarySurvivalOverhaul.MOD_ID, "textures/gui/heater_screen.png");

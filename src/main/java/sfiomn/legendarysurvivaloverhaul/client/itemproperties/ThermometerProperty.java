@@ -8,8 +8,6 @@ import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import sfiomn.legendarysurvivaloverhaul.api.temperature.TemperatureEnum;
 import sfiomn.legendarysurvivaloverhaul.api.temperature.TemperatureUtil;
@@ -24,7 +22,6 @@ import sfiomn.legendarysurvivaloverhaul.util.AttachmentUtil;
  * referenced from an item model with {@code "type": "minecraft:range_dispatch", "property":
  * "legendarysurvivaloverhaul:temperature"}.</p>
  */
-@OnlyIn(Dist.CLIENT)
 public class ThermometerProperty implements RangeSelectItemModelProperty
 {
     public static final MapCodec<ThermometerProperty> MAP_CODEC = MapCodec.unit(new ThermometerProperty());

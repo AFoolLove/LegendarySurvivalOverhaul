@@ -5,8 +5,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperty;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import sfiomn.legendarysurvivaloverhaul.api.thirst.HydrationEnum;
 import sfiomn.legendarysurvivaloverhaul.api.thirst.ThirstUtil;
@@ -18,7 +16,6 @@ import sfiomn.legendarysurvivaloverhaul.api.thirst.ThirstUtil;
  * {@code legendarysurvivaloverhaul:thirstenum} and referenced from an item model with
  * {@code "type": "minecraft:range_dispatch"}.</p>
  */
-@OnlyIn(Dist.CLIENT)
 public class CanteenProperty implements RangeSelectItemModelProperty
 {
     public static final MapCodec<CanteenProperty> MAP_CODEC = MapCodec.unit(new CanteenProperty());

@@ -8,8 +8,6 @@ import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import sfiomn.legendarysurvivaloverhaul.LegendarySurvivalOverhaul;
 import sfiomn.legendarysurvivaloverhaul.common.integration.eclipticseasons.EclipticSeasonsUtil;
@@ -21,7 +19,6 @@ import sfiomn.legendarysurvivaloverhaul.common.integration.sereneseasons.SereneS
  * <p>Registered through {@code RegisterRangeSelectItemModelPropertyEvent} as
  * {@code legendarysurvivaloverhaul:time}.</p>
  */
-@OnlyIn(Dist.CLIENT)
 public class SeasonalCalendarTimeProperty implements RangeSelectItemModelProperty
 {
     public static final MapCodec<SeasonalCalendarTimeProperty> MAP_CODEC = MapCodec.unit(new SeasonalCalendarTimeProperty());
