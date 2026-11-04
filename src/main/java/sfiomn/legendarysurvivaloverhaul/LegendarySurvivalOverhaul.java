@@ -31,6 +31,7 @@ import sfiomn.legendarysurvivaloverhaul.api.wetness.WetnessUtil;
 import sfiomn.legendarysurvivaloverhaul.client.screens.SewingTableScreen;
 import sfiomn.legendarysurvivaloverhaul.client.screens.ThermalScreen;
 import sfiomn.legendarysurvivaloverhaul.common.attachments.ModAttachments;
+import sfiomn.legendarysurvivaloverhaul.common.integration.curios.CuriosEvents;
 import sfiomn.legendarysurvivaloverhaul.common.items.armor.ArmorMaterialBase;
 import sfiomn.legendarysurvivaloverhaul.common.listeners.*;
 import sfiomn.legendarysurvivaloverhaul.config.Config;
@@ -168,11 +169,13 @@ public class LegendarySurvivalOverhaul
         if (mutantMonstersLoaded)
             LOGGER.debug("Mutant Monsters is loaded, enabling compatibility");
 
-        // NOTE: With the 26.3 vanilla-only port, third-party integration classes are excluded
-        // from compilation (see build.gradle), so no integration event handlers are registered here.
-        // They will be re-enabled with the compatibility pass.
+        // Third-party compatibility is being re-enabled progressively (see
+        // src/integration-reference/java for the 1.21.1 sources that are ported one by one).
         if (curiosLoaded)
-            LOGGER.debug("Curios is loaded, compatibility disabled in this build");
+        {
+            LOGGER.debug("Curios is loaded, enabling compatibility");
+            forgeBus.register(CuriosEvents.class);
+        }
 
         if (vampirismLoaded)
             LOGGER.debug("Vampirism is loaded, compatibility disabled in this build");

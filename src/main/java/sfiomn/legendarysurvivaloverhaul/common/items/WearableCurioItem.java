@@ -8,8 +8,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import sfiomn.legendarysurvivaloverhaul.common.integration.curios.CuriosUtil;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-public class WearableCurioItem extends Item
+public class WearableCurioItem extends Item implements ICurioItem
 {
 
     public WearableCurioItem(Properties p_41383_)
