@@ -14,6 +14,9 @@ import sfiomn.legendarysurvivaloverhaul.common.level.gen.ModBiomeModifiers;
 import sfiomn.legendarysurvivaloverhaul.common.level.gen.ModConfiguredFeatures;
 import sfiomn.legendarysurvivaloverhaul.common.level.gen.ModPlacedFeatures;
 import sfiomn.legendarysurvivaloverhaul.data.providers.LegendarySurvivalAdvancements;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import sfiomn.legendarysurvivaloverhaul.data.loot.*;
 import sfiomn.legendarysurvivaloverhaul.data.providers.*;
 
 /**
@@ -43,7 +46,13 @@ public final class DataGenerators
                 .add(Registries.DAMAGE_TYPE, ModDamageTypes::bootstrap)
                 .add(Registries.ENCHANTMENT, ModEnchantments::bootstrap)
                 .advancement(LegendarySurvivalAdvancements::new)
-                .recipe((recipes, advancements) -> new ModRecipeProvider(recipes, advancements));
+                .recipe((recipes, advancements) -> new ModRecipeProvider(recipes, advancements))
+                .lootTable(
+                        new LootTableProvider.SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK),
+                        new LootTableProvider.SubProviderEntry(ModChestLootTables::new, LootContextParamSets.CHEST),
+                        new LootTableProvider.SubProviderEntry(ModEntityLootTables::new, LootContextParamSets.ENTITY),
+                        new LootTableProvider.SubProviderEntry(ModFishingLootTables::new, LootContextParamSets.FISHING),
+                        new LootTableProvider.SubProviderEntry(ModBarteringLootTables::new, LootContextParamSets.PIGLIN_BARTER));
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -62,6 +71,7 @@ public final class DataGenerators
         event.createProvider(MinecraftTemperatureProvider::new);
         event.createProvider(ModThirstProvider::new);
         event.createProvider(MinecraftThirstProvider::new);
+        event.createProvider(ModGlobalLootModifierProvider::new);
         event.createProvider(ModBodyDamageProvider::new);
         event.createProvider(MinecraftBodyDamageProvider::new);
     }
